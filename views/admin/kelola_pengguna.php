@@ -19,27 +19,21 @@
         <nav class="sidebar-nav">
             <div class="nav-section-title">Admin Panel</div>
             <a href="dashboard.php" class="nav-item">
-                <i class="ph ph-squares-four"></i>
                 Dashboard
             </a>
             <a href="kelola_pengguna.php" class="nav-item active">
-                <i class="ph ph-users"></i>
                 Kelola Pengguna
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-briefcase"></i>
+            <a href="kelola_jasa.php" class="nav-item">
                 Kelola Jasa
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-receipt"></i>
+            <a href="kelola_pesanan.php" class="nav-item">
                 Kelola Pesanan
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-star"></i>
+            <a href="rating.php" class="nav-item">
                 Rating & Review
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-chart-line-up"></i>
+            <a href="monitoring.php" class="nav-item">
                 Monitoring
             </a>
         </nav>
@@ -48,7 +42,7 @@
             <div class="user-profile-small">
                 <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Admin Profile">
                 <div class="user-info">
-                    <div class="name">Pengguna Servora</div>
+                    <div class="name">Admin Servora</div>
                     <div class="role">Administrator</div>
                 </div>
             </div>
@@ -66,7 +60,6 @@
             <div class="header-right">
                 <div class="header-actions">
                     <button class="icon-btn">
-                        <i class="ph ph-bell"></i>
                     </button>
                     <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profile" class="profile-avatar">
                 </div>
@@ -75,7 +68,6 @@
 
         <div class="page-header">
             <div class="table-search">
-                <i class="ph ph-magnifying-glass"></i>
                 <input type="text" placeholder="Cari pengguna...">
             </div>
         </div>
@@ -97,8 +89,8 @@
                     <tr>
                         <td>
                             <div class="user-card-left">
-                                <div class="user-avatar">N</div>
-                                <span class="fw-medium">Naya Pramesti</span>
+                                <div class="user-avatar">F</div>
+                                <span class="fw-medium">Fiki Sulistiawan</span>
                             </div>
                         </td>
                         <td>naya@kampus.ac.id</td>
@@ -106,7 +98,7 @@
                         <td class="fw-medium">UGM</td>
                         <td>2026-01-12</td>
                         <td><span class="badge success">Aktif</span></td>
-                        <td><button class="action-btn"><i class="ph ph-dots-three"></i></button></td>
+                        <td><button class="action-btn"></button></td>
                     </tr>
                     
                     <tr>
@@ -121,22 +113,22 @@
                         <td class="fw-medium">UI</td>
                         <td>2026-02-04</td>
                         <td><span class="badge success">Aktif</span></td>
-                        <td><button class="action-btn"><i class="ph ph-dots-three"></i></button></td>
+                        <td><button class="action-btn"></button></td>
                     </tr>
                     
                     <tr>
                         <td>
                             <div class="user-card-left">
-                                <div class="user-avatar">R</div>
-                                <span class="fw-medium">Rafi Hidayat</span>
+                                <div class="user-avatar">W</div>
+                                <span class="fw-medium">Wisnu Wira Winata</span>
                             </div>
                         </td>
-                        <td>rafi@kampus.ac.id</td>
+                        <td>wisnu@kampus.ac.id</td>
                         <td><span class="badge secondary">Freelancer</span></td>
-                        <td class="fw-medium">ITB</td>
+                        <td class="fw-medium">UNILA</td>
                         <td>2026-01-22</td>
                         <td><span class="badge success">Aktif</span></td>
-                        <td><button class="action-btn"><i class="ph ph-dots-three"></i></button></td>
+                        <td><button class="action-btn"></button></td>
                     </tr>
                     
                     <tr>
@@ -151,7 +143,7 @@
                         <td class="fw-medium">Unpad</td>
                         <td>2026-03-09</td>
                         <td><span class="badge danger">Ditangguhkan</span></td>
-                        <td><button class="action-btn"><i class="ph ph-dots-three"></i></button></td>
+                        <td><button class="action-btn"></button></td>
                     </tr>
                     
                     <tr>
@@ -166,7 +158,7 @@
                         <td class="fw-medium">UI</td>
                         <td>2025-12-30</td>
                         <td><span class="badge success">Aktif</span></td>
-                        <td><button class="action-btn"><i class="ph ph-dots-three"></i></button></td>
+                        <td><button class="action-btn"></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -175,3 +167,4 @@
 </div>
 </body>
 </html>
+

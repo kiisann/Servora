@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Servora</title>
     <link rel="stylesheet" href="../../public/css/style-admin.css">
-    <!-- <script src="https://unpkg.com/@phosphor-icons/web"></script> -->
 </head>
 <body>
 
 <div class="dashboard-container">
-    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -20,27 +18,21 @@
         <nav class="sidebar-nav">
             <div class="nav-section-title">Admin Panel</div>
             <a href="#" class="nav-item active">
-                <i class="ph ph-squares-four"></i>
                 Dashboard
             </a>
             <a href="kelola_pengguna.php" class="nav-item">
-                <i class="ph ph-users"></i>
                 Kelola Pengguna
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-briefcase"></i>
+            <a href="kelola_jasa.php" class="nav-item">
                 Kelola Jasa
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-receipt"></i>
+            <a href="kelola_pesanan.php" class="nav-item">
                 Kelola Pesanan
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-star"></i>
+            <a href="rating.php" class="nav-item">
                 Rating & Review
             </a>
-            <a href="#" class="nav-item">
-                <i class="ph ph-chart-line-up"></i>
+            <a href="monitoring.php" class="nav-item">
                 Monitoring
             </a>
         </nav>
@@ -49,16 +41,14 @@
             <div class="user-profile-small">
                 <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Admin Profile">
                 <div class="user-info">
-                    <div class="name">Pengguna Servora</div>
+                    <div class="name">Admin Servora</div>
                     <div class="role">Administrator</div>
                 </div>
             </div>
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Top Header -->
         <header class="top-header">
             <div class="header-left">
                 <h1 class="page-title">Dashboard Admin</h1>
@@ -66,19 +56,16 @@
             </div>
             <div class="header-right">
                 <div class="search-bar">
-                    <i class="ph ph-magnifying-glass"></i>
                     <input type="text" placeholder="Cari...">
                 </div>
                 <div class="header-actions">
                     <button class="icon-btn">
-                        <i class="ph ph-bell"></i>
                     </button>
                     <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profile" class="profile-avatar">
                 </div>
             </div>
         </header>
 
-        <!-- Stats Grid -->
         <section class="stats-grid">
             <div class="stat-card">
                 <div class="stat-info">
@@ -87,7 +74,6 @@
                     <span class="trend">+24 minggu ini</span>
                 </div>
                 <div class="stat-icon blue">
-                    <i class="ph ph-users"></i>
                 </div>
             </div>
             
@@ -98,7 +84,6 @@
                     <span class="trend"></span>
                 </div>
                 <div class="stat-icon green">
-                    <i class="ph ph-briefcase"></i>
                 </div>
             </div>
             
@@ -109,7 +94,6 @@
                     <span class="trend"></span>
                 </div>
                 <div class="stat-icon orange">
-                    <i class="ph ph-receipt"></i>
                 </div>
             </div>
             
@@ -120,7 +104,6 @@
                     <span class="trend"></span>
                 </div>
                 <div class="stat-icon blue">
-                    <i class="ph ph-wallet"></i>
                 </div>
             </div>
         </section>
@@ -130,13 +113,13 @@
             <div class="card-container">
                 <div class="card-header">
                     <h3>Pesanan terbaru</h3>
-                    <button class="header-action"><i class="ph ph-dots-three"></i></button>
+                    <button class="header-action"></button>
                 </div>
                 <div class="list-container">
                     <div class="list-item">
                         <div class="item-left">
                             <div class="item-title">Desain Poster & Feed Instagram</div>
-                            <div class="item-desc">ORD-1024 • Andi P. → Naya Pramesti</div>
+                            <div class="item-desc">ORD-1024 • Andi P. → Fiki Sulistiawan</div>
                         </div>
                         <div class="item-right">
                             <span class="badge info">Berlangsung</span>
@@ -147,7 +130,7 @@
                     <div class="list-item">
                         <div class="item-left">
                             <div class="item-title">Bantuan Coding Web</div>
-                            <div class="item-desc">ORD-1025 • Rina S. → Rafi Hidayat</div>
+                            <div class="item-desc">ORD-1025 • Rina S. → Wisnu Wira Winata</div>
                         </div>
                         <div class="item-right">
                             <span class="badge warning">Menunggu</span>
@@ -161,20 +144,20 @@
             <div class="card-container">
                 <div class="card-header">
                     <h3>Aktivitas terbaru</h3>
-                    <button class="header-action"><i class="ph ph-chart-line-up"></i></button>
+                    <button class="header-action"></button>
                 </div>
                 <div class="activity-list">
                     <div class="activity-item">
                         <div class="activity-bullet"></div>
                         <div class="activity-content">
-                            <div class="activity-text"><strong>Naya P.</strong> menambahkan jasa baru</div>
+                            <div class="activity-text"><strong>Fiki Sulistiawan</strong> menambahkan jasa baru</div>
                         </div>
                         <div class="activity-time">2m</div>
                     </div>
                     <div class="activity-item">
                         <div class="activity-bullet"></div>
                         <div class="activity-content">
-                            <div class="activity-text"><strong>Andi P.</strong> membuat pesanan ORD-1029</div>
+                            <div class="activity-text"><strong>Andi </strong> membuat pesanan ORD-1029</div>
                         </div>
                         <div class="activity-time">17m</div>
                     </div>
@@ -188,14 +171,14 @@
                     <div class="activity-item">
                         <div class="activity-bullet"></div>
                         <div class="activity-content">
-                            <div class="activity-text"><strong>Mega L.</strong> ditangguhkan oleh admin</div>
+                            <div class="activity-text"><strong>Mega </strong> ditangguhkan oleh admin</div>
                         </div>
                         <div class="activity-time">3j</div>
                     </div>
                     <div class="activity-item">
                         <div class="activity-bullet"></div>
                         <div class="activity-content">
-                            <div class="activity-text"><strong>Rafi H.</strong> memperbarui profil</div>
+                            <div class="activity-text"><strong>Wisnu Wira Winata</strong> memperbarui profil</div>
                         </div>
                         <div class="activity-time">5j</div>
                     </div>
@@ -213,7 +196,7 @@
                     <div class="user-card-left">
                         <div class="user-avatar" style="background-color: #eff6ff; color: #3b82f6;">N</div>
                         <div class="user-card-info">
-                            <div class="name">Naya Pramesti</div>
+                            <div class="name">Fiki Sulistiawan</div>
                             <div class="role">Freelancer • UGM</div>
                         </div>
                     </div>
@@ -235,8 +218,8 @@
                     <div class="user-card-left">
                         <div class="user-avatar" style="background-color: #eff6ff; color: #3b82f6;">R</div>
                         <div class="user-card-info">
-                            <div class="name">Rafi Hidayat</div>
-                            <div class="role">Freelancer • ITB</div>
+                            <div class="name">Wisnu Wira Winata</div>
+                            <div class="role">Freelancer • UNILA</div>
                         </div>
                     </div>
                     <span class="badge success">Aktif</span>
@@ -248,3 +231,4 @@
 
 </body>
 </html>
+
