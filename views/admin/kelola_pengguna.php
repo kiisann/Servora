@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Pengguna - Servora Admin</title>
+    <title>Servora Admin</title>
     <link rel="stylesheet" href="../../public/css/style-admin.css">
 </head>
 <body>
 
 <div class="dashboard-container">
-    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
