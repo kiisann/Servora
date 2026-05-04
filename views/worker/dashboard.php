@@ -3,234 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Freelancer - Servora</title>
-    <link rel="stylesheet" href="../../public/css/style-admin.css">
+    <title>Dashboard - Servora Worker</title>
+    <link rel="stylesheet" href="../../public/css/style-worker.css">
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
 <div class="dashboard-container">
 
-    <aside class="sidebar">
+    <!-- ========================
+         SIDEBAR
+    ======================== -->
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
             <h2>Servora</h2>
         </div>
 
         <nav class="sidebar-nav">
-            <div class="nav-section-title">Freelancer Panel</div>
+            <div class="nav-section-title">Menu Freelancer</div>
 
-            <a href="dashboard.php" class="nav-item active">Dashboard</a>
-            <a href="jasa_saya.php" class="nav-item">Jasa Saya</a>
-            <a href="#" class="nav-item">Pesanan Masuk</a>
-            <a href="#" class="nav-item">Pendapatan</a>
-            <a href="#" class="nav-item">Rating & Review</a>
-            <a href="#" class="nav-item">Profil</a>
+            <a href="dashboard.php" class="nav-item active">
+                <i class='bx bxs-dashboard'></i>
+                Dashboard
+            </a>
+            <a href="jelajahi_jasa.php" class="nav-item">
+                <i class='bx bx-compass'></i>
+                Jelajahi Jasa
+            </a>
+            <a href="kelola_jasa.php" class="nav-item">
+                <i class='bx bx-store'></i>
+                Kelola Jasa
+            </a>
+            <a href="tambah_jasa.php" class="nav-item">
+                <i class='bx bx-plus-circle'></i>
+                Tambah Jasa
+            </a>
+            <a href="pesanan_masuk.php" class="nav-item">
+                <i class='bx bx-package'></i>
+                Pesanan Masuk
+            </a>
+            <a href="riwayat.php" class="nav-item">
+                <i class='bx bx-history'></i>
+                Riwayat
+            </a>
+            <a href="profil.php" class="nav-item">
+                <i class='bx bx-user'></i>
+                Profil
+            </a>
         </nav>
 
         <div class="sidebar-footer">
             <div class="user-profile-small">
-                <img src="https://i.pravatar.cc/100?img=12" alt="Freelancer">
+                <img src="https://i.pravatar.cc/150?img=47" alt="Avatar Pengguna">
                 <div class="user-info">
-                    <div class="name">Naya Freelancer</div>
-                    <div class="role">Penyedia Jasa</div>
+                    <div class="name">Pengguna Servora</div>
+                    <div class="role">Freelancer</div>
                 </div>
             </div>
         </div>
     </aside>
 
+    <!-- ========================
+         TOP NAVBAR
+    ======================== -->
+    <header class="top-navbar">
+        <div class="navbar-left">
+            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
+                <i class='bx bx-menu'></i>
+            </button>
+            <div class="search-bar">
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Cari pesanan...">
+            </div>
+        </div>
+        <div class="navbar-right">
+            <button class="icon-btn" title="Notifikasi">
+                <i class='bx bx-bell'></i>
+            </button>
+            <img src="https://i.pravatar.cc/150?img=47" alt="Profil" class="profile-avatar">
+        </div>
+    </header>
+
+    <!-- ========================
+         MAIN CONTENT
+    ======================== -->
     <main class="main-content">
+        <div class="content-wrapper">
 
-        <header class="top-header">
-            <div class="header-left">
-                <h1 class="page-title">Dashboard Freelancer</h1>
-                <p class="page-subtitle">Kelola jasa, pesanan, dan performa layananmu di Servora.</p>
+            <!-- Greeting -->
+            <div class="page-greeting">
+                <h1>Halo, Naya 👋</h1>
+                <p>Berikut performa jasamu di Servora.</p>
             </div>
 
-            <div class="header-right">
-                <div class="header-actions">
-                    <img src="https://i.pravatar.cc/100?img=12" alt="Profile" class="profile-avatar">
-                </div>
-            </div>
-        </header>
-
-        <section class="stats-grid">
-
-            <div class="stat-card">
-                <div class="stat-info">
-                    <div class="title">Jasa Aktif</div>
-                    <div class="value">6</div>
-                    <span class="trend">2 jasa baru bulan ini</span>
-                </div>
-                <div class="stat-icon blue">📌</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-info">
-                    <div class="title">Pesanan Masuk</div>
-                    <div class="value">14</div>
-                    <span class="trend">5 pesanan menunggu respon</span>
-                </div>
-                <div class="stat-icon orange">📥</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-info">
-                    <div class="title">Pesanan Selesai</div>
-                    <div class="value">38</div>
-                    <span class="trend">Performa layanan meningkat</span>
-                </div>
-                <div class="stat-icon green">✅</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-info">
-                    <div class="title">Rating</div>
-                    <div class="value">4.9</div>
-                    <span class="trend">Berdasarkan 27 ulasan</span>
-                </div>
-                <div class="stat-icon blue">⭐</div>
-            </div>
-
-        </section>
-
-        <section class="content-grid">
-
-            <div class="card-container">
-                <div class="card-header">
-                    <h3>Pesanan Terbaru</h3>
-                    <button class="header-action">Lihat Semua</button>
-                </div>
-
-                <div class="list-container">
-
-                    <div class="list-item">
-                        <div class="item-left">
-                            <div class="item-title">Desain Poster Seminar</div>
-                            <div class="item-desc">Client: Andi Pratama • Deadline: 2 hari</div>
-                        </div>
-                        <div class="item-right">
-                            <span class="badge warning">Menunggu</span>
-                            <span class="item-price">Rp75.000</span>
-                        </div>
+            <!-- Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Pesanan Baru</div>
+                        <div class="stat-value">4</div>
                     </div>
-
-                    <div class="list-item">
-                        <div class="item-left">
-                            <div class="item-title">Pembuatan PPT Presentasi</div>
-                            <div class="item-desc">Client: Sinta Maharani • Deadline: 1 hari</div>
-                        </div>
-                        <div class="item-right">
-                            <span class="badge info">Diproses</span>
-                            <span class="item-price">Rp50.000</span>
-                        </div>
+                    <div class="stat-icon blue">
+                        <i class='bx bx-envelope'></i>
                     </div>
-
-                    <div class="list-item">
-                        <div class="item-left">
-                            <div class="item-title">Konsultasi Coding PHP</div>
-                            <div class="item-desc">Client: Rafi Hidayat • Deadline: Hari ini</div>
-                        </div>
-                        <div class="item-right">
-                            <span class="badge success">Selesai</span>
-                            <span class="item-price">Rp100.000</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="card-container">
-                <div class="card-header">
-                    <h3>Aktivitas Freelancer</h3>
                 </div>
 
-                <div class="activity-list">
-
-                    <div class="activity-item">
-                        <div class="activity-bullet"></div>
-                        <div class="activity-content">
-                            <div class="activity-text"><strong>Pesanan baru</strong> masuk untuk jasa desain poster.</div>
-                            <div class="activity-time">10 menit lalu</div>
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Selesai Bulan Ini</div>
+                        <div class="stat-value">18</div>
                     </div>
-
-                    <div class="activity-item">
-                        <div class="activity-bullet"></div>
-                        <div class="activity-content">
-                            <div class="activity-text">Jasa <strong>Pembuatan PPT</strong> diperbarui.</div>
-                            <div class="activity-time">1 jam lalu</div>
-                        </div>
+                    <div class="stat-icon green">
+                        <i class='bx bx-check-circle'></i>
                     </div>
-
-                    <div class="activity-item">
-                        <div class="activity-bullet"></div>
-                        <div class="activity-content">
-                            <div class="activity-text">Client memberi rating <strong>5.0</strong>.</div>
-                            <div class="activity-time">Kemarin</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-
-        <section class="table-container">
-
-            <div class="table-top-header">
-                <div class="table-title">
-                    <h3>Daftar Jasa Saya</h3>
-                    <p>Kelola layanan yang kamu tawarkan kepada pengguna Servora.</p>
                 </div>
 
-                <button class="signin-btn" style="width:auto; padding:10px 18px; margin:0;">
-                    + Tambah Jasa
-                </button>
-            </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Pendapatan</div>
+                        <div class="stat-value">Rp2.350.000</div>
+                    </div>
+                    <div class="stat-icon orange">
+                        <i class='bx bx-wallet'></i>
+                    </div>
+                </div>
 
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nama Jasa</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Status</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-label">Rating Rata-rata</div>
+                        <div class="stat-value">4.9</div>
+                    </div>
+                    <div class="stat-icon yellow">
+                        <i class='bx bx-star'></i>
+                    </div>
+                </div>
+            </section>
 
-                <tbody>
-                    <tr>
-                        <td>Desain Poster Akademik</td>
-                        <td>Desain Grafis</td>
-                        <td>Rp75.000</td>
-                        <td><span class="badge success">Aktif</span></td>
-                        <td>⭐ 4.9</td>
-                    </tr>
+            <!-- Content Grid: Orders + Top Services -->
+            <section class="content-grid">
 
-                    <tr>
-                        <td>Pembuatan PPT Presentasi</td>
-                        <td>Tugas Akademik</td>
-                        <td>Rp50.000</td>
-                        <td><span class="badge success">Aktif</span></td>
-                        <td>⭐ 4.8</td>
-                    </tr>
+                <!-- Pesanan Terbaru -->
+                <div class="card-container">
+                    <div class="card-header">
+                        <h3>Pesanan terbaru</h3>
+                        <a href="pesanan_masuk.php" class="see-all">
+                            Semua <i class='bx bx-right-arrow-alt'></i>
+                        </a>
+                    </div>
+                    <div class="order-list">
 
-                    <tr>
-                        <td>Konsultasi Coding PHP</td>
-                        <td>Programming</td>
-                        <td>Rp100.000</td>
-                        <td><span class="badge warning">Review</span></td>
-                        <td>⭐ 5.0</td>
-                    </tr>
-                </tbody>
-            </table>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-title">Desain Poster &amp; Feed Instagram</div>
+                                <div class="order-meta">ORD-1024 &middot; Andi P.</div>
+                            </div>
+                            <div class="order-right">
+                                <span class="badge info">Berlangsung</span>
+                                <span class="order-price">Rp50.000</span>
+                            </div>
+                        </div>
 
-        </section>
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-title">Bantuan Coding Web</div>
+                                <div class="order-meta">ORD-1025 &middot; Rina S.</div>
+                            </div>
+                            <div class="order-right">
+                                <span class="badge warning">Menunggu</span>
+                                <span class="order-price">Rp150.000</span>
+                            </div>
+                        </div>
 
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-title">Penerjemahan Jurnal</div>
+                                <div class="order-meta">ORD-1026 &middot; Bagus W.</div>
+                            </div>
+                            <div class="order-right">
+                                <span class="badge success">Selesai</span>
+                                <span class="order-price">Rp35.000</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-info">
+                                <div class="order-title">Edit Video Pendek</div>
+                                <div class="order-meta">ORD-1027 &middot; Tika M.</div>
+                            </div>
+                            <div class="order-right">
+                                <span class="badge info">Berlangsung</span>
+                                <span class="order-price">Rp75.000</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Jasa Terlaris -->
+                <div class="card-container">
+                    <div class="card-header">
+                        <h3>Jasa Terlaris</h3>
+                    </div>
+                    <div class="service-list">
+
+                        <div class="service-item">
+                            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=80&h=80&fit=crop&auto=format"
+                                 alt="Desain Poster" class="service-thumb">
+                            <div class="service-info">
+                                <div class="service-name">Desain Poster &amp; Feed Insta...</div>
+                                <div class="service-count">128 pesanan</div>
+                            </div>
+                        </div>
+
+                        <div class="service-item">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=80&h=80&fit=crop&auto=format"
+                                 alt="Coding Web" class="service-thumb">
+                            <div class="service-info">
+                                <div class="service-name">Bantuan Coding Web (Rea...</div>
+                                <div class="service-count">76 pesanan</div>
+                            </div>
+                        </div>
+
+                        <div class="service-item">
+                            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=80&h=80&fit=crop&auto=format"
+                                 alt="Jurnal" class="service-thumb">
+                            <div class="service-info">
+                                <div class="service-name">Penerjemahan Jurnal EN ...</div>
+                                <div class="service-count">54 pesanan</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+        </div><!-- end content-wrapper -->
     </main>
 
-</div>
+</div><!-- end dashboard-container -->
+
+<script>
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+</script>
 
 </body>
 </html>
