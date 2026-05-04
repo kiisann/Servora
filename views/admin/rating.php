@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rating & Review - Servora Admin</title>
+    <title>Servora Adminn</title>
     <link rel="stylesheet" href="../../public/css/style-admin.css">
 </head>
 <body>
