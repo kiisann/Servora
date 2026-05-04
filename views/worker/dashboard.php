@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Servora Worker</title>
     <link rel="stylesheet" href="../../public/css/style-worker.css">
-    <!-- Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -65,19 +61,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari pesanan...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -86,19 +70,14 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Greeting -->
             <div class="page-greeting">
                 <h1>Halo, Naya 👋</h1>
                 <p>Berikut performa jasamu di Servora.</p>
             </div>
 
-            <!-- Stats Grid -->
             <section class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-info">
@@ -141,10 +120,8 @@
                 </div>
             </section>
 
-            <!-- Content Grid: Orders + Top Services -->
             <section class="content-grid">
 
-                <!-- Pesanan Terbaru -->
                 <div class="card-container">
                     <div class="card-header">
                         <h3>Pesanan terbaru</h3>
@@ -201,7 +178,6 @@
                     </div>
                 </div>
 
-                <!-- Jasa Terlaris -->
                 <div class="card-container">
                     <div class="card-header">
                         <h3>Jasa Terlaris</h3>
@@ -240,10 +216,10 @@
 
             </section>
 
-        </div><!-- end content-wrapper -->
+        </div>
     </main>
 
-</div><!-- end dashboard-container -->
+</div>
 
 <script>
   function toggleSidebar() {

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../../public/css/style-worker.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* Nama jasa berwarna biru seperti link */
         .order-name-link {
             font-weight: 600;
             color: var(--primary-color);
@@ -19,7 +18,6 @@
             text-decoration: underline;
         }
 
-        /* Kolom pendapatan rata kanan */
         .col-pendapatan {
             text-align: right;
             font-weight: 600;
@@ -31,9 +29,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -84,19 +79,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari pesanan...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -105,13 +88,9 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Page Header -->
             <div class="page-header" style="margin-bottom: 20px;">
                 <h1>Riwayat Pekerjaan</h1>
                 <p style="font-size:14px;color:var(--text-muted);margin-top:4px;">
@@ -119,7 +98,6 @@
                 </p>
             </div>
 
-            <!-- Table Card -->
             <div class="orders-table-wrap">
                 <table class="orders-table" id="historyTable">
                     <thead>
@@ -240,12 +218,12 @@
 
                     </tbody>
                 </table>
-            </div><!-- end orders-table-wrap -->
+            </div>
 
-        </div><!-- end content-wrapper -->
+        </div>
     </main>
 
-</div><!-- end dashboard-container -->
+</div>
 
 <script>
   function toggleSidebar() {
