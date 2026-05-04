@@ -11,9 +11,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -64,19 +61,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari pesanan...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -85,13 +70,9 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Page Header -->
             <div class="orders-page-header">
                 <div class="orders-page-header-left">
                     <h1>Pesanan Masuk</h1>
@@ -103,10 +84,8 @@
                 </div>
             </div>
 
-            <!-- Table Card -->
             <div class="orders-table-wrap">
 
-                <!-- Tab Filter -->
                 <div class="tab-filter" id="tabFilter">
                     <button class="tab-item active" onclick="setTab(this, 'semua')">Semua</button>
                     <button class="tab-item" onclick="setTab(this, 'berlangsung')">Berlangsung</button>
@@ -114,7 +93,6 @@
                     <button class="tab-item" onclick="setTab(this, 'dibatalkan')">Dibatalkan</button>
                 </div>
 
-                <!-- Table -->
                 <table class="orders-table" id="ordersTable">
                     <thead>
                         <tr>
@@ -216,18 +194,17 @@
                     </tbody>
                 </table>
 
-                <!-- Empty state (hidden by default) -->
                 <div class="empty-state" id="emptyState" style="display:none;">
                     <i class='bx bx-package'></i>
                     <p>Tidak ada pesanan ditemukan.</p>
                 </div>
 
-            </div><!-- end orders-table-wrap -->
+            </div>
 
-        </div><!-- end content-wrapper -->
+        </div>
     </main>
 
-</div><!-- end dashboard-container -->
+</div>
 
 <!-- Detail Modal -->
 <div id="detailModal" style="
@@ -257,12 +234,12 @@
 <script>
   let activeTab = 'semua';
 
-  // Sidebar toggle
+  // Sidebar
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
   }
 
-  // Tab filter
+  // Tab
   function setTab(btn, tab) {
     activeTab = tab;
     document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -270,7 +247,7 @@
     filterOrders();
   }
 
-  // Combined filter: tab + search
+  // Filter gabungan: tab + pencarian
   function filterOrders() {
     const keyword = document.getElementById('searchOrder').value.toLowerCase();
     const rows = document.querySelectorAll('#ordersBody tr');
@@ -299,7 +276,7 @@
     document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
   }
 
-  // Detail modal data
+  // Data pesanan
   const orderData = {
     'ORD-1024': { jasa: 'Desain Poster & Feed Instagram', client: 'Andi Pratama', harga: 'Rp50.000', tanggal: '2026-04-28', status: 'Berlangsung', statusClass: 'info', deadline: '2026-05-05' },
     'ORD-1025': { jasa: 'Bantuan Coding Web', client: 'Rina Suryani', harga: 'Rp150.000', tanggal: '2026-04-29', status: 'Menunggu', statusClass: 'warning', deadline: '2026-05-06' },
@@ -361,7 +338,7 @@
     document.getElementById('detailModal').style.display = 'none';
   }
 
-  // Close on backdrop click
+  // Tutup saat klik backdrop
   document.getElementById('detailModal').addEventListener('click', function(e) {
     if (e.target === this) closeDetail();
   });

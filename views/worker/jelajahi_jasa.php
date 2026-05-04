@@ -11,9 +11,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -64,19 +61,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari jasa...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -85,19 +70,14 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Page Header -->
             <div class="page-header">
                 <h1>Jelajahi Jasa</h1>
                 <p>Temukan jasa mahasiswa untuk kebutuhanmu.</p>
             </div>
 
-            <!-- Search Box -->
             <div class="service-search-box">
                 <div class="service-search-input">
                     <i class='bx bx-search'></i>
@@ -109,7 +89,6 @@
                 </button>
             </div>
 
-            <!-- Category Tabs -->
             <div class="category-tabs" id="categoryTabs">
                 <button class="cat-tab active" onclick="setCategory(this, 'semua')">Semua</button>
                 <button class="cat-tab" onclick="setCategory(this, 'desain-grafis')">Desain Grafis</button>
@@ -122,10 +101,8 @@
                 <button class="cat-tab" onclick="setCategory(this, 'data-riset')">Data &amp; Riset</button>
             </div>
 
-            <!-- Result Count -->
             <div class="result-count" id="resultCount">8 jasa ditemukan</div>
 
-            <!-- Services Grid -->
             <div class="services-grid" id="servicesGrid">
 
                 <a href="#" class="service-card" data-category="desain-grafis" data-title="Desain Poster &amp; Feed Instagram Estetik">
@@ -320,20 +297,20 @@
                     </div>
                 </a>
 
-            </div><!-- end services-grid -->
 
-        </div><!-- end content-wrapper -->
+
+        </div>
     </main>
 
-</div><!-- end dashboard-container -->
+</div>
 
 <script>
-  // Toggle sidebar (mobile)
+  // Toggle sidebar
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
   }
 
-  // Category filter
+  // Kategori aktif
   let activeCategory = 'semua';
 
   function setCategory(btn, cat) {
@@ -343,7 +320,7 @@
     filterServices();
   }
 
-  // Search + category combined filter
+  // Filter gabungan: kategori + kata kunci
   function filterServices() {
     const keyword = document.getElementById('searchInput').value.toLowerCase();
     const cards = document.querySelectorAll('#servicesGrid .service-card');

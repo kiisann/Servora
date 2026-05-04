@@ -11,9 +11,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -64,19 +61,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari pesanan...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -85,28 +70,21 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Back link -->
             <a href="kelola_jasa.php" class="back-link">
                 <i class='bx bx-arrow-back'></i>
                 Kembali
             </a>
 
-            <!-- Page title -->
             <div class="page-header" style="margin-bottom: 20px;">
                 <h1>Tambah Jasa Baru</h1>
             </div>
 
-            <!-- Form Card -->
             <div class="form-card">
                 <form id="addServiceForm" onsubmit="submitForm(event)">
 
-                    <!-- Cover Jasa -->
                     <div class="form-group">
                         <label class="form-label">Cover jasa</label>
                         <div class="upload-area" id="uploadArea">
@@ -119,7 +97,6 @@
                         </div>
                     </div>
 
-                    <!-- Judul Jasa -->
                     <div class="form-group">
                         <label class="form-label" for="judulJasa">Judul jasa</label>
                         <input type="text"
@@ -130,7 +107,6 @@
                                required>
                     </div>
 
-                    <!-- Kategori + Harga -->
                     <div class="form-row">
                         <div class="form-group" style="margin-bottom:0;">
                             <label class="form-label" for="kategori">Kategori</label>
@@ -160,7 +136,6 @@
                         </div>
                     </div>
 
-                    <!-- Estimasi + Jumlah Revisi -->
                     <div class="form-row">
                         <div class="form-group" style="margin-bottom:0;">
                             <label class="form-label" for="estimasi">Estimasi pengerjaan (hari)</label>
@@ -188,7 +163,6 @@
                         </div>
                     </div>
 
-                    <!-- Deskripsi -->
                     <div class="form-group">
                         <label class="form-label" for="deskripsi">Deskripsi</label>
                         <textarea id="deskripsi"
@@ -198,7 +172,6 @@
                                   required></textarea>
                     </div>
 
-                    <!-- Tag -->
                     <div class="form-group">
                         <label class="form-label" for="tags">Tag <span style="font-weight:400;color:var(--text-muted);">(pisahkan dengan koma)</span></label>
                         <input type="text"
@@ -208,7 +181,6 @@
                                placeholder="Figma, Branding, Poster">
                     </div>
 
-                    <!-- Form Actions -->
                     <div class="form-actions">
                         <button type="button" class="btn-secondary" onclick="window.location.href='kelola_jasa.php'">
                             Batal
@@ -220,12 +192,12 @@
                     </div>
 
                 </form>
-            </div><!-- end form-card -->
+            </div>
 
-        </div><!-- end content-wrapper -->
+        </div>
     </main>
 
-</div><!-- end dashboard-container -->
+</div>
 
 <!-- Toast Notification -->
 <div id="toast" style="
@@ -271,12 +243,10 @@
       preview.src = e.target.result;
       preview.style.display = 'block';
 
-      // Hide text elements
       document.getElementById('uploadIcon').style.display = 'none';
       document.getElementById('uploadLabel').style.display = 'none';
       document.getElementById('uploadHint').style.display = 'none';
 
-      // Adjust upload area height
       document.getElementById('uploadArea').style.minHeight = '220px';
     };
     reader.readAsDataURL(file);
@@ -296,7 +266,6 @@
       return;
     }
 
-    // Show toast
     const toast = document.getElementById('toast');
     toast.style.display = 'flex';
     setTimeout(() => {

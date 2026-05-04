@@ -11,9 +11,6 @@
 
 <div class="dashboard-container">
 
-    <!-- ========================
-         SIDEBAR
-    ======================== -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-icon">S</div>
@@ -64,19 +61,7 @@
         </div>
     </aside>
 
-    <!-- ========================
-         TOP NAVBAR
-    ======================== -->
     <header class="top-navbar">
-        <div class="navbar-left">
-            <button class="menu-toggle" onclick="toggleSidebar()" title="Toggle Menu">
-                <i class='bx bx-menu'></i>
-            </button>
-            <div class="search-bar">
-                <i class='bx bx-search'></i>
-                <input type="text" placeholder="Cari pesanan...">
-            </div>
-        </div>
         <div class="navbar-right">
             <button class="icon-btn" title="Notifikasi">
                 <i class='bx bx-bell'></i>
@@ -85,13 +70,9 @@
         </div>
     </header>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
     <main class="main-content">
         <div class="content-wrapper">
 
-            <!-- Page Header -->
             <div class="manage-header">
                 <div class="manage-header-left">
                     <h1>Kelola Jasa</h1>
@@ -103,10 +84,8 @@
                 </a>
             </div>
 
-            <!-- Manage Grid -->
             <div class="manage-grid" id="manageGrid">
 
-                <!-- Card 1 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=380&fit=crop&auto=format"
@@ -129,7 +108,6 @@
                     </div>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=380&fit=crop&auto=format"
@@ -152,7 +130,6 @@
                     </div>
                 </div>
 
-                <!-- Card 3 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=380&fit=crop&auto=format"
@@ -175,7 +152,6 @@
                     </div>
                 </div>
 
-                <!-- Card 4 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=380&fit=crop&auto=format"
@@ -198,7 +174,6 @@
                     </div>
                 </div>
 
-                <!-- Card 5 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=380&fit=crop&auto=format"
@@ -221,7 +196,6 @@
                     </div>
                 </div>
 
-                <!-- Card 6 -->
                 <div class="manage-card">
                     <img class="manage-card-img"
                          src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=600&h=380&fit=crop&auto=format"
