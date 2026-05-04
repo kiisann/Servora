@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servora - Dashboard</title>
+    <link rel="stylesheet" href="../../public/css/style_user.css">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="s-logo">
+      <div class="logo-ico">S</div>
+      <span class="logo-txt">Servora</span>
+    </div>
+    <nav class="s-nav">
+      <div class="nav-lbl">Menu Utama</div>
+      <a href="dashboard.html" class="nav-item active"><span class="nav-ico">🏠</span> Dashboard</a>
+      <a href="cari_jasa.html" class="nav-item"><span class="nav-ico">🔍</span> Cari Jasa</a>
+      <a href="pesanan.html" class="nav-item"><span class="nav-ico">📋</span> Pesanan Saya</a>
+      <a href="pesan.html" class="nav-item"><span class="nav-ico">💬</span> Pesan <span class="nav-bdg">3</span></a>
+      <div class="nav-lbl">Akun</div>
+      <a href="profil.html" class="nav-item"><span class="nav-ico">👤</span> Profil</a>
+      <a href="#" class="nav-item"><span class="nav-ico">🚪</span> Keluar</a>
+    </nav>
+    <div class="s-footer">
+      <div class="u-card">
+        <div class="av av-m">AF</div>
+        <div>
+          <div style="font-size:13px;font-weight:600">Ahmad Fauzi</div>
+          <div style="font-size:11px;color:var(--t3)">Client</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="pg-title">Dashboard</div>
+        <div class="pg-sub">Selamat datang kembali, Ahmad! 👋</div>
+      </div>
+      <div class="tb-right">
+        <div class="search-bar">
+          <span>🔍</span>
+          <input type="text" placeholder="Cari jasa...">
+        </div>
+        <button class="notif-btn">🔔<span class="ndot"></span></button>
+        <div class="tb-user">
+          <div class="av av-s">AF</div>
+          <span style="font-size:13px;font-weight:600">Ahmad Fauzi</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="pc">
+      <!-- STAT CARDS -->
+      <div class="stats">
+        <div class="stat">
+          <div class="s-ico ib">📋</div>
+          <div>
+            <div class="s-val">1</div>
+            <div class="s-lbl">Total Pesanan</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="s-ico ig">✅</div>
+          <div>
+            <div class="s-val">0</div>
+            <div class="s-lbl">Selesai</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="s-ico io">⏳</div>
+          <div>
+            <div class="s-val">1</div>
+            <div class="s-lbl">Sedang Berjalan</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="s-ico ip">💰</div>
+          <div>
+            <div class="s-val">Rp 150K</div>
+            <div class="s-lbl">Total Pengeluaran</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div class="dgrid">
+        <div>
+          <!-- PESANAN AKTIF -->
+          <div class="card mb20">
+            <div class="card-h">
+              <span class="card-t">Pesanan Aktif</span>
+              <a href="pesanan.html" class="btn-lnk">Lihat Semua</a>
+            </div>
+            <div class="tw">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Jasa</th>
+                    <th>Freelancer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div style="font-weight:600">Desain Logo Profesional</div>
+                      <div class="txt-sm">Dibuat 2 hari lalu</div>
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="av av-s" style="background:linear-gradient(135deg,#f093fb,#f5576c)">RK</div>
+                        Rina K.
+                      </div>
+                    </td>
+                    <td><span class="bdg bg-p">Dalam Proses</span></td>
+                    <td style="font-weight:700">Rp 150.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- JASA DISARANKAN -->
+          <div class="card">
+            <div class="card-h">
+              <span class="card-t">Jasa yang Disarankan</span>
+              <a href="cari-jasa.html" class="btn-lnk">Lihat Semua</a>
+            </div>
+            <div class="card-b">
+              <div class="sgrid">
+                <div class="svc">
+                  <div class="svc-img gi1">🎨</div>
+                  <div class="svc-b">
+                    <div class="svc-t">Desain UI/UX Aplikasi Mobile</div>
+                    <div class="row" style="margin-top:4px">
+                      <span class="stars">★★★★★</span>
+                      <span class="txt-sm">(48)</span>
+                    </div>
+                    <div class="svc-sel">
+                      <div class="av av-s" style="background:linear-gradient(135deg,#667eea,#764ba2)">DS</div>
+                      Dina S.
+                    </div>
+                    <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
+                      <span class="svc-price">Rp 200.000</span>
+                      <button class="btn btn-sm btn-p">Pesan</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="svc">
+                  <div class="svc-img gi3">💻</div>
+                  <div class="svc-b">
+                    <div class="svc-t">Pembuatan Website Company Profile</div>
+                    <div class="row" style="margin-top:4px">
+                      <span class="stars">★★★★☆</span>
+                      <span class="txt-sm">(32)</span>
+                    </div>
+                    <div class="svc-sel">
+                      <div class="av av-s" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">AH</div>
+                      Agus H.
+                    </div>
+                    <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
+                      <span class="svc-price">Rp 500.000</span>
+                      <button class="btn btn-sm btn-p">Pesan</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div>
+          <!-- CARI CEPAT -->
+          <div class="card mb20">
+            <div class="card-h">
+              <span class="card-t">Cari Jasa Cepat</span>
+            </div>
+            <div class="card-b">
+              <div class="fg">
+                <input class="fi" type="text" placeholder="Kata kunci...">
+              </div>
+              <button class="btn btn-p btn-fw">🔍 Cari Jasa</button>
+              <div style="margin-top:14px">
+                <div class="txt-sm fw7 mb12">Kategori Populer</div>
+                <div class="fbar" style="flex-wrap:wrap">
+                  <span class="chip on">🎨 Desain</span>
+                  <span class="chip">💻 Coding</span>
+                  <span class="chip">🎓 Akademik</span>
+                  <span class="chip">✍️ Penulisan</span>
+                  <span class="chip">📱 Marketing</span>
+                  <span class="chip">🎬 Video</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AKTIVITAS -->
+          <div class="card">
+            <div class="card-h">
+              <span class="card-t">Aktivitas Terbaru</span>
+            </div>
+            <div style="padding:8px 0">
+              <div class="ni unread">
+                <div class="ni-ico" style="background:#fef3c7">💬</div>
+                <div>
+                  <div class="ni-title">Pesan Baru</div>
+                  <div class="ni-desc">Rina K. mengirim pesan</div>
+                  <div class="ni-time">2 jam lalu</div>
+                </div>
+              </div>
+              <div class="ni">
+                <div class="ni-ico" style="background:#ede9fe">📋</div>
+                <div>
+                  <div class="ni-title">Pesanan Dibuat</div>
+                  <div class="ni-desc">Desain Logo Profesional - Rp 150.000</div>
+                  <div class="ni-time">2 hari lalu</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
