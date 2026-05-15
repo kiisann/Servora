@@ -32,7 +32,7 @@
             <h2>Masuk Akun</h2>
             <p class="login-subtitle">Gunakan email dan password untuk melanjutkan.</p>
 
-            <form action="#" method="POST">
+            <form action="proses_login.php" method="POST">
                 <div class="form-group-login">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="nama@email.com" required>
