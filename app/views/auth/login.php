@@ -65,7 +65,6 @@
                 <a href="register.php">Daftar sekarang</a>
             </p>
 
-
             <a href="../../public/index.php" class="back-home">← Kembali ke Beranda</a>
         </div>
     </div>
