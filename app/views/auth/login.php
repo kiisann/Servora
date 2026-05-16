@@ -54,16 +54,16 @@
                 <button type="submit" class="login-submit">Masuk</button>
             </form>
 
-            <div style = "margin-top: 12px; font-size: 12px; color: var(--t2);">
+            <div style = "margin-top: 12px; font-size: 12px; background-color: var(--t2); border: 1px solid var(--t2); padding: 4px; border-radius: 4px; justify-content: space-evenly; display: flex; gap: 4px;">
                 <a href="../../views/admin/dashboard.php">Admin</a>
+                <a href="../../views/user/dashboard.php">User</a>
+                <a href="../../views/worker/dashboard.php">Worker</a>
             </div>
 
             <p class="register-text">
                 Belum punya akun?
                 <a href="register.php">Daftar sekarang</a>
             </p>
-
-            <a href="../../views/admin/dashboard.php">Admin</a>
 
             <a href="../../public/index.php" class="back-home">← Kembali ke Beranda</a>
         </div>

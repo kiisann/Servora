@@ -1,21 +1,8 @@
-<?php
-?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Client – Servora</title>
-  <meta name="description" content="Dashboard client Servora – pantau pesanan dan temukan jasa mahasiswa terbaik." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<?php include __DIR__ . '/../components/layout/sidebar.php';?>
 <div class="layout">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <!-- <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">S</div>
       <span class="logo-text">Servora</span>
@@ -23,7 +10,7 @@
 
     <div class="sidebar-section-label">Area Client</div>
     <nav class="sidebar-nav">
-      <a href="dashboard.php" class="active" id="nav-dashboard">
+      <a href="index.html" class="active" id="nav-dashboard">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7m-9 5v6m-4-6h14" /></svg>
         Dashboard
       </a>
@@ -51,7 +38,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0l-3-3m3 3H9" /></svg>
       </button>
     </div>
-  </aside>
+  </aside> -->
 
   <!-- MAIN -->
   <div class="main">
@@ -165,5 +152,3 @@
     </div>
   </div>
 </div>
-</body>
-</html>

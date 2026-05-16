@@ -39,7 +39,7 @@
     </header>
 
     <div class="pc">
-      <!-- TABS -->
+
       <div class="tabs mb20" style="margin-bottom:0;border-radius:10px 10px 0 0">
         <div class="tab act">Semua <span style="background:var(--pl);color:var(--p);font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">1</span></div>
         <div class="tab" >Aktif <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">1</span></div>
