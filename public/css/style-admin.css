@@ -941,6 +941,13 @@ body {
   top: 24px;
 }
 
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+}
+
 .avatar-wrap {
   position: relative;
   width: 88px;
@@ -1054,7 +1061,7 @@ body {
 .btn-logout:hover {
   background: #fee2e2;
 }
- ── Form area ── */
+
 .form-area {
   background: var(--card-bg);
   border: 1px solid var(--border-color);

@@ -1,15 +1,10 @@
-<?php
-// session_start();
-// if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil Admin - Servora</title>
-  <link rel="stylesheet" href="../../../public/css/style-admin.css">
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/css/style-admin.css">
 </head>
 <body>
 
@@ -23,13 +18,24 @@
 
     <nav class="sidebar-nav">
       <div class="nav-section-title">Admin Panel</div>
-      <a href="dashboard.php" class="nav-item"><i class='bx bxs-dashboard'></i> Dashboard</a>
-      <a href="kelola_pengguna.php" class="nav-item"><i class='bx bx-group'></i> Kelola Pengguna</a>
-      <a href="kelola_jasa.php" class="nav-item"><i class='bx bx-store'></i> Kelola Jasa</a>
-      <a href="kelola_pesanan.php" class="nav-item"><i class='bx bx-package'></i> Kelola Pesanan</a>
-      <a href="rating.php" class="nav-item"><i class='bx bx-star'></i> Rating &amp; Review</a>
-      <a href="monitoring.php" class="nav-item"><i class='bx bx-bar-chart-alt-2'></i> Monitoring</a>
-      <a href="profil.php" class="nav-item active"><i class='bx bx-user-circle'></i> Profil Admin</a>
+      	<a href="dashboard.php" class="nav-item">
+        	Dashboard
+      	</a>
+      	<a href="kelola_pengguna.php" class="nav-item">
+        	Kelola Pengguna
+      	</a>
+      	<a href="kelola_jasa.php" class="nav-item">
+        	Kelola Jasa
+      	</a>
+      	<a href="kelola_pesanan.php" class="nav-item">
+        	Kelola Pesanan
+      	</a>
+      	<a href="rating.php" class="nav-item">
+        	Rating &amp; Review
+      	</a>
+    	<a href="monitoring.php" class="nav-item">
+        	Monitoring
+      	</a>
     </nav>
 
     <div class="sidebar-footer">
@@ -52,11 +58,10 @@
       </div>
       <div class="header-right">
         <div class="search-bar">
-          <i class='bx bx-search'></i>
           <input type="text" placeholder="Cari...">
         </div>
         <div class="header-actions">
-          <button class="icon-btn"><i class='bx bx-bell'></i></button>
+          <button></button>
           <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg"
                alt="Profile" class="profile-avatar">
         </div>
@@ -92,7 +97,7 @@
         </div>
 
         <button class="btn-logout">
-          <i class='bx bx-log-out'></i> Keluar
+          Keluar
         </button>
       </div>
 
@@ -109,7 +114,7 @@
 
             <fieldset class="form-section">
               <legend class="section-legend">
-                <i class='bx bx-user'></i> Data Pribadi
+                Data Pribadi
               </legend>
               <div class="form-row">
                 <div class="form-group">
@@ -129,7 +134,7 @@
 
             <fieldset class="form-section">
               <legend class="section-legend">
-                <i class='bx bx-envelope'></i> Kontak &amp; Catatan
+                Kontak &amp; Catatan
               </legend>
               <div class="form-row">
                 <div class="form-group">
@@ -153,7 +158,7 @@
             <div class="form-actions">
               <button type="button" class="btn btn-secondary">Batal</button>
               <button type="submit" class="btn btn-primary">
-                <i class='bx bx-save'></i> Simpan Perubahan
+                Simpan Perubahan
               </button>
             </div>
 
