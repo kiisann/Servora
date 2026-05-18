@@ -39,11 +39,13 @@
 
         <div class="sidebar-footer">
             <div class="user-profile-small">
+                <a href="profil.php" class="profile-link">
                 <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Admin Profile">
                 <div class="user-info">
                     <div class="name">Admin Servora</div>
                     <div class="role">Administrator</div>
                 </div>
+            </a>
             </div>
         </div>
     </aside>
