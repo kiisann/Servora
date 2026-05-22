@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Servora</title>
-    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body class="login-body">
 
@@ -32,7 +32,21 @@
             <h2>Daftar Akun</h2>
             <p class="login-subtitle">Lengkapi data berikut untuk membuat akun baru.</p>
 
-            <form action="#" method="POST">
+            <?php if (!empty($_SESSION['error'])): ?>
+                <div class="alert alert-error">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
+            <?php if (!empty($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($_SESSION['success']) ?>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+
+            <form action="<?= BASE_URL ?>/auth/registerProcess" method="POST">
                 <div class="form-group-login">
                     <label for="nama">Nama Lengkap</label>
                     <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
@@ -53,6 +67,16 @@
                 </div>
 
                 <div class="form-group-login">
+                    <label for="no_hp">Nomor HP</label>
+                    <input type="tel" id="no_hp" name="no_hp" placeholder="08xxxxxxxxxx">
+                </div>
+
+                <div class="form-group-login">
+                    <label for="kampus">Kampus</label>
+                    <input type="text" id="kampus" name="kampus" placeholder="Nama kampus Anda">
+                </div>
+
+                <div class="form-group-login">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Buat password" required>
                 </div>
@@ -67,10 +91,10 @@
 
             <p class="register-text">
                 Sudah punya akun?
-                <a href="login.php">Masuk sekarang</a>
+                <a href="<?= BASE_URL ?>/auth/login">Masuk sekarang</a>
             </p>
 
-            <a href="../../public/index.php" class="back-home">← Kembali ke Beranda</a>
+            <a href="<?= BASE_URL ?>/" class="back-home">← Kembali ke Beranda</a>
         </div>
     </div>
 </div>

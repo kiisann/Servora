@@ -424,6 +424,38 @@ footer {
     box-shadow: 0 8px 18px rgba(35, 132, 217, 0.25);
 }
 
+.loginsm{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px; 
+    font-size: 12px; 
+    background-color: var(--t2); 
+    border: 1px solid var(--t2); 
+    padding: 4px; 
+    border-radius: 4px; 
+    justify-content: space-evenly; 
+    gap: 4px;
+}
+
+.loginsm a {
+    color: #2384d9;
+    text-decoration: none;
+    font-weight: 700;
+    background-color: #eaecf0;
+    padding: 7px 15px;
+    border: 2px solid #6e6e6e;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(85, 86, 86, 0.25);
+}
+
+.loginsm a:hover {
+    transform: scale(0.95);
+    background-color: #dbeafe;
+    border-color: #2384d9;
+    box-shadow: 0 6px 12px rgba(35, 132, 217, 0.35);
+}
+
 .register-text {
     text-align: center;
     margin-top: 22px;

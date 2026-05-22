@@ -1,122 +1,71 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/auth/login');
+    exit;
+}
+$sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Servora Worker</title>
-    <link rel="stylesheet" href="../../public/css/style-worker.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Dashboard Freelancer – Servora</title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 
 <div class="dashboard-container">
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon">S</div>
-            <h2>Servora</h2>
-        </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-title">Menu Freelancer</div>
-
-            <a href="dashboard.php" class="nav-item active">
-                <i class='bx bxs-dashboard'></i>
-                Dashboard
-            </a>
-            <a href="jelajahi_jasa.php" class="nav-item">
-                <i class='bx bx-compass'></i>
-                Jelajahi Jasa
-            </a>
-            <a href="kelola_jasa.php" class="nav-item">
-                <i class='bx bx-store'></i>
-                Kelola Jasa
-            </a>
-            <a href="tambah_jasa.php" class="nav-item">
-                <i class='bx bx-plus-circle'></i>
-                Tambah Jasa
-            </a>
-            <a href="pesanan_masuk.php" class="nav-item">
-                <i class='bx bx-package'></i>
-                Pesanan Masuk
-            </a>
-            <a href="riwayat.php" class="nav-item">
-                <i class='bx bx-history'></i>
-                Riwayat
-            </a>
-            <a href="profil.php" class="nav-item">
-                <i class='bx bx-user'></i>
-                Profil
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="user-profile-small">
-                <img src="https://i.pravatar.cc/150?img=47" alt="Avatar Pengguna">
-                <div class="user-info">
-                    <div class="name">Pengguna Servora</div>
-                    <div class="role">Freelancer</div>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <header class="top-navbar">
-        <div class="navbar-right">
-            <button class="icon-btn" title="Notifikasi">
-                <i class='bx bx-bell'></i>
-            </button>
-            <img src="https://i.pravatar.cc/150?img=47" alt="Profil" class="profile-avatar">
-        </div>
-    </header>
+    <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
 
     <main class="main-content">
-        <div class="content-wrapper">
 
-            <div class="page-greeting">
-                <h1>Halo, Naya 👋</h1>
-                <p>Berikut performa jasamu di Servora.</p>
+        <header class="top-header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Halo <?= $sessionNama ?> 👋, berikut performa jasamu di Servora.</p>
             </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profil" class="profile-avatar">
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
 
             <section class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-info">
-                        <div class="stat-label">Pesanan Baru</div>
-                        <div class="stat-value">4</div>
+                        <div class="title">Pesanan Baru</div>
+                        <div class="value"><?= $pesanan_baru ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon blue">
-                        <i class='bx bx-envelope'></i>
-                    </div>
+                    <div class="stat-icon blue"></div>
                 </div>
 
                 <div class="stat-card">
                     <div class="stat-info">
-                        <div class="stat-label">Selesai Bulan Ini</div>
-                        <div class="stat-value">18</div>
+                        <div class="title">Sedang Berjalan</div>
+                        <div class="value"><?= $pesanan_berjalan ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon green">
-                        <i class='bx bx-check-circle'></i>
-                    </div>
+                    <div class="stat-icon orange"></div>
                 </div>
 
                 <div class="stat-card">
                     <div class="stat-info">
-                        <div class="stat-label">Pendapatan</div>
-                        <div class="stat-value">Rp2.350.000</div>
+                        <div class="title">Selesai</div>
+                        <div class="value"><?= $pesanan_selesai ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon orange">
-                        <i class='bx bx-wallet'></i>
-                    </div>
+                    <div class="stat-icon green"></div>
                 </div>
 
                 <div class="stat-card">
                     <div class="stat-info">
-                        <div class="stat-label">Rating Rata-rata</div>
-                        <div class="stat-value">4.9</div>
+                        <div class="title">Total Jasa</div>
+                        <div class="value"><?= $total_jasa ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon yellow">
-                        <i class='bx bx-star'></i>
-                    </div>
+                    <div class="stat-icon blue"></div>
                 </div>
             </section>
 
@@ -125,92 +74,64 @@
                 <div class="card-container">
                     <div class="card-header">
                         <h3>Pesanan terbaru</h3>
-                        <a href="pesanan_masuk.php" class="see-all">
-                            Semua <i class='bx bx-right-arrow-alt'></i>
-                        </a>
+                        <a href="<?= BASE_URL ?>/pesanan" class="header-action">Semua →</a>
                     </div>
-                    <div class="order-list">
-
-                        <div class="order-item">
-                            <div class="order-info">
-                                <div class="order-title">Desain Poster &amp; Feed Instagram</div>
-                                <div class="order-meta">ORD-1024 &middot; Andi P.</div>
+                    <div class="list-container">
+                        <?php if (!empty($recent_pesanan)): ?>
+                            <?php foreach($recent_pesanan as $p): ?>
+                            <?php
+                                $badgeClass = match($p['status']) {
+                                    'pending'    => 'warning',
+                                    'diproses'   => 'info',
+                                    'selesai'    => 'success',
+                                    'dibatalkan' => 'danger',
+                                    default      => 'info'
+                                };
+                                $badgeText = match($p['status']) {
+                                    'pending'    => 'Menunggu',
+                                    'diproses'   => 'Berlangsung',
+                                    'selesai'    => 'Selesai',
+                                    'dibatalkan' => 'Dibatalkan',
+                                    default      => ucfirst($p['status'])
+                                };
+                            ?>
+                            <div class="list-item">
+                                <div class="item-left">
+                                    <div class="item-title"><?= htmlspecialchars($p['nama_jasa']) ?></div>
+                                    <div class="item-desc">#<?= $p['id_pesanan'] ?> &middot; <?= htmlspecialchars($p['nama_client']) ?></div>
+                                </div>
+                                <div class="item-right">
+                                    <span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span>
+                                </div>
                             </div>
-                            <div class="order-right">
-                                <span class="badge info">Berlangsung</span>
-                                <span class="order-price">Rp50.000</span>
-                            </div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="order-info">
-                                <div class="order-title">Bantuan Coding Web</div>
-                                <div class="order-meta">ORD-1025 &middot; Rina S.</div>
-                            </div>
-                            <div class="order-right">
-                                <span class="badge warning">Menunggu</span>
-                                <span class="order-price">Rp150.000</span>
-                            </div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="order-info">
-                                <div class="order-title">Penerjemahan Jurnal</div>
-                                <div class="order-meta">ORD-1026 &middot; Bagus W.</div>
-                            </div>
-                            <div class="order-right">
-                                <span class="badge success">Selesai</span>
-                                <span class="order-price">Rp35.000</span>
-                            </div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="order-info">
-                                <div class="order-title">Edit Video Pendek</div>
-                                <div class="order-meta">ORD-1027 &middot; Tika M.</div>
-                            </div>
-                            <div class="order-right">
-                                <span class="badge info">Berlangsung</span>
-                                <span class="order-price">Rp75.000</span>
-                            </div>
-                        </div>
-
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="list-item"><div class="item-left"><div class="item-desc">Belum ada pesanan masuk.</div></div></div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="card-container">
                     <div class="card-header">
-                        <h3>Jasa Terlaris</h3>
+                        <h3>Jasa Saya</h3>
+                        <a href="<?= BASE_URL ?>/worker/jasa" class="header-action">Kelola →</a>
                     </div>
-                    <div class="service-list">
-
-                        <div class="service-item">
-                            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=80&h=80&fit=crop&auto=format"
-                                 alt="Desain Poster" class="service-thumb">
-                            <div class="service-info">
-                                <div class="service-name">Desain Poster &amp; Feed Insta...</div>
-                                <div class="service-count">128 pesanan</div>
+                    <div class="list-container">
+                        <?php if (!empty($jasa_saya)): ?>
+                            <?php foreach(array_slice($jasa_saya, 0, 3) as $j): ?>
+                            <div class="list-item">
+                                <div class="item-left">
+                                    <div class="item-title"><?= htmlspecialchars($j['nama_jasa']) ?></div>
+                                    <div class="item-desc"><?= htmlspecialchars($j['nama_kategori'] ?? '-') ?> &middot; Rp<?= number_format($j['harga'], 0, ',', '.') ?></div>
+                                </div>
+                                <div class="item-right">
+                                    <span class="badge <?= $j['status'] === 'aktif' ? 'success' : 'warning' ?>"><?= ucfirst($j['status']) ?></span>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="service-item">
-                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=80&h=80&fit=crop&auto=format"
-                                 alt="Coding Web" class="service-thumb">
-                            <div class="service-info">
-                                <div class="service-name">Bantuan Coding Web (Rea...</div>
-                                <div class="service-count">76 pesanan</div>
-                            </div>
-                        </div>
-
-                        <div class="service-item">
-                            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=80&h=80&fit=crop&auto=format"
-                                 alt="Jurnal" class="service-thumb">
-                            <div class="service-info">
-                                <div class="service-name">Penerjemahan Jurnal EN ...</div>
-                                <div class="service-count">54 pesanan</div>
-                            </div>
-                        </div>
-
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="list-item"><div class="item-left"><div class="item-desc">Belum ada jasa. <a href="<?= BASE_URL ?>/worker/tambah">Tambah sekarang</a></div></div></div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -220,12 +141,6 @@
     </main>
 
 </div>
-
-<script>
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-</script>
 
 </body>
 </html>

@@ -1,144 +1,163 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/auth/login');
+    exit;
+}
+$sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Pengguna');
+$pesananList = $pesanan ?? [];
+$selectedId  = $selected_id ?? null;
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servora - Pesanan Saya</title>
-    <link rel="stylesheet" href="../../public/css/style_user.css">
+    <title>Pesanan Saya – Servora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
-<div class="layout">
-  <aside class="sidebar">
-    <div class="s-logo"><div class="logo-ico">S</div><span class="logo-txt">Servora</span></div>
-    <nav class="s-nav">
-      <div class="nav-lbl">Menu Utama</div>
-      <a href="dashboard.html" class="nav-item"><span class="nav-ico">🏠</span> Dashboard</a>
-      <a href="cari_jasa.html" class="nav-item"><span class="nav-ico">🔍</span> Cari Jasa</a>
-      <a href="pesanan.html" class="nav-item active"><span class="nav-ico">📋</span> Pesanan Saya</a>
-      <a href="pesan.html" class="nav-item"><span class="nav-ico">💬</span> Pesan <span class="nav-bdg">3</span></a>
-      <div class="nav-lbl">Akun</div>
-      <a href="profil.html" class="nav-item"><span class="nav-ico">👤</span> Profil</a>
-      <a href="#" class="nav-item"><span class="nav-ico">🚪</span> Keluar</a>
-    </nav>
-    <div class="s-footer">
-      <div class="u-card">
-        <div class="av av-m">AF</div>
-        <div><div style="font-size:13px;font-weight:600">Ahmad Fauzi</div><div style="font-size:11px;color:var(--t3)">Client</div></div>
-      </div>
-    </div>
-  </aside>
 
-  <div class="main">
-    <header class="topbar">
-      <div><div class="pg-title">Pesanan Saya</div><div class="pg-sub">Kelola semua pesanan jasa kamu</div></div>
-      <div class="tb-right">
-        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Cari pesanan..."></div>
-        <button class="notif-btn">🔔<span class="ndot"></span></button>
-        <div class="tb-user"><div class="av av-s">AF</div><span style="font-size:13px;font-weight:600">Ahmad Fauzi</span></div>
-      </div>
-    </header>
+<div class="dashboard-container">
 
-    <div class="pc">
+    <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
 
-      <div class="tabs mb20" style="margin-bottom:0;border-radius:10px 10px 0 0">
-        <div class="tab act">Semua <span style="background:var(--pl);color:var(--p);font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">1</span></div>
-        <div class="tab" >Aktif <span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">1</span></div>
-        <div class="tab" >Selesai <span style="background:var(--sl);color:#065f46;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">0</span></div>
-        <div class="tab" >Dibatalkan <span style="background:var(--dl);color:#991b1b;font-size:10px;font-weight:700;padding:1px 7px;border-radius:99px;margin-left:4px">0</span></div>
-      </div>
+    <main class="main-content">
 
-      <div class="card" style="border-radius:0 0 10px 10px;border-top:none">
-        <div class="tw">
-          <table>
-            <thead>
-              <tr>
-                <th>Kode Pesanan</th>
-                <th>Jasa</th>
-                <th>Freelancer</th>
-                <th>Tanggal</th>
-                <th>Deadline</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span style="font-family:monospace;font-size:12px;color:var(--t2)">#ORD-001</span></td>
-                <td><div style="font-weight:600">Desain Logo Profesional</div><div class="txt-sm">Kategori: Desain</div></td>
-                <td><div class="row"><div class="av av-s" style="background:linear-gradient(135deg,#f093fb,#f5576c)">RK</div>Rina K.</div></td>
-                <td class="txt-sm">01 Mei 2025</td>
-                <td class="txt-sm">10 Mei 2025</td>
-                <td style="font-weight:700">Rp 150.000</td>
-                <td><span class="bdg bg-p">Dalam Proses</span></td>
-                <td><div class="row"><button class="btn btn-sm btn-o" onclick="openDetail()">Detail</button><a href="pesan.html"><button class="btn btn-sm btn-g">💬</button></a></div></td>
-              </tr>
-            </tbody>
-          </table>
+        <header class="top-header">
+            <div class="header-left">
+                <h1 class="page-title">Pesanan Saya</h1>
+                <p class="page-subtitle">Kelola semua pesanan jasa kamu.</p>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
+                        Cari Jasa
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <div class="card-container">
+                <div class="card-header">
+                    <h3>Daftar Pesanan</h3>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                        <thead>
+                            <tr style="border-bottom:1px solid var(--border-color,#e2e8f0);text-align:left;">
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Freelancer</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($pesananList)): ?>
+                                <?php foreach($pesananList as $p): ?>
+                                <?php
+                                    $badgeClass = match($p['status']) {
+                                        'pending'    => 'warning',
+                                        'diproses'   => 'info',
+                                        'selesai'    => 'success',
+                                        'dibatalkan' => 'danger',
+                                        default      => 'info'
+                                    };
+                                    $badgeText = match($p['status']) {
+                                        'pending'    => 'Menunggu',
+                                        'diproses'   => 'Diproses',
+                                        'selesai'    => 'Selesai',
+                                        'dibatalkan' => 'Dibatalkan',
+                                        default      => ucfirst($p['status'])
+                                    };
+                                ?>
+                                <tr style="border-bottom:1px solid #f1f5f9;"
+                                    data-pesanan='<?= json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
+                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
+                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
+                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                    <td style="padding:12px 16px;">
+                                        <button class="btn btn-sm" style="font-size:12px;padding:4px 12px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;"
+                                                onclick="openDetail(this.closest('tr'))">Detail</button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" style="padding:40px 16px;text-align:center;color:#94a3b8;">
+                                        Belum ada pesanan. <a href="<?= BASE_URL ?>/jasa" style="color:var(--primary,#6366f1);font-weight:600;">Cari jasa sekarang</a>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </div>
-  </div>
+    </main>
+
 </div>
 
-<div class="detail_card" id="dc">
-  <div style="background:#fff;border-radius:14px;width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)">
-    <div style="padding:20px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div style="font-size:16px;font-weight:700">Detail Pesanan</div>
-        <div style="font-size:12px;color:var(--t2)">#ORD-001 · Desain Logo Profesional</div>
-      </div>
-      <button onclick="closeDetail()" style="font-size:20px;background:none;border:none;cursor:pointer;color:var(--t2)">✕</button>
+<!-- Detail Modal Popup -->
+<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalTitle">Detail Pesanan</h3>
+            <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
+        </div>
+        <div id="modalContent"></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
+            <button onclick="closeDetail()" class="btn" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;">Tutup</button>
+        </div>
     </div>
-    <div style="padding:20px">
-      <div style="display:flex;gap:20px;margin-bottom:20px">
-        <div style="flex:1;padding:14px;background:var(--bg);border-radius:8px">
-          <div class="txt-sm mb12">Freelancer</div>
-          <div class="row"><div class="av av-m" style="background:linear-gradient(135deg,#f093fb,#f5576c)">RK</div><div><div style="font-weight:600">Rina Kartika</div><div class="txt-sm">⭐ 4.9 (87 ulasan)</div></div></div>
-        </div>
-        <div style="flex:1;padding:14px;background:var(--bg);border-radius:8px">
-          <div class="txt-sm mb12">Status</div>
-          <span class="bdg bg-p">Dalam Proses</span>
-          <div class="txt-sm" style="margin-top:6px">Deadline: 10 Mei 2025</div>
-        </div>
-      </div>
-      <div style="margin-bottom:20px">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px">Progress Pengerjaan</div>
-        <div class="tl">
-          <div class="tl-i">
-            <div class="tl-d tld-ok">✓</div>
-            <div><div class="tl-t">Pesanan Dibuat</div><div class="tl-s">01 Mei 2025, 10:30</div></div>
-          </div>
-          <div class="tl-i">
-            <div class="tl-d tld-ok">✓</div>
-            <div><div class="tl-t">Pembayaran Diterima</div><div class="tl-s">01 Mei 2025, 10:35</div></div>
-          </div>
-          <div class="tl-i">
-            <div class="tl-d tld-act">⟳</div>
-            <div><div class="tl-t">Sedang Dikerjakan</div><div class="tl-s">Estimasi selesai 10 Mei 2025</div></div>
-          </div>
-          <div class="tl-i">
-            <div class="tl-d tld-no">○</div>
-            <div><div class="tl-t" style="color:var(--t3)">Revisi (jika ada)</div><div class="tl-s">Menunggu</div></div>
-          </div>
-          <div class="tl-i">
-            <div class="tl-d tld-no">○</div>
-            <div><div class="tl-t" style="color:var(--t3)">Selesai</div><div class="tl-s">Menunggu</div></div>
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end">
-        <a href="pesan.html"><button class="btn btn-g">💬 Hubungi Freelancer</button></a>
-        <button class="btn btn-d btn-sm" onclick="closeDetail()">Batalkan</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-    function openDetail(){document.getElementById('dc').style.display='flex'}
-    function closeDetail(){document.getElementById('dc').style.display='none'}
-    document.getElementById('dc').addEventListener('click',function(e){if(e.target===this)closeDetail()})
+function openDetail(row) {
+    const data = JSON.parse(row.dataset.pesanan);
+    document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
+
+    const statusMap = {pending:'Menunggu',diproses:'Diproses',selesai:'Selesai',dibatalkan:'Dibatalkan'};
+
+    document.getElementById('modalContent').innerHTML = `
+        <table style="width:100%;font-size:14px;border-collapse:collapse;">
+            <tr><td style="padding:8px 0;color:#64748b;width:40%;">Nama Jasa</td><td style="padding:8px 0;font-weight:600;color:#1e293b;">${data.nama_jasa}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Freelancer</td><td style="padding:8px 0;color:#1e293b;">${data.nama_freelancer || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Tanggal</td><td style="padding:8px 0;color:#1e293b;">${data.created_at || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Deadline</td><td style="padding:8px 0;color:#1e293b;">${data.deadline || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
+        </table>`;
+    document.getElementById('detailModal').style.display = 'flex';
+}
+
+function closeDetail() {
+    document.getElementById('detailModal').style.display = 'none';
+}
+
+document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDetail();
+});
+
+<?php if ($selectedId): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('tr[data-pesanan]');
+    rows.forEach(row => {
+        const d = JSON.parse(row.dataset.pesanan);
+        if (d.id_pesanan == <?= (int)$selectedId ?>) openDetail(row);
+    });
+});
+<?php endif; ?>
 </script>
+
 </body>
 </html>

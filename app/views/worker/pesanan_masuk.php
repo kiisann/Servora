@@ -1,204 +1,113 @@
+<?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/auth/login');
+    exit;
+}
+$sessionNama  = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
+$pesananList  = $pesanan ?? [];
+$selectedId   = $selected_id ?? null;
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Masuk - Servora Worker</title>
-    <link rel="stylesheet" href="../../public/css/style-worker.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Pesanan Masuk – Servora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 
 <div class="dashboard-container">
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-icon">S</div>
-            <h2>Servora</h2>
-        </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-title">Menu Freelancer</div>
-
-            <a href="dashboard.php" class="nav-item">
-                <i class='bx bxs-dashboard'></i>
-                Dashboard
-            </a>
-            <a href="jelajahi_jasa.php" class="nav-item">
-                <i class='bx bx-compass'></i>
-                Jelajahi Jasa
-            </a>
-            <a href="kelola_jasa.php" class="nav-item">
-                <i class='bx bx-store'></i>
-                Kelola Jasa
-            </a>
-            <a href="tambah_jasa.php" class="nav-item">
-                <i class='bx bx-plus-circle'></i>
-                Tambah Jasa
-            </a>
-            <a href="pesanan_masuk.php" class="nav-item active">
-                <i class='bx bx-package'></i>
-                Pesanan Masuk
-            </a>
-            <a href="riwayat.php" class="nav-item">
-                <i class='bx bx-history'></i>
-                Riwayat
-            </a>
-            <a href="profil.php" class="nav-item">
-                <i class='bx bx-user'></i>
-                Profil
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="user-profile-small">
-                <img src="https://i.pravatar.cc/150?img=47" alt="Avatar Pengguna">
-                <div class="user-info">
-                    <div class="name">Pengguna Servora</div>
-                    <div class="role">Freelancer</div>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <header class="top-navbar">
-        <div class="navbar-right">
-            <button class="icon-btn" title="Notifikasi">
-                <i class='bx bx-bell'></i>
-            </button>
-            <img src="https://i.pravatar.cc/150?img=47" alt="Profil" class="profile-avatar">
-        </div>
-    </header>
+    <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
 
     <main class="main-content">
-        <div class="content-wrapper">
 
-            <div class="orders-page-header">
-                <div class="orders-page-header-left">
-                    <h1>Pesanan Masuk</h1>
-                    <p>Kelola dan pantau status seluruh pesanan.</p>
-                </div>
-                <div class="orders-search">
-                    <i class='bx bx-search'></i>
-                    <input type="text" id="searchOrder" placeholder="Cari pesanan..." oninput="filterOrders()">
+        <header class="top-header">
+            <div class="header-left">
+                <h1 class="page-title">Pesanan Masuk</h1>
+                <p class="page-subtitle">Kelola dan pantau status seluruh pesanan.</p>
+            </div>
+            <div class="header-right">
+                <div style="position:relative;max-width:260px;">
+                    <input type="text" id="searchOrder" placeholder="Cari pesanan..." oninput="filterOrders()"
+                           style="width:100%;padding:10px 14px 10px 36px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#94a3b8" width="16" height="16"
+                         style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                    </svg>
                 </div>
             </div>
+        </header>
 
-            <div class="orders-table-wrap">
+        <div class="page-content">
 
-                <div class="tab-filter" id="tabFilter">
-                    <button class="tab-item active" onclick="setTab(this, 'semua')">Semua</button>
-                    <button class="tab-item" onclick="setTab(this, 'berlangsung')">Berlangsung</button>
-                    <button class="tab-item" onclick="setTab(this, 'selesai')">Selesai</button>
-                    <button class="tab-item" onclick="setTab(this, 'dibatalkan')">Dibatalkan</button>
+            <!-- Tab Filter -->
+            <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+                <button class="tab-btn active" onclick="setTab(this,'semua')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Semua</button>
+                <button class="tab-btn" onclick="setTab(this,'pending')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Menunggu</button>
+                <button class="tab-btn" onclick="setTab(this,'diproses')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Berlangsung</button>
+                <button class="tab-btn" onclick="setTab(this,'selesai')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Selesai</button>
+                <button class="tab-btn" onclick="setTab(this,'dibatalkan')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Dibatalkan</button>
+            </div>
+
+            <div class="card-container">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                        <thead>
+                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Client</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersBody">
+                            <?php if (!empty($pesananList)): ?>
+                                <?php foreach($pesananList as $p): ?>
+                                <?php
+                                    $badgeClass = match($p['status']) {
+                                        'pending'    => 'warning',
+                                        'diproses'   => 'info',
+                                        'selesai'    => 'success',
+                                        'dibatalkan' => 'danger',
+                                        default      => 'info'
+                                    };
+                                    $badgeText = match($p['status']) {
+                                        'pending'    => 'Menunggu',
+                                        'diproses'   => 'Berlangsung',
+                                        'selesai'    => 'Selesai',
+                                        'dibatalkan' => 'Dibatalkan',
+                                        default      => ucfirst($p['status'])
+                                    };
+                                ?>
+                                <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;"
+                                    data-pesanan='<?= json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
+                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
+                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
+                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td style="padding:12px 16px;">
+                                        <button style="font-size:12px;padding:4px 12px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;color:#6366f1;font-weight:600;"
+                                                onclick="openDetail(this.closest('tr'))">Detail</button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" style="padding:40px 16px;text-align:center;color:#94a3b8;">
+                                        Belum ada pesanan masuk.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="orders-table" id="ordersTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Jasa</th>
-                            <th>Client</th>
-                            <th>Status</th>
-                            <th style="text-align:right;">Harga</th>
-                            <th>Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersBody">
-
-                        <tr data-status="berlangsung" data-search="desain poster feed instagram andi">
-                            <td><span class="order-id">ORD-1024</span></td>
-                            <td><span class="order-name">Desain Poster &amp; Feed Instagram</span></td>
-                            <td>Andi P.</td>
-                            <td><span class="badge info">Berlangsung</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp50.000</td>
-                            <td class="order-date">2026-04-28</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1024')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="menunggu" data-search="bantuan coding web rina">
-                            <td><span class="order-id">ORD-1025</span></td>
-                            <td><span class="order-name">Bantuan Coding Web</span></td>
-                            <td>Rina S.</td>
-                            <td><span class="badge warning">Menunggu</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp150.000</td>
-                            <td class="order-date">2026-04-29</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1025')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="selesai" data-search="penerjemahan jurnal bagus">
-                            <td><span class="order-id">ORD-1026</span></td>
-                            <td><span class="order-name">Penerjemahan Jurnal</span></td>
-                            <td>Bagus W.</td>
-                            <td><span class="badge success">Selesai</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp35.000</td>
-                            <td class="order-date">2026-04-25</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1026')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="selesai" data-search="konsultasi spss mega">
-                            <td><span class="order-id">ORD-1027</span></td>
-                            <td><span class="order-name">Konsultasi SPSS</span></td>
-                            <td>Mega L.</td>
-                            <td><span class="badge success">Selesai</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp80.000</td>
-                            <td class="order-date">2026-04-22</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1027')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="dibatalkan" data-search="slide powerpoint yoga">
-                            <td><span class="order-id">ORD-1028</span></td>
-                            <td><span class="order-name">Slide PowerPoint</span></td>
-                            <td>Yoga T.</td>
-                            <td><span class="badge danger">Dibatalkan</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp65.000</td>
-                            <td class="order-date">2026-04-20</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1028')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="berlangsung" data-search="desain logo brand tika">
-                            <td><span class="order-id">ORD-1029</span></td>
-                            <td><span class="order-name">Desain Logo &amp; Brand Identity</span></td>
-                            <td>Tika M.</td>
-                            <td><span class="badge info">Berlangsung</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp120.000</td>
-                            <td class="order-date">2026-04-30</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1029')">Detail</a>
-                            </td>
-                        </tr>
-
-                        <tr data-status="menunggu" data-search="edit video reel sari">
-                            <td><span class="order-id">ORD-1030</span></td>
-                            <td><span class="order-name">Edit Video Reel TikTok</span></td>
-                            <td>Sari A.</td>
-                            <td><span class="badge warning">Menunggu</span></td>
-                            <td class="order-price-cell" style="text-align:right;">Rp75.000</td>
-                            <td class="order-date">2026-05-01</td>
-                            <td>
-                                <a href="#" class="order-action-link" onclick="openDetail('ORD-1030')">Detail</a>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-                <div class="empty-state" id="emptyState" style="display:none;">
-                    <i class='bx bx-package'></i>
-                    <p>Tidak ada pesanan ditemukan.</p>
-                </div>
-
             </div>
 
         </div>
@@ -206,142 +115,104 @@
 
 </div>
 
-<!-- Detail Modal -->
-<div id="detailModal" style="
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.4); z-index:500;
-  align-items:center; justify-content:center;">
-    <div style="
-      background:#fff; border-radius:16px; padding:28px 32px;
-      max-width:440px; width:90%;
-      box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+<!-- Detail Modal Popup -->
+<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-            <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalOrderId">Detail Pesanan</h3>
-            <button onclick="closeDetail()" style="background:none;border:none;font-size:20px;color:#64748b;cursor:pointer;">
-                <i class='bx bx-x'></i>
-            </button>
+            <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalTitle">Detail Pesanan</h3>
+            <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
         </div>
         <div id="modalContent"></div>
-        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
-            <button onclick="closeDetail()" class="btn-secondary">Tutup</button>
-            <button class="btn-primary" id="modalActionBtn" onclick="closeDetail()">
-                <i class='bx bx-check'></i> Tandai Selesai
-            </button>
-        </div>
+        <div id="modalActions" style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;"></div>
     </div>
 </div>
 
 <script>
-  let activeTab = 'semua';
+let activeTab = 'semua';
 
-  // Sidebar
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-
-  // Tab
-  function setTab(btn, tab) {
+function setTab(btn, tab) {
     activeTab = tab;
-    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    filterOrders();
-  }
-
-  // Filter gabungan: tab + pencarian
-  function filterOrders() {
-    const keyword = document.getElementById('searchOrder').value.toLowerCase();
-    const rows = document.querySelectorAll('#ordersBody tr');
-    let visible = 0;
-
-    rows.forEach(row => {
-      const status = row.dataset.status;
-      const searchText = row.dataset.search;
-
-      // Tab match: "berlangsung" tab shows berlangsung+menunggu
-      let tabMatch = false;
-      if (activeTab === 'semua') tabMatch = true;
-      else if (activeTab === 'berlangsung') tabMatch = (status === 'berlangsung' || status === 'menunggu');
-      else tabMatch = (status === activeTab);
-
-      const kwMatch = !keyword || searchText.includes(keyword);
-
-      if (tabMatch && kwMatch) {
-        row.style.display = '';
-        visible++;
-      } else {
-        row.style.display = 'none';
-      }
+    document.querySelectorAll('.tab-btn').forEach(t => {
+        t.style.background = '#fff';
+        t.style.color = '#475569';
+        t.style.borderColor = '#e2e8f0';
     });
+    btn.style.background = '#6366f1';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#6366f1';
+    filterOrders();
+}
 
-    document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
-  }
+function filterOrders() {
+    const keyword = document.getElementById('searchOrder').value.toLowerCase();
+    const rows = document.querySelectorAll('#ordersBody tr[data-status]');
+    rows.forEach(row => {
+        const status = row.dataset.status;
+        const text = row.textContent.toLowerCase();
+        let tabMatch = activeTab === 'semua' || status === activeTab;
+        const kwMatch = !keyword || text.includes(keyword);
+        row.style.display = (tabMatch && kwMatch) ? '' : 'none';
+    });
+}
 
-  // Data pesanan
-  const orderData = {
-    'ORD-1024': { jasa: 'Desain Poster & Feed Instagram', client: 'Andi Pratama', harga: 'Rp50.000', tanggal: '2026-04-28', status: 'Berlangsung', statusClass: 'info', deadline: '2026-05-05' },
-    'ORD-1025': { jasa: 'Bantuan Coding Web', client: 'Rina Suryani', harga: 'Rp150.000', tanggal: '2026-04-29', status: 'Menunggu', statusClass: 'warning', deadline: '2026-05-06' },
-    'ORD-1026': { jasa: 'Penerjemahan Jurnal', client: 'Bagus Wibowo', harga: 'Rp35.000', tanggal: '2026-04-25', status: 'Selesai', statusClass: 'success', deadline: '2026-04-27' },
-    'ORD-1027': { jasa: 'Konsultasi SPSS', client: 'Mega Lestari', harga: 'Rp80.000', tanggal: '2026-04-22', status: 'Selesai', statusClass: 'success', deadline: '2026-04-24' },
-    'ORD-1028': { jasa: 'Slide PowerPoint', client: 'Yoga Tama', harga: 'Rp65.000', tanggal: '2026-04-20', status: 'Dibatalkan', statusClass: 'danger', deadline: '-' },
-    'ORD-1029': { jasa: 'Desain Logo & Brand Identity', client: 'Tika Maulidya', harga: 'Rp120.000', tanggal: '2026-04-30', status: 'Berlangsung', statusClass: 'info', deadline: '2026-05-10' },
-    'ORD-1030': { jasa: 'Edit Video Reel TikTok', client: 'Sari Ananda', harga: 'Rp75.000', tanggal: '2026-05-01', status: 'Menunggu', statusClass: 'warning', deadline: '2026-05-07' },
-  };
+function openDetail(row) {
+    const data = JSON.parse(row.dataset.pesanan);
+    document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
 
-  function openDetail(orderId) {
-    const d = orderData[orderId];
-    if (!d) return;
-
-    document.getElementById('modalOrderId').textContent = 'Detail Pesanan — ' + orderId;
-
-    const btnAction = document.getElementById('modalActionBtn');
-    if (d.status === 'Selesai' || d.status === 'Dibatalkan') {
-      btnAction.style.display = 'none';
-    } else {
-      btnAction.style.display = 'inline-flex';
-    }
+    const statusMap = {pending:'Menunggu',diproses:'Berlangsung',selesai:'Selesai',dibatalkan:'Dibatalkan'};
 
     document.getElementById('modalContent').innerHTML = `
-      <table style="width:100%;font-size:14px;border-collapse:collapse;">
-        <tr>
-          <td style="padding:8px 0;color:#64748b;width:40%;">Nama Jasa</td>
-          <td style="padding:8px 0;font-weight:600;color:#1e293b;">${d.jasa}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 0;color:#64748b;">Client</td>
-          <td style="padding:8px 0;color:#1e293b;">${d.client}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 0;color:#64748b;">Harga</td>
-          <td style="padding:8px 0;font-weight:700;color:#1e293b;">${d.harga}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 0;color:#64748b;">Tanggal Pesan</td>
-          <td style="padding:8px 0;color:#1e293b;">${d.tanggal}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 0;color:#64748b;">Deadline</td>
-          <td style="padding:8px 0;color:#1e293b;">${d.deadline}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 0;color:#64748b;">Status</td>
-          <td style="padding:8px 0;">
-            <span class="badge ${d.statusClass}">${d.status}</span>
-          </td>
-        </tr>
-      </table>`;
+        <table style="width:100%;font-size:14px;border-collapse:collapse;">
+            <tr><td style="padding:8px 0;color:#64748b;width:40%;">Nama Jasa</td><td style="padding:8px 0;font-weight:600;color:#1e293b;">${data.nama_jasa}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Client</td><td style="padding:8px 0;color:#1e293b;">${data.nama_client || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Tanggal</td><td style="padding:8px 0;color:#1e293b;">${data.created_at || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Deadline</td><td style="padding:8px 0;color:#1e293b;">${data.deadline || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
+        </table>`;
 
-    const modal = document.getElementById('detailModal');
-    modal.style.display = 'flex';
-  }
+    let actionsHtml = `<button onclick="closeDetail()" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;">Tutup</button>`;
 
-  function closeDetail() {
+    if (data.status === 'pending') {
+        actionsHtml += `
+            <form method="POST" action="<?= BASE_URL ?>/pesanan/updateStatus/${data.id_pesanan}" style="display:inline;">
+                <input type="hidden" name="status" value="diproses">
+                <button type="submit" style="padding:8px 16px;border:none;border-radius:8px;background:#6366f1;color:#fff;cursor:pointer;font-weight:600;">Terima Pesanan</button>
+            </form>`;
+    } else if (data.status === 'diproses') {
+        actionsHtml += `
+            <form method="POST" action="<?= BASE_URL ?>/pesanan/updateStatus/${data.id_pesanan}" style="display:inline;">
+                <input type="hidden" name="status" value="selesai">
+                <button type="submit" style="padding:8px 16px;border:none;border-radius:8px;background:#10b981;color:#fff;cursor:pointer;font-weight:600;">Tandai Selesai</button>
+            </form>`;
+    }
+    document.getElementById('modalActions').innerHTML = actionsHtml;
+
+    document.getElementById('detailModal').style.display = 'flex';
+}
+
+function closeDetail() {
     document.getElementById('detailModal').style.display = 'none';
-  }
+}
 
-  // Tutup saat klik backdrop
-  document.getElementById('detailModal').addEventListener('click', function(e) {
+document.getElementById('detailModal').addEventListener('click', function(e) {
     if (e.target === this) closeDetail();
-  });
+});
+
+// Init: set first tab active style
+document.querySelector('.tab-btn').style.background = '#6366f1';
+document.querySelector('.tab-btn').style.color = '#fff';
+document.querySelector('.tab-btn').style.borderColor = '#6366f1';
+
+<?php if ($selectedId): ?>
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('tr[data-pesanan]');
+    rows.forEach(row => {
+        const d = JSON.parse(row.dataset.pesanan);
+        if (d.id_pesanan == <?= (int)$selectedId ?>) openDetail(row);
+    });
+});
+<?php endif; ?>
 </script>
 
 </body>
