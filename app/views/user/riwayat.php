@@ -1,178 +1,121 @@
 <?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/auth/login');
+    exit;
+}
+$sessionNama   = htmlspecialchars($_SESSION['nama'] ?? 'Pengguna');
+$riwayatList   = $riwayat ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Riwayat Pesanan – Servora Client</title>
-  <meta name="description" content="Lihat semua riwayat pesanan jasamu di Servora." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../public/css/style_user.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan – Servora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
-<div class="layout">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon">S</div>
-      <span class="logo-text">Servora</span>
-    </div>
-    <div class="sidebar-section-label">Area Client</div>
-    <nav class="sidebar-nav">
-      <a href="dashboard.php" id="nav-dashboard">
-        Dashboard
-      </a>
-      <a href="cari_jasa.php" id="nav-cari">
-        Cari Jasa
-      </a>
-      <a href="riwayat.php" class="active" id="nav-riwayat">
-        Riwayat Pesanan
-      </a>
-      <a href="profil.php" id="nav-profil">
-        Profil
-      </a>
-    </nav>
-    <div class="sidebar-user">
-      <a href="profil.php" style="display:flex;align-items:center;gap:10px;">
-        <div class="avatar">R</div>
-        <div class="user-info">
-          <div class="user-name">Rina Pratiwi</div>
-          <div class="user-email">rina@student.ac.id</div>
+<div class="dashboard-container">
+
+    <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
+
+    <main class="main-content">
+
+        <header class="top-header">
+            <div class="header-left">
+                <h1 class="page-title">Riwayat Pesanan</h1>
+                <p class="page-subtitle">Semua pesanan yang sudah selesai atau dibatalkan.</p>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                        Pesan Jasa Baru
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <!-- Filter -->
+            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+                <div style="position:relative;max-width:280px;flex:1;">
+                    <input type="text" id="searchOrder" placeholder="Cari riwayat..." oninput="filterOrders()"
+                           style="width:100%;padding:10px 14px 10px 36px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#94a3b8" width="16" height="16"
+                         style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                    </svg>
+                </div>
+                <select id="filterStatus" onchange="filterOrders()"
+                        style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;background:#fff;">
+                    <option value="">Semua status</option>
+                    <option value="selesai">Selesai</option>
+                    <option value="dibatalkan">Dibatalkan</option>
+                </select>
+            </div>
+
+            <div class="card-container">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                        <thead>
+                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Freelancer</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
+                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="riwayatBody">
+                            <?php if (!empty($riwayatList)): ?>
+                                <?php foreach($riwayatList as $p): ?>
+                                <?php
+                                    $badgeClass = $p['status'] === 'selesai' ? 'success' : 'danger';
+                                    $badgeText  = $p['status'] === 'selesai' ? 'Selesai' : 'Dibatalkan';
+                                ?>
+                                <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;">
+                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
+                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
+                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5" style="padding:40px 16px;text-align:center;color:#94a3b8;">
+                                        Belum ada riwayat pesanan.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-      </a>
-      <button class="logout-btn" title="Keluar" onClick="window.location.href='../../views/auth/login.php'">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0l-3-3m3 3H9" /></svg>
-      </button>
-    </div>
-  </aside>
+    </main>
 
-  <!-- MAIN -->
-  <div class="main">
-    <header class="topbar">
-      <div class="topbar-title">
-        <h1>Riwayat Pesanan</h1>
-        <p>Semua pesanan yang pernah kamu buat.</p>
-      </div>
-      <a href="cari_jasa.php" class="btn btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-        Pesan Jasa Baru
-      </a>
-    </header>
-
-    <div class="page-content">
-
-      <!-- FILTER BAR -->
-      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-        <div class="search-input-wrap" style="max-width:280px;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
-          <input type="text" id="search-order" placeholder="Cari pesanan..." oninput="filterOrders()" />
-        </div>
-        <select class="filter-select" id="filter-status" onchange="filterOrders()">
-          <option value="">Semua status</option>
-          <option value="Diproses">Diproses</option>
-          <option value="Selesai">Selesai</option>
-          <option value="Dibatalkan">Dibatalkan</option>
-        </select>
-      </div>
-
-      <!-- TABLE -->
-      <div class="table-wrap">
-        <table id="orders-table">
-          <thead>
-            <tr>
-              <th>ID Pesanan</th>
-              <th>Jasa</th>
-              <th>Freelancer</th>
-              <th>Tanggal</th>
-              <th>Harga</th>
-              <th>Status</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-status="Diproses">
-              <td style="font-weight:600;color:var(--gray-700);">ORD-1024</td>
-              <td>
-                <div style="font-weight:600;color:var(--gray-800);">Pembuatan Website Portofolio React</div>
-                <div style="font-size:12px;color:var(--gray-400);">Programming</div>
-              </td>
-              <td>Citra Anindya</td>
-              <td>2026-04-28</td>
-              <td style="font-weight:600;color:var(--primary);">Rp 450.000</td>
-              <td><span class="badge badge-blue">Diproses</span></td>
-              <td>
-                <!-- <a href="detail_jasa.php" class="btn btn-outline btn-sm">Lihat</a> -->
-                <a href="#" class="btn btn-outline btn-sm">Lihat</a>
-              </td>
-            </tr>
-            <tr data-status="Selesai">
-              <td style="font-weight:600;color:var(--gray-700);">ORD-1023</td>
-              <td>
-                <div style="font-weight:600;color:var(--gray-800);">Jasa Pengetikan &amp; Penulisan Makalah</div>
-                <div style="font-size:12px;color:var(--gray-400);">Penulisan</div>
-              </td>
-              <td>Bagus Pratama</td>
-              <td>2026-04-25</td>
-              <td style="font-weight:600;color:var(--primary);">Rp 35.000</td>
-              <td><span class="badge badge-green">Selesai</span></td>
-              <td>
-                <!-- <a href="detail_jasa.php" class="btn btn-outline btn-sm">Lihat</a> -->
-                <a href="#" class="btn btn-outline btn-sm">Lihat</a>
-              </td>
-            </tr>
-            <tr data-status="Selesai">
-              <td style="font-weight:600;color:var(--gray-700);">ORD-1018</td>
-              <td>
-                <div style="font-weight:600;color:var(--gray-800);">Bantuan Tugas Statistika &amp; SPSS</div>
-                <div style="font-size:12px;color:var(--gray-400);">Data &amp; Analisis</div>
-              </td>
-              <td>Dio Saputra</td>
-              <td>2026-03-14</td>
-              <td style="font-weight:600;color:var(--primary);">Rp 120.000</td>
-              <td><span class="badge badge-green">Selesai</span></td>
-              <td>
-                <!-- <a href="detail_jasa.php" class="btn btn-outline btn-sm">Lihat</a> -->
-                <a href="#" class="btn btn-outline btn-sm">Lihat</a>
-              </td>
-            </tr>
-            <tr data-status="Dibatalkan">
-              <td style="font-weight:600;color:var(--gray-700);">ORD-1010</td>
-              <td>
-                <div style="font-weight:600;color:var(--gray-800);">Desain Slide Presentasi Profesional</div>
-                <div style="font-size:12px;color:var(--gray-400);">Desain Grafis</div>
-              </td>
-              <td>Hanifah Zahra</td>
-              <td>2026-02-20</td>
-              <td style="font-weight:600;color:var(--primary);">Rp 75.000</td>
-              <td><span class="badge badge-gray">Dibatalkan</span></td>
-              <td>
-                <!-- <a href="detail_jasa.php" class="btn btn-outline btn-sm">Lihat</a> -->
-                <a href="#" class="btn btn-outline btn-sm">Lihat</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
 </div>
 
 <script>
-  function filterOrders() {
-    const q = document.getElementById('search-order').value.toLowerCase();
-    const status = document.getElementById('filter-status').value;
-    const rows = document.querySelectorAll('#orders-table tbody tr');
+function filterOrders() {
+    const q = document.getElementById('searchOrder').value.toLowerCase();
+    const status = document.getElementById('filterStatus').value;
+    const rows = document.querySelectorAll('#riwayatBody tr[data-status]');
     rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      const rowStatus = row.dataset.status;
-      const show = text.includes(q) && (status === '' || rowStatus === status);
-      row.style.display = show ? '' : 'none';
+        const text = row.textContent.toLowerCase();
+        const rowStatus = row.dataset.status;
+        const show = text.includes(q) && (status === '' || rowStatus === status);
+        row.style.display = show ? '' : 'none';
     });
-  }
+}
 </script>
+
 </body>
 </html>

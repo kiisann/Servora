@@ -1,4 +1,10 @@
 <?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . BASE_URL . '/auth/login');
+    exit;
+}
+$sessionNama  = htmlspecialchars($_SESSION['nama'] ?? 'Pengguna');
+$sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -9,63 +15,31 @@
   <meta name="description" content="Dashboard client Servora – pantau pesanan dan temukan jasa mahasiswa terbaik." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../public/css/style_user.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css" />
 </head>
 <body>
-<div class="layout">
+<div class="dashboard-container">
 
-  <!-- SIDEBAR -->
-  <!-- <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon">S</div>
-      <span class="logo-text">Servora</span>
-    </div>
+  <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
 
-    <div class="sidebar-section-label">Area Client</div>
-    <nav class="sidebar-nav">
-      <a href="dashboard.php" class="active" id="nav-dashboard">
-        Dashboard
-      </a>
-      <a href="cari_jasa.php" id="nav-cari">
-        Cari Jasa
-      </a>
-      <a href="riwayat.php" id="nav-riwayat">
-        Riwayat Pesanan
-      </a>
-      <a href="profil.php" id="nav-profil">
-        Profil
-      </a>
-    </nav>
+  <div class="main-content">
 
-    <div class="sidebar-user">
-      <a href="profil.php" style="display:flex;align-items:center;gap:10px;">
-        <div class="avatar">R</div>
-        <div class="user-info">
-          <div class="user-name">Rina Pratiwi</div>
-          <div class="user-email">rina@student.ac.id</div>
-        </div>
-      </a>
-      <button class="logout-btn" title="Keluar" onClick="window.location.href='../../views/auth/login.php'">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0l-3-3m3 3H9" /></svg>
-      </button>
-    </div>
-  </aside> -->
-
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <div class="topbar-title">
-        <h1>Dashboard</h1>
-        <p>Halo Rina, ini ringkasan aktivitasmu.</p>
+    <header class="top-header">
+      <div class="header-left">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Halo <?= $sessionNama ?>, ini ringkasan aktivitasmu.</p>
       </div>
-      <a href="cari_jasa.php" class="btn btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
-        Cari Jasa
-      </a>
+      <div class="header-right">
+        <div class="header-actions">
+          <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
+            Cari Jasa
+          </a>
+          <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profile" class="profile-avatar">
+        </div>
+      </div>
     </header>
 
-    <!-- PAGE CONTENT -->
     <div class="page-content">
 
       <!-- STAT CARDS -->
@@ -76,7 +50,7 @@
           </div>
           <div>
             <div class="stat-label">Total Pesanan</div>
-            <div class="stat-value">2</div>
+            <div class="stat-value"><?= $total_pesanan ?? 0 ?></div>
           </div>
         </div>
         <div class="stat-card">
@@ -85,7 +59,7 @@
           </div>
           <div>
             <div class="stat-label">Sedang Berjalan</div>
-            <div class="stat-value">1</div>
+            <div class="stat-value"><?= $pesanan_berjalan ?? 0 ?></div>
           </div>
         </div>
         <div class="stat-card">
@@ -94,7 +68,7 @@
           </div>
           <div>
             <div class="stat-label">Selesai</div>
-            <div class="stat-value">1</div>
+            <div class="stat-value"><?= $pesanan_selesai ?? 0 ?></div>
           </div>
         </div>
       </div>
@@ -106,23 +80,38 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">Pesanan terbaru</span>
-            <a href="riwayat.php" class="btn btn-ghost btn-sm" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat semua</a>
+            <a href="<?= BASE_URL ?>/riwayat" class="btn btn-ghost btn-sm" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat semua</a>
           </div>
           <div class="card-body" style="padding:0 20px;">
-            <div class="order-item">
-              <div>
-                <div class="order-title">Pembuatan Website Portofolio React</div>
-                <div class="order-meta">ORD-1024 &bull; 2026-04-28</div>
+            <?php if (!empty($recent_pesanan)): ?>
+              <?php foreach($recent_pesanan as $p): ?>
+              <?php
+                $badgeClass = match($p['status']) {
+                  'pending'    => 'badge-yellow',
+                  'diproses'   => 'badge-blue',
+                  'selesai'    => 'badge-green',
+                  'dibatalkan' => 'badge-red',
+                  default      => 'badge-blue'
+                };
+                $badgeText = match($p['status']) {
+                  'pending'    => 'Menunggu',
+                  'diproses'   => 'Diproses',
+                  'selesai'    => 'Selesai',
+                  'dibatalkan' => 'Dibatalkan',
+                  default      => ucfirst($p['status'])
+                };
+              ?>
+              <div class="order-item">
+                <div>
+                  <div class="order-title"><?= htmlspecialchars($p['nama_jasa']) ?></div>
+                  <div class="order-meta">#<?= $p['id_pesanan'] ?> &bull; <?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></div>
+                </div>
+                <span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span>
               </div>
-              <span class="badge badge-blue">Diproses</span>
-            </div>
-            <div class="order-item">
-              <div>
-                <div class="order-title">Jasa Pengetikan &amp; Penulisan Makalah</div>
-                <div class="order-meta">ORD-1023 &bull; 2026-04-25</div>
-              </div>
-              <span class="badge badge-green">Selesai</span>
-            </div>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <div class="order-item"><div><div class="order-meta">Belum ada pesanan.</div></div></div>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -132,7 +121,7 @@
             <span class="card-title">Rekomendasi untukmu</span>
           </div>
           <div class="card-body" style="padding:0 20px;">
-            <div class="rec-item" onclick="location.href='detail-jasa.html'">
+            <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">🎨</div>
               <div style="flex:1;min-width:0;">
                 <div class="rec-title">Desain Logo &amp; Brand Identity ...</div>
@@ -140,7 +129,7 @@
               </div>
               <div class="rating"><span class="star">★</span> 4.9</div>
             </div>
-            <div class="rec-item" onclick="location.href='detail-jasa.html'">
+            <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">✍️</div>
               <div style="flex:1;min-width:0;">
                 <div class="rec-title">Jasa Pengetikan &amp; Penulisan M...</div>
@@ -148,7 +137,7 @@
               </div>
               <div class="rating"><span class="star">★</span> 4.7</div>
             </div>
-            <div class="rec-item" onclick="location.href='detail-jasa.html'">
+            <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">💻</div>
               <div style="flex:1;min-width:0;">
                 <div class="rec-title">Pembuatan Website Portofolio R...</div>
@@ -163,3 +152,6 @@
     </div>
   </div>
 </div>
+
+</body>
+</html>

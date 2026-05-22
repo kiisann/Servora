@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Servora</title>
-    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body class="login-body">
 
@@ -32,7 +32,21 @@
             <h2>Masuk Akun</h2>
             <p class="login-subtitle">Gunakan email dan password untuk melanjutkan.</p>
 
-            <form action="proses_login.php" method="POST">
+            <?php if (!empty($_SESSION['error'])): ?>
+                <div class="alert alert-error">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
+            <?php if (!empty($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($_SESSION['success']) ?>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+
+            <form action="<?= BASE_URL ?>/auth/loginProcess" method="POST">
                 <div class="form-group-login">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="nama@email.com" required>
@@ -54,18 +68,12 @@
                 <button type="submit" class="login-submit">Masuk</button>
             </form>
 
-            <div class="loginsm">
-                <a href="../../views/admin/dashboard.php">Admin</a>
-                <a href="../../views/user/dashboard.php">User</a>
-                <a href="../../views/worker/dashboard.php">Worker</a>
-            </div>
-
             <p class="register-text">
                 Belum punya akun?
-                <a href="register.php">Daftar sekarang</a>
+                <a href="<?= BASE_URL ?>/auth/register">Daftar sekarang</a>
             </p>
 
-            <a href="../../public/index.php" class="back-home">← Kembali ke Beranda</a>
+            <a href="<?= BASE_URL ?>/" class="back-home">← Kembali ke Beranda</a>
         </div>
     </div>
 </div>
