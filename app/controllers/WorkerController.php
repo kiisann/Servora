@@ -186,33 +186,35 @@ class WorkerController extends Controller {
      * Hapus jasa milik freelancer
      */
     public function hapus($id) {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . '/auth/login');
-            exit;
-        }
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ' . BASE_URL . '/auth/login');
+        exit;
+    }
 
-        if ($_SESSION['role'] !== 'freelancer') {
-            header('Location: ' . BASE_URL . '/dashboard');
-            exit;
-        }
+    if ($_SESSION['role'] !== 'freelancer') {
+        header('Location: ' . BASE_URL . '/dashboard');
+        exit;
+    }
 
-        $jasaModel = $this->model('Jasa');
+    $jasaModel = $this->model('Jasa');
 
-        // Pastikan jasa milik freelancer yang login
-        $jasa = $jasaModel->getById($id);
-        if (!$jasa || (int)$jasa['id_user'] !== (int)$_SESSION['user_id']) {
-            $_SESSION['error'] = 'Aksi tidak diizinkan.';
-            header('Location: ' . BASE_URL . '/worker/jasa');
-            exit;
-        }
-
-        if ($jasaModel->delete($id)) {
-            $_SESSION['success'] = 'Jasa berhasil dihapus.';
-        } else {
-            $_SESSION['error'] = 'Gagal menghapus jasa.';
-        }
-
+    // Pastikan jasa milik freelancer yang login
+    $jasa = $jasaModel->getById($id);
+    if (!$jasa || (int)$jasa['id_user'] !== (int)$_SESSION['user_id']) {
+        $_SESSION['error'] = 'Aksi tidak diizinkan.';
         header('Location: ' . BASE_URL . '/worker/jasa');
         exit;
     }
+
+    $result = $jasaModel->deleteByWorker($id, $_SESSION['user_id']);
+
+    if ($result['success']) {
+        $_SESSION['success'] = $result['message'];
+    } else {
+        $_SESSION['error'] = $result['message'];
+    }
+
+    header('Location: ' . BASE_URL . '/worker/jasa');
+    exit;
+}
 }

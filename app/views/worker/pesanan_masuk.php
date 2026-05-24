@@ -58,7 +58,6 @@ $selectedId   = $selected_id ?? null;
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
                         <thead>
                             <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Client</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
@@ -87,7 +86,6 @@ $selectedId   = $selected_id ?? null;
                                 ?>
                                 <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;"
                                     data-pesanan='<?= json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
-                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
                                     <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
                                     <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
                                     <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>

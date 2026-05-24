@@ -64,10 +64,11 @@ class Jasa {
 
     public function getByUser($userId) {
         $query = "SELECT j.*, k.nama_kategori 
-                  FROM jasa j
-                  JOIN kategori_jasa k ON j.id_kategori = k.id_kategori
-                  WHERE j.id_user = ?
-                  ORDER BY j.id_jasa DESC";
+                FROM jasa j
+                JOIN kategori_jasa k ON j.id_kategori = k.id_kategori
+                WHERE j.id_user = ? 
+                AND j.status IN ('aktif', 'nonaktif')
+                ORDER BY j.id_jasa DESC";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $userId);
         mysqli_stmt_execute($stmt);
@@ -107,10 +108,66 @@ class Jasa {
         return $row['total'] ?? 0;
     }
 
-    public function delete($id) {
-        $query = "DELETE FROM jasa WHERE id_jasa = ?";
+    // public function delete($id) {
+    //     $query = "UPDATE jasa SET status = 'nonaktif' WHERE id_jasa = ?";
+    //     $stmt = mysqli_prepare($this->conn, $query);
+    //     mysqli_stmt_bind_param($stmt, "i", $id);
+    //     return mysqli_stmt_execute($stmt);
+    // }
+
+    public function deleteByWorker($idJasa, $idUser) {
+    // Cek apakah jasa sudah pernah dipesan
+    $queryCek = "SELECT COUNT(*) AS total FROM pesanan WHERE id_jasa = ?";
+    $stmtCek = mysqli_prepare($this->conn, $queryCek);
+    mysqli_stmt_bind_param($stmtCek, "i", $idJasa);
+    mysqli_stmt_execute($stmtCek);
+    $resultCek = mysqli_stmt_get_result($stmtCek);
+    $row = mysqli_fetch_assoc($resultCek);
+
+    $totalPesanan = $row['total'] ?? 0;
+
+    // Jika jasa sudah pernah dipesan
+    if ($totalPesanan > 0) {
+        $query = "UPDATE jasa 
+                  SET status = 'dihapus',
+                      deleted_at = NOW()
+                  WHERE id_jasa = ? AND id_user = ?";
         $stmt = mysqli_prepare($this->conn, $query);
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        return mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_param($stmt, "ii", $idJasa, $idUser);
+
+        if (mysqli_stmt_execute($stmt)) {
+            return [
+                'success' => true,
+                'type' => 'soft_delete',
+                'message' => 'Jasa berhasil dihapus dari daftar. Riwayat pesanan tetap disimpan.'
+            ];
+        }
+
+        return [
+            'success' => false,
+            'type' => 'error',
+            'message' => 'Gagal menghapus jasa.'
+        ];
     }
+
+    // Jika jasa belum pernah dipesan
+    $query = "DELETE FROM jasa 
+              WHERE id_jasa = ? AND id_user = ?";
+    $stmt = mysqli_prepare($this->conn, $query);
+    mysqli_stmt_bind_param($stmt, "ii", $idJasa, $idUser);
+
+    if (mysqli_stmt_execute($stmt)) {
+        return [
+            'success' => true,
+            'type' => 'hard_delete',
+            'message' => 'Jasa berhasil dihapus permanen.'
+        ];
+    }
+
+    return [
+        'success' => false,
+        'type' => 'error',
+        'message' => 'Gagal menghapus jasa.'
+    ];
+}
 }

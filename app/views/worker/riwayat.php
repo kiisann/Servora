@@ -56,7 +56,6 @@ $riwayatList = $riwayat ?? [];
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
                         <thead>
                             <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Client</th>
                                 <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
@@ -71,7 +70,6 @@ $riwayatList = $riwayat ?? [];
                                     $badgeText  = $p['status'] === 'selesai' ? 'Selesai' : 'Dibatalkan';
                                 ?>
                                 <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
                                     <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
                                     <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
                                     <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
