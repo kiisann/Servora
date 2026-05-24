@@ -1,0 +1,220 @@
+<?php
+class WorkerController extends Controller {
+
+    /**
+     * Route: /worker/jasa
+     * Sidebar freelancer: "Kelola Jasa" — list semua jasa milik sendiri
+     */
+    public function jasa() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'freelancer') {
+            header('Location: ' . BASE_URL . '/dashboard');
+            exit;
+        }
+
+        $jasaModel    = $this->model('Jasa');
+        $data['jasa'] = $jasaModel->getByUser($_SESSION['user_id']);
+        $data['role'] = $_SESSION['role'];
+        $data['nama'] = $_SESSION['nama'];
+
+        $this->view('worker/kelola_jasa', $data);
+    }
+
+    /**
+     * Route: /worker/tambah
+     * Form tambah jasa baru
+     */
+    public function tambah() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'freelancer') {
+            header('Location: ' . BASE_URL . '/dashboard');
+            exit;
+        }
+
+        $kategoriModel    = $this->model('KategoriJasa');
+        $data['kategori'] = $kategoriModel->getAll();
+        $data['role']     = $_SESSION['role'];
+        $data['nama']     = $_SESSION['nama'];
+        $this->view('worker/tambah_jasa', $data);
+    }
+
+    /**
+     * Route: /worker/simpan (POST)
+     * Simpan jasa baru dari form tambah
+     */
+    public function simpan() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/worker/jasa');
+            exit;
+        }
+
+        $namaJasa  = trim($_POST['nama_jasa'] ?? '');
+        $deskripsi = trim($_POST['deskripsi'] ?? '');
+        $harga     = $_POST['harga'] ?? 0;
+
+        if (empty($namaJasa) || empty($deskripsi) || empty($harga)) {
+            $_SESSION['error'] = 'Nama jasa, deskripsi, dan harga wajib diisi.';
+            header('Location: ' . BASE_URL . '/worker/tambah');
+            exit;
+        }
+
+        $jasaModel = $this->model('Jasa');
+
+        $jasaData = [
+            'id_user'     => $_SESSION['user_id'],
+            'id_kategori' => $_POST['id_kategori'] ?? null,
+            'nama_jasa'   => $namaJasa,
+            'deskripsi'   => $deskripsi,
+            'harga'       => (float)$harga,
+            'gambar'      => null,
+            'status'      => 'aktif',
+        ];
+
+        if ($jasaModel->create($jasaData)) {
+            $_SESSION['success'] = 'Jasa berhasil ditambahkan!';
+        } else {
+            $_SESSION['error'] = 'Gagal menambahkan jasa, coba lagi.';
+        }
+
+        header('Location: ' . BASE_URL . '/worker/jasa');
+        exit;
+    }
+
+    /**
+     * Route: /worker/edit/:id
+     * Form edit jasa — menampilkan form kelola_jasa dengan data jasa yang dipilih
+     */
+    public function edit($id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'freelancer') {
+            header('Location: ' . BASE_URL . '/dashboard');
+            exit;
+        }
+
+        $jasaModel         = $this->model('Jasa');
+        $kategoriModel     = $this->model('KategoriJasa');
+
+        $data['jasa_item'] = $jasaModel->getById($id);
+        $data['jasa']      = $jasaModel->getByUser($_SESSION['user_id']); // list semua jasa milik sendiri
+        $data['kategori']  = $kategoriModel->getAll();
+        $data['role']      = $_SESSION['role'];
+        $data['nama']      = $_SESSION['nama'];
+
+        // Pastikan jasa ini milik freelancer yang login
+        if (!$data['jasa_item'] || (int)$data['jasa_item']['id_user'] !== (int)$_SESSION['user_id']) {
+            $_SESSION['error'] = 'Jasa tidak ditemukan atau bukan milik Anda.';
+            header('Location: ' . BASE_URL . '/worker/jasa');
+            exit;
+        }
+
+        $this->view('worker/tambah_jasa', $data);
+    }
+
+    /**
+     * Route: /worker/update/:id (POST)
+     * Simpan perubahan jasa yang diedit
+     */
+    public function update($id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/worker/jasa');
+            exit;
+        }
+
+        $namaJasa  = trim($_POST['nama_jasa'] ?? '');
+        $deskripsi = trim($_POST['deskripsi'] ?? '');
+        $harga     = $_POST['harga'] ?? 0;
+
+        if (empty($namaJasa) || empty($deskripsi) || empty($harga)) {
+            $_SESSION['error'] = 'Nama jasa, deskripsi, dan harga wajib diisi.';
+            header('Location: ' . BASE_URL . '/worker/edit/' . $id);
+            exit;
+        }
+
+        $jasaModel = $this->model('Jasa');
+
+        // Pastikan jasa milik freelancer yang login
+        $jasa = $jasaModel->getById($id);
+        if (!$jasa || (int)$jasa['id_user'] !== (int)$_SESSION['user_id']) {
+            $_SESSION['error'] = 'Aksi tidak diizinkan.';
+            header('Location: ' . BASE_URL . '/worker/jasa');
+            exit;
+        }
+
+        $jasaData = [
+            'id_kategori' => $_POST['id_kategori'] ?? $jasa['id_kategori'],
+            'nama_jasa'   => $namaJasa,
+            'deskripsi'   => $deskripsi,
+            'harga'       => (float)$harga,
+            'gambar'      => $jasa['gambar'], // pertahankan gambar lama
+            'status'      => $_POST['status'] ?? $jasa['status'],
+        ];
+
+        if ($jasaModel->update($id, $jasaData)) {
+            $_SESSION['success'] = 'Jasa berhasil diperbarui!';
+        } else {
+            $_SESSION['error'] = 'Gagal memperbarui jasa, coba lagi.';
+        }
+
+        header('Location: ' . BASE_URL . '/worker/jasa');
+        exit;
+    }
+
+    /**
+     * Route: /worker/hapus/:id (POST)
+     * Hapus jasa milik freelancer
+     */
+    public function hapus($id) {
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ' . BASE_URL . '/auth/login');
+        exit;
+    }
+
+    if ($_SESSION['role'] !== 'freelancer') {
+        header('Location: ' . BASE_URL . '/dashboard');
+        exit;
+    }
+
+    $jasaModel = $this->model('Jasa');
+
+    // Pastikan jasa milik freelancer yang login
+    $jasa = $jasaModel->getById($id);
+    if (!$jasa || (int)$jasa['id_user'] !== (int)$_SESSION['user_id']) {
+        $_SESSION['error'] = 'Aksi tidak diizinkan.';
+        header('Location: ' . BASE_URL . '/worker/jasa');
+        exit;
+    }
+
+    $result = $jasaModel->deleteByWorker($id, $_SESSION['user_id']);
+
+    if ($result['success']) {
+        $_SESSION['success'] = $result['message'];
+    } else {
+        $_SESSION['error'] = $result['message'];
+    }
+
+    header('Location: ' . BASE_URL . '/worker/jasa');
+    exit;
+}
+}
