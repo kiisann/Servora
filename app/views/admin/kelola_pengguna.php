@@ -42,6 +42,7 @@ $pengguna = $pengguna ?? [];
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Bergabung</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
+                                <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +60,12 @@ $pengguna = $pengguna ?? [];
                                     <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
                                     <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
                                     <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
+                                    <td style="padding:12px 16px;text-align:center;">
+                                        <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
+                                           class="btn-delete">
+                                           Hapus
+                                        </a>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>

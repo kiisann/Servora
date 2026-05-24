@@ -47,4 +47,18 @@ class UserController extends Controller {
         header('Location: ' . BASE_URL . '/user');
         exit;
     }
+
+    public function delete($id){
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+        $userModel = $this->model('User');
+        if ($userModel->delete($id)) {
+            header('Location: ' . BASE_URL . '/user');
+            exit;
+        }
+        header('Location: ' . BASE_URL . '/user');
+        exit;
+    }
 }

@@ -23,6 +23,7 @@ class App {
         'jasa'           => ['controller' => 'JasaController',       'method' => 'index'],
         'jasa/detail/:id'=> ['controller' => 'JasaController',       'method' => 'detail'],
         'jasa/create'    => ['controller' => 'JasaController',       'method' => 'create'],
+        'jasa/delete/:id'=> ['controller' => 'JasaController',       'method' => 'delete'],
 
         // ── Pesanan (role-based: client → pesanan, freelancer → pesanan_masuk) ──
         'pesanan'              => ['controller' => 'PesananController', 'method' => 'index'],
@@ -39,6 +40,7 @@ class App {
         // ── User / Kelola Pengguna (admin only) ──
         'user'           => ['controller' => 'UserController',       'method' => 'index'],
         'user/update/:id'=> ['controller' => 'UserController',       'method' => 'update'],
+        'user/delete/:id'=> ['controller' => 'UserController',       'method' => 'delete'],
 
         // ── Worker / Kelola Jasa Freelancer ──
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],
