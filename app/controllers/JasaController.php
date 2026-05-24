@@ -92,4 +92,21 @@ class JasaController extends Controller {
         $data['nama']     = $_SESSION['nama'];
         $this->view('worker/tambah_jasa', $data);
     }
+
+    public function delete($id){
+        if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin'){
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        $jasaModel = $this->model('Jasa');
+        if($jasaModel->delete($id)){
+            header('Location: ' . BASE_URL . '/jasa');
+            exit;
+        }
+
+        header('Location: ' . BASE_URL . '/jasa');
+        exit;
+    }
 }
+
