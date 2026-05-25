@@ -44,7 +44,12 @@ class JasaController extends Controller {
         $jasaModel   = $this->model('Jasa');
         $reviewModel = $this->model('Review');
 
-        $data['jasa']    = $jasaModel->getById($id);
+        $jasa = $jasaModel->getById($id);
+        if (!$jasa) {
+            header('Location: ' . BASE_URL . '/jasa');
+            exit;
+        }
+        $data['jasa']    = $jasa;
         $data['reviews'] = $reviewModel->getByJasa($id);
         $data['role']    = $role;
         $data['nama']    = $_SESSION['nama'];
@@ -56,8 +61,7 @@ class JasaController extends Controller {
             $data['jasa_item'] = $data['jasa'];
             $this->view('worker/kelola_jasa', $data);
         } else {
-            // Client / admin melihat detail jasa untuk dipesan
-            $this->view('user/cari_jasa', $data);
+            $this->view('user/detail_jasa', $data);
         }
     }
 
