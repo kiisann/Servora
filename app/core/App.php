@@ -30,6 +30,12 @@ class App {
         'pesanan/detail/:id'   => ['controller' => 'PesananController', 'method' => 'detail'],
         'pesanan/order'        => ['controller' => 'PesananController', 'method' => 'order'],
         'pesanan/updateStatus/:id' => ['controller' => 'PesananController', 'method' => 'updateStatus'],
+        'pesanan/mulaiDiskusi/:id' => ['controller' => 'PesananController', 'method' => 'mulaiDiskusi'],
+        'pesanan/submitFinal/:id' => ['controller' => 'PesananController', 'method' => 'submitFinal'],
+        'pesanan/batalkan/:id' => ['controller' => 'PesananController', 'method' => 'batalkan'],
+        'pesanan/terimaPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'terimaPembayaran'],
+        'pesanan/tolakPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'tolakPembayaran'],
+        'pesanan/tandaiSelesai/:id' => ['controller' => 'PesananController', 'method' => 'tandaiSelesai'],
 
         // ── Riwayat (role-based: client → riwayat, freelancer → riwayat) ──
         'riwayat'        => ['controller' => 'RiwayatController',    'method' => 'index'],
