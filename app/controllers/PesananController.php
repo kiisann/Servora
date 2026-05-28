@@ -67,34 +67,58 @@ class PesananController extends Controller {
     }
 
     public function order() {
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: ' . BASE_URL . '/auth/login');
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: ' . BASE_URL . '/auth/login');
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $pesananModel  = $this->model('Pesanan');
+        $transaksiModel = $this->model('Transaksi');
+        $jasaModel = $this->model('Jasa');
+
+        $idJasa = $_POST['id_jasa'] ?? null;
+        $idMetode = $_POST['id_metode'] ?? null;
+
+        $jasa = $jasaModel->getById($idJasa);
+
+        if (!$jasa || empty($idMetode)) {
+            $_SESSION['error'] = 'Data pesanan belum lengkap.';
+            header('Location: ' . BASE_URL . '/jasa');
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $pesananModel = $this->model('Pesanan');
+        $pesananData = [
+            'id_client' => $_SESSION['user_id'],
+            'id_jasa'   => $idJasa,
+            'deadline'  => $_POST['deadline'] ?? null,
+            'catatan'   => $_POST['catatan'] ?? '',
+            'status'    => 'pending',
+        ];
 
-            $pesananData = [
-                'id_client' => $_SESSION['user_id'],
-                'id_jasa'   => $_POST['id_jasa']   ?? null,
-                'deadline'  => $_POST['deadline']  ?? null,
-                'catatan'   => $_POST['catatan']   ?? '',
-                'status'    => 'pending',
+        $idPesanan = $pesananModel->create($pesananData);
+
+        if ($idPesanan) {
+            $transaksiData = [
+                'id_pesanan'   => $idPesanan,
+                'total'        => $jasa['harga'],
+                'id_metode'    => $idMetode,
+                'status_bayar' => 'belum lunas',
             ];
 
-            if ($pesananModel->create($pesananData)) {
-                $_SESSION['success'] = 'Pesanan berhasil dibuat!';
-                header('Location: ' . BASE_URL . '/pesanan');
-                exit;
-            } else {
-                $_SESSION['error'] = 'Gagal membuat pesanan, coba lagi.';
-            }
-        }
+            $transaksiModel->create($transaksiData);
 
-        header('Location: ' . BASE_URL . '/jasa');
-        exit;
+            $_SESSION['success'] = 'Pesanan berhasil dibuat!';
+            header('Location: ' . BASE_URL . '/pesanan');
+            exit;
+        } else {
+            $_SESSION['error'] = 'Gagal membuat pesanan, coba lagi.';
+        }
     }
+
+    header('Location: ' . BASE_URL . '/jasa');
+    exit;
+}
 
     public function updateStatus($id) {
         if (!isset($_SESSION['user_id'])) {

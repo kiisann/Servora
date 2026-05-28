@@ -38,18 +38,23 @@ class Pesanan {
     }
 
     public function create($data) {
-        $query = "INSERT INTO pesanan (id_client, id_jasa, status, deadline, catatan) 
-                  VALUES (?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($this->conn, $query);
-        
-        $status = $data['status'] ?? 'pending';
-        
-        mysqli_stmt_bind_param($stmt, "iisss", 
-            $data['id_client'], $data['id_jasa'], $status, 
-            $data['deadline'], $data['catatan']
-        );
-        return mysqli_stmt_execute($stmt);
+    $query = "INSERT INTO pesanan (id_client, id_jasa, status, deadline, catatan) 
+              VALUES (?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($this->conn, $query);
+    
+    $status = $data['status'] ?? 'pending';
+    
+    mysqli_stmt_bind_param($stmt, "iisss", 
+        $data['id_client'], $data['id_jasa'], $status, 
+        $data['deadline'], $data['catatan']
+    );
+
+    if (mysqli_stmt_execute($stmt)) {
+        return mysqli_insert_id($this->conn);
     }
+
+    return false;
+}
 
     public function getByClient($clientId) {
         $query = "SELECT p.*, j.nama_jasa, u.nama as nama_freelancer
