@@ -38,9 +38,10 @@ class App {
         'monitoring'     => ['controller' => 'MonitoringController', 'method' => 'index'],
 
         // ── User / Kelola Pengguna (admin only) ──
-        'user'           => ['controller' => 'UserController',       'method' => 'index'],
-        'user/update/:id'=> ['controller' => 'UserController',       'method' => 'update'],
-        'user/delete/:id'=> ['controller' => 'UserController',       'method' => 'delete'],
+        'user'                  => ['controller' => 'UserController', 'method' => 'index'],
+        'user/update/:id'       => ['controller' => 'UserController', 'method' => 'update'],
+        'user/updateAdmin/:id'  => ['controller' => 'UserController', 'method' => 'updateAdmin'],
+        'user/delete/:id'       => ['controller' => 'UserController', 'method' => 'delete'],
 
         // ── Worker / Kelola Jasa Freelancer ──
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],

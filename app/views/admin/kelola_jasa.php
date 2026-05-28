@@ -54,7 +54,7 @@ $jasaList = $jasa ?? [];
                                     <td style="padding:12px 16px;font-weight:600;">Rp<?= number_format($j['harga'],0,',','.') ?></td>
                                     <td style="padding:12px 16px;"><span class="badge <?= $j['status'] === 'aktif' ? 'success' : 'warning' ?>"><?= ucfirst($j['status']) ?></span></td>
                                     <td style="padding:12px 16px; text-align: center;">
-                                        <button class="text-action-btn view" style="font-size:12px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;color:#6366f1;font-weight:600;">Lihat</button>
+                                        <button class="btn-edit" onclick="openEdit(this.closest('tr'))">Edit</button>
 
                                         <a href="<?= BASE_URL ?>/jasa/delete/<?= $j['id_jasa'] ?>" class="btn-delete">Hapus</a>
                                     </td>

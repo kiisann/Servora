@@ -61,4 +61,31 @@ class UserController extends Controller {
         header('Location: ' . BASE_URL . '/user');
         exit;
     }
+
+    public function updateAdmin($id) {
+    if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        header('Location: ' . BASE_URL . '/auth/login');
+        exit;
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $userModel = $this->model('User');
+        $userData = [
+            'nama'   => $_POST['nama'] ?? '',
+            'email'  => $_POST['email'] ?? '',
+            'role'   => $_POST['role'] ?? 'client',
+            'status' => $_POST['status'] ?? 'aktif',
+            'no_hp'  => $_POST['no_hp'] ?? '',
+            'kampus' => $_POST['kampus'] ?? '',
+            'bio'    => $_POST['bio'] ?? '',
+            'saldo'  => (double)($_POST['saldo'] ?? 0.00)
+        ];
+        if ($userModel->updateByAdmin($id, $userData)) {
+            $_SESSION['success'] = 'Data pengguna berhasil diperbarui!';
+        } else {
+            $_SESSION['error'] = 'Gagal memperbarui data pengguna.';
+        }
+    }
+    header('Location: ' . BASE_URL . '/user');
+    exit;
+    }
 }
