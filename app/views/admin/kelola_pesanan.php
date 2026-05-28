@@ -81,8 +81,7 @@ $selectedId  = $selected_id ?? null;
                                     <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
                                     <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
                                     <td style="padding:12px 16px;">
-                                        <button style="font-size:12px;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;color:#6366f1;font-weight:600;"
-                                                onclick="openDetail(this.closest('tr'))">Detail</button>
+                                        <button class="btn-edit" onclick="openDetail(this.closest('tr'))">Detail</button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

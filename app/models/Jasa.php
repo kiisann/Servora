@@ -52,7 +52,7 @@ class Jasa {
         return mysqli_stmt_execute($stmt);
     }
 
-    public function update($id, $data) {
+    public function updateByAdmin($id, $data) {
         $query = "UPDATE jasa SET id_kategori=?, nama_jasa=?, deskripsi=?, harga=?, gambar=?, status=? WHERE id_jasa=?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "issdssi", 
@@ -108,12 +108,12 @@ class Jasa {
         return $row['total'] ?? 0;
     }
 
-    // public function delete($id) {
-    //     $query = "UPDATE jasa SET status = 'nonaktif' WHERE id_jasa = ?";
-    //     $stmt = mysqli_prepare($this->conn, $query);
-    //     mysqli_stmt_bind_param($stmt, "i", $id);
-    //     return mysqli_stmt_execute($stmt);
-    // }
+    public function delete($id) {
+        $query = "UPDATE jasa SET status = 'nonaktif' WHERE id_jasa = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        return mysqli_stmt_execute($stmt);
+    }
 
     public function deleteByWorker($idJasa, $idUser) {
     // Cek apakah jasa sudah pernah dipesan

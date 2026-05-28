@@ -74,6 +74,23 @@ class User {
         return mysqli_stmt_execute($stmt);
     }
 
+    public function updateByAdmin($id, $data) {
+        $query = "UPDATE users SET nama=?, email=?, role=?, status=?, no_hp=?, kampus=?, bio=?, saldo=? WHERE id_user=?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "sssssssdi",
+            $data['nama'], 
+            $data['email'], 
+            $data['role'], 
+            $data['status'],
+            $data['no_hp'], 
+            $data['kampus'], 
+            $data['bio'], 
+            $data['saldo'], 
+            $id
+        );
+        return mysqli_stmt_execute($stmt);
+    }
+
     /** Total semua user (admin) */
     public function countAll() {
         $query = "SELECT COUNT(*) as total FROM users WHERE role != 'admin'";

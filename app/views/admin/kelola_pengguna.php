@@ -48,7 +48,7 @@ $pengguna = $pengguna ?? [];
                         <tbody>
                             <?php if (!empty($pengguna)): ?>
                                 <?php foreach($pengguna as $u): ?>
-                                <tr style="border-bottom:1px solid #f1f5f9;">
+                                 <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' style="border-bottom:1px solid #f1f5f9;">
                                     <td style="padding:12px 16px;">
                                         <div style="display:flex;align-items:center;gap:10px;">
                                             <div style="width:36px;height:36px;border-radius:50%;background:#ede9fe;color:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
@@ -60,16 +60,20 @@ $pengguna = $pengguna ?? [];
                                     <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
                                     <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
                                     <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
-                                    <td style="padding:12px 16px;text-align:center;">
-                                        <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
-                                           class="btn-delete">
-                                           Hapus
-                                        </a>
-                                    </td>
+                                     <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
+                                         <button type="button" class="btn-edit" onclick="openEdit(this.closest('tr'))">
+                                             Edit
+                                         </button>
+                                         <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
+                                            class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                            Hapus
+                                         </a>
+                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="6" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
+                                <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -78,6 +82,78 @@ $pengguna = $pengguna ?? [];
         </div>
     </main>
 </div>
+
+<!-- Edit Pengguna -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div>
+                <h3 class="modal-title-main" id="modalTitle">Edit Data Pengguna</h3>
+                <p class="modal-subtitle-main">Perbarui informasi lengkap akun pengguna.</p>
+            </div>
+            <button type="button" onclick="closeEdit()" class="modal-close-btn">✕</button>
+        </div>
+
+        <form id="editForm" method="POST" data-action-template="<?= BASE_URL ?>/user/updateAdmin/__ID__">
+            <div class="modal-grid-fields">
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Nama Lengkap</label>
+                    <input type="text" name="nama" id="edit_nama" required class="modal-field-input">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Email</label>
+                    <input type="email" name="email" id="edit_email" required class="modal-field-input">
+                </div>
+
+
+                <div>
+                    <label class="modal-field-label">Role</label>
+                    <select name="role" id="edit_role" class="modal-field-select">
+                        <option value="client">Client</option>
+                        <option value="freelancer">Freelancer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Status</label>
+                    <select name="status" id="edit_status" class="modal-field-select">
+                        <option value="aktif">Aktif</option>
+                        <option value="ditangguhkan">Ditangguhkan</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Nomor HP</label>
+                    <input type="text" name="no_hp" id="edit_no_hp" class="modal-field-input">
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Saldo (Rp)</label>
+                    <input type="number" step="0.01" name="saldo" id="edit_saldo" class="modal-field-input">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Kampus</label>
+                    <input type="text" name="kampus" id="edit_kampus" class="modal-field-input">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Bio</label>
+                    <textarea name="bio" id="edit_bio" rows="3" class="modal-field-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-actions-container">
+                <button type="button" onclick="closeEdit()" class="modal-cancel-btn">Batal</button>
+                <button type="submit" class="modal-submit-btn">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="<?= BASE_URL ?>/js/script.js"></script>
 
 </body>
 </html>
