@@ -36,36 +36,44 @@ $sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
         <div class="page-content">
 
             <section class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card stat-card-with-image">
                     <div class="stat-info">
                         <div class="title">Pesanan Baru</div>
                         <div class="value"><?= $pesanan_baru ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon blue"></div>
+                    <div class="stat-image-box blue">
+                        <img src="<?= BASE_URL ?>/assets/images/dashboard/pesanan-baru.png" alt="Pesanan Baru" class="stat-icon-img">
+                    </div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card stat-card-with-image">
                     <div class="stat-info">
                         <div class="title">Sedang Berjalan</div>
                         <div class="value"><?= $pesanan_berjalan ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon orange"></div>
+                    <div class="stat-image-box orange">
+                        <img src="<?= BASE_URL ?>/assets/images/dashboard/sedang-berjalan.png" alt="Sedang Berjalan" class="stat-icon-img">
+                    </div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card stat-card-with-image">
                     <div class="stat-info">
                         <div class="title">Selesai</div>
                         <div class="value"><?= $pesanan_selesai ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon green"></div>
+                    <div class="stat-image-box green">
+                        <img src="<?= BASE_URL ?>/assets/images/dashboard/selesai.png" alt="Selesai" class="stat-icon-img">
+                    </div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card stat-card-with-image">
                     <div class="stat-info">
                         <div class="title">Total Jasa</div>
                         <div class="value"><?= $total_jasa ?? 0 ?></div>
                     </div>
-                    <div class="stat-icon blue"></div>
+                    <div class="stat-image-box purple">
+                        <img src="<?= BASE_URL ?>/assets/images/dashboard/total-jasa.png" alt="Total Jasa" class="stat-icon-img">
+                    </div>
                 </div>
             </section>
 
@@ -74,7 +82,7 @@ $sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
                 <div class="card-container">
                     <div class="card-header">
                         <h3>Pesanan terbaru</h3>
-                        <a href="<?= BASE_URL ?>/pesanan" class="header-action">Semua →</a>
+                        <a href="<?= BASE_URL ?>/pesanan" class="header-action">Semua</a>
                     </div>
                     <div class="list-container">
                         <?php if (!empty($recent_pesanan)): ?>
@@ -98,7 +106,7 @@ $sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
                             <div class="list-item">
                                 <div class="item-left">
                                     <div class="item-title"><?= htmlspecialchars($p['nama_jasa']) ?></div>
-                                    <div class="item-desc">#<?= $p['id_pesanan'] ?> &middot; <?= htmlspecialchars($p['nama_client']) ?></div>
+                                    <div class="item-desc"><?= htmlspecialchars($p['nama_client']) ?></div>
                                 </div>
                                 <div class="item-right">
                                     <span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span>
@@ -114,7 +122,7 @@ $sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
                 <div class="card-container">
                     <div class="card-header">
                         <h3>Jasa Saya</h3>
-                        <a href="<?= BASE_URL ?>/worker/jasa" class="header-action">Kelola →</a>
+                        <a href="<?= BASE_URL ?>/worker/jasa" class="header-action">Kelola</a>
                     </div>
                     <div class="list-container">
                         <?php if (!empty($jasa_saya)): ?>
