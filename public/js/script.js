@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const createModal = document.getElementById('createModal');
+    const createModal = document.getElementById('createUserModal');
     if (createModal) {
         createModal.addEventListener('click', function(e) {
             if (e.target === this) {
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function openCreateUser() {
-    const modal = document.getElementById('createModal');
+    const modal = document.getElementById('createUserModal');
     if (modal) {
         const form = document.getElementById('createForm');
         if (form) form.reset();
@@ -137,14 +137,14 @@ function openCreateUser() {
 }
 
 function closeCreateUser() {
-    const modal = document.getElementById('createModal');
+    const modal = document.getElementById('createUserModal');
     if (modal) {
         modal.style.display = 'none';
     }
 }
 
 function openCreateJasa() {
-    const modal = document.getElementById('createModal');
+    const modal = document.getElementById('createJasaModal');
     if (modal) {
         const form = document.getElementById('createForm');
         if (form) form.reset();
@@ -153,14 +153,14 @@ function openCreateJasa() {
 }
 
 function closeCreateJasa() {
-    const modal = document.getElementById('createModal');
+    const modal = document.getElementById('createJasaModal');
     if (modal) {
         modal.style.display = 'none';
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const createModal = document.getElementById('createModal');
+    const createModal = document.getElementById('createJasaModal');
     if (createModal) {
         createModal.addEventListener('click', function(e) {
             if (e.target === this) {

@@ -163,7 +163,7 @@ $pengguna = $pengguna ?? [];
 </div>
 
 <!-- Create Pengguna Modal -->
-<div id="createModal" class="modal-overlay">
+<div id="createUserModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-header">
             <div>
