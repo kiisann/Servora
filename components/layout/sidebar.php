@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 // Load icons
-include __DIR__ . '/../../assets/icons/icons.php';
+include __DIR__ . '/../../public/assets/icons/icons.php';
 
 // Ambil data user dari session (diset saat login)
 $currentUser = [
