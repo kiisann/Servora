@@ -25,18 +25,27 @@ $pengguna = $pengguna ?? [];
                 <h1 class="page-title">Kelola Pengguna</h1>
                 <p class="page-subtitle">Kelola data client, freelancer, dan admin.</p>
             </div>
+            <div class="header-right">
+                <button class="btn btn-primary" onclick="openCreateUser()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Tambah Pengguna
+                </button>
+            </div>
         </header>
 
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="flash-message flash-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="flash-message flash-error"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
         <div class="page-content">
-            <div class="card-container">
-                <div class="card-header">
-                    <h3>Daftar Pengguna</h3>
-                </div>
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
-                        <thead>
-                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
+                            <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Email</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Role</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
@@ -61,7 +70,7 @@ $pengguna = $pengguna ?? [];
                                     <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
                                     <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
                                      <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
-                                         <button type="button" class="btn-edit" onclick="openEdit(this.closest('tr'))">
+                                         <button type="button" class="btn-edit" onclick="openEditPengguna(this.closest('tr'))">
                                              Edit
                                          </button>
                                          <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
@@ -91,7 +100,7 @@ $pengguna = $pengguna ?? [];
                 <h3 class="modal-title-main" id="modalTitle">Edit Data Pengguna</h3>
                 <p class="modal-subtitle-main">Perbarui informasi lengkap akun pengguna.</p>
             </div>
-            <button type="button" onclick="closeEdit()" class="modal-close-btn">✕</button>
+            <button type="button" onclick="closeEditPengguna()" class="modal-close-btn">✕</button>
         </div>
 
         <form id="editForm" method="POST" data-action-template="<?= BASE_URL ?>/user/updateAdmin/__ID__">
@@ -146,8 +155,82 @@ $pengguna = $pengguna ?? [];
             </div>
 
             <div class="modal-actions-container">
-                <button type="button" onclick="closeEdit()" class="modal-cancel-btn">Batal</button>
+                <button type="button" onclick="closeEditPengguna()" class="modal-cancel-btn">Batal</button>
                 <button type="submit" class="modal-submit-btn">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Create Pengguna Modal -->
+<div id="createModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div>
+                <h3 class="modal-title-main">Tambah Pengguna Baru</h3>
+                <p class="modal-subtitle-main">Isi data untuk membuat akun pengguna baru.</p>
+            </div>
+            <button type="button" onclick="closeCreateUser()" class="modal-close-btn">✕</button>
+        </div>
+
+        <form id="createForm" method="POST" action="<?= BASE_URL ?>/user/store">
+            <div class="modal-grid-fields">
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Nama Lengkap <span style="color:#ef4444">*</span></label>
+                    <input type="text" name="nama" required class="modal-field-input" placeholder="Masukkan nama lengkap">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Email <span style="color:#ef4444">*</span></label>
+                    <input type="email" name="email" required class="modal-field-input" placeholder="contoh@email.com">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Password <span style="color:#ef4444">*</span></label>
+                    <input type="password" name="password" required class="modal-field-input" placeholder="Minimal 6 karakter" minlength="6">
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Role</label>
+                    <select name="role" class="modal-field-select">
+                        <option value="client">Client</option>
+                        <option value="freelancer">Freelancer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Status</label>
+                    <select name="status" class="modal-field-select">
+                        <option value="aktif">Aktif</option>
+                        <option value="ditangguhkan">Ditangguhkan</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Nomor HP</label>
+                    <input type="text" name="no_hp" class="modal-field-input" placeholder="08xxxxxxxxxx">
+                </div>
+
+                <div>
+                    <label class="modal-field-label">Saldo (Rp)</label>
+                    <input type="number" step="0.01" name="saldo" value="0" class="modal-field-input">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Kampus</label>
+                    <input type="text" name="kampus" class="modal-field-input" placeholder="Nama kampus">
+                </div>
+
+                <div class="modal-field-full">
+                    <label class="modal-field-label">Bio</label>
+                    <textarea name="bio" rows="3" class="modal-field-textarea" placeholder="Deskripsi singkat..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-actions-container">
+                <button type="button" onclick="closeCreateUser()" class="modal-cancel-btn">Batal</button>
+                <button type="submit" class="modal-submit-btn">Tambah Pengguna</button>
             </div>
         </form>
     </div>

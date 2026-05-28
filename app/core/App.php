@@ -23,6 +23,7 @@ class App {
         'jasa'           => ['controller' => 'JasaController',       'method' => 'index'],
         'jasa/detail/:id'=> ['controller' => 'JasaController',       'method' => 'detail'],
         'jasa/create'    => ['controller' => 'JasaController',       'method' => 'create'],
+        'jasa/update/:id'=> ['controller' => 'JasaController',       'method' => 'update'],
         'jasa/delete/:id'=> ['controller' => 'JasaController',       'method' => 'delete'],
 
         // ── Pesanan (role-based: client → pesanan, freelancer → pesanan_masuk) ──
@@ -42,6 +43,7 @@ class App {
         'user/update/:id'       => ['controller' => 'UserController', 'method' => 'update'],
         'user/updateAdmin/:id'  => ['controller' => 'UserController', 'method' => 'updateAdmin'],
         'user/delete/:id'       => ['controller' => 'UserController', 'method' => 'delete'],
+        'user/store'            => ['controller' => 'UserController', 'method' => 'store'],
 
         // ── Worker / Kelola Jasa Freelancer ──
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],

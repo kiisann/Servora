@@ -4415,6 +4415,10 @@ textarea { resize: vertical; min-height: 90px; }
   padding: 28px 32px;
   max-width: 560px;
   width: 90%;
+
+  max-height: 90vh;
+  overflow-y: auto;
+
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   animation: modalFadeIn 0.2s ease;
 }
@@ -4546,4 +4550,31 @@ textarea { resize: vertical; min-height: 90px; }
 .modal-submit-btn:hover {
   background: #4f46e5;
   box-shadow: 0 4px 12px -1px rgba(79, 70, 229, 0.3);
+}
+
+/* ── Flash Messages ── */
+.flash-message {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  animation: flashSlideIn 0.3s ease;
+}
+
+@keyframes flashSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.flash-success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.flash-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
 }
