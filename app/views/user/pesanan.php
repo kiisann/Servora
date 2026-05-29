@@ -124,6 +124,7 @@ $selectedId  = $selected_id ?? null;
 <script>
 function openDetail(row) {
     const data = JSON.parse(row.dataset.pesanan);
+    
     document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
 
     const statusMap = {
@@ -151,6 +152,35 @@ function openDetail(row) {
                       cursor:pointer;">
                 Batalkan Pesanan
              </button>
+       </form>
+    ` : '';
+
+    const uploadBuktiForm = data.status === 'menunggu_pembayaran' ? `
+       <form method="POST"
+             action="<?= BASE_URL ?>/pesanan/uploadBuktiPembayaran/${data.id_pesanan}"
+             enctype="multipart/form-data"
+             style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:12px;">
+
+            <label style="font-size:13px;font-weight:600;color:#1e293b;">
+                Upload Bukti Pembayaran
+            </label>
+
+            <input type="file"
+                   name="bukti_pembayaran"
+                   accept=".jpg,.jpeg,.png,.pdf"
+                   required
+                   style="font-size:13px;">
+
+            <button type="submit"
+                   onclick="return confirm('Yakin ingin mengunggah bukti pembayaran?')"
+                   style="padding:8px 16px;
+                          border:none;
+                          border-radius:8px;
+                          background:#2563eb;
+                          color:white;
+                          cursor:pointer;">
+                Kirim Bukti Pembayaran
+            </button>
        </form>
     ` : '';
     
@@ -189,15 +219,22 @@ function openDetail(row) {
         </table>`;
 
     document.getElementById('modalActions').innerHTML = `
-        ${cancelButton}
-        <button onclick="closeDetail()"
-            style="padding:8px 16px;
-                   border:1px solid #e2e8f0;
-                   border-radius:8px;
-                   background:#fff;
-                   cursor:pointer;">
-            Tutup
-        </button>
+        <div style="width:100%;">
+            ${uploadBuktiForm}
+
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;">
+                ${cancelButton}
+
+                <button onclick="closeDetail()"
+                    style="padding:8px 16px;
+                           border:1px solid #e2e8f0;
+                           border-radius:8px;
+                           background:#fff;
+                           cursor:pointer;">
+                    Tutup
+                </button>
+            </div>
+        </div>
     `;
     document.getElementById('detailModal').style.display = 'flex';
 }

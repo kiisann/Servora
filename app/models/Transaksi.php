@@ -70,4 +70,17 @@ class Transaksi {
         mysqli_stmt_bind_param($stmt, "si", $note, $idPesanan);
         return mysqli_stmt_execute($stmt);
     }
+    public function uploadBuktiPembayaran($idPesanan, $buktiPembayaran) {
+        $query = "UPDATE transaksi
+                 SET bukti_pembayaran = ?,
+                 tanggal_upload_bukti = NOW(),
+                 status_bayar = 'menunggu verifikasi',
+                 catatan_verifikasi = NULL
+                 WHERE id_pesanan = ?";
+
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "si", $buktiPembayaran, $idPesanan);
+
+        return mysqli_stmt_execute($stmt);
+    }
 }
