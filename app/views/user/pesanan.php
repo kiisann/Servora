@@ -136,6 +136,18 @@ function openDetail(row) {
             <tr><td style="padding:8px 0;color:#64748b;">Deadline</td><td style="padding:8px 0;color:#1e293b;">${data.deadline || '-'}</td></tr>
             <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
             <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
+        
+        <tr>
+           <td style="padding:8px 0;color:#64748b;">Kontak</td>
+           <td style="padding:8px 0;">
+               <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
+                  target="_blank"
+                  style="color:#25D366;font-weight:600;text-decoration:none;">
+                  Hubungi Freelancer
+               </a>
+           </td>
+        </tr>
+
         </table>`;
     document.getElementById('detailModal').style.display = 'flex';
 }
