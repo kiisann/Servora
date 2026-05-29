@@ -34,6 +34,7 @@ class App {
         'pesanan/mulaiDiskusi/:id' => ['controller' => 'PesananController', 'method' => 'mulaiDiskusi'],
         'pesanan/submitFinal/:id' => ['controller' => 'PesananController', 'method' => 'submitFinal'],
         'pesanan/batalkan/:id' => ['controller' => 'PesananController', 'method' => 'batalkan'],
+        'pesanan/uploadBuktiPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'uploadBuktiPembayaran'],
         'pesanan/terimaPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'terimaPembayaran'],
         'pesanan/tolakPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'tolakPembayaran'],
         'pesanan/tandaiSelesai/:id' => ['controller' => 'PesananController', 'method' => 'tandaiSelesai'],

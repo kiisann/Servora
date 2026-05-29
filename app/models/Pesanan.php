@@ -53,20 +53,36 @@ class Pesanan {
     }
 
     public function getByClient($clientId) {
-        $query = "SELECT p.*, j.nama_jasa, u.nama as nama_freelancer, u.no_hp as no_hp_freelancer
-                  FROM pesanan p
-                  JOIN jasa j ON p.id_jasa = j.id_jasa
-                  JOIN users u ON j.id_user = u.id_user
-                  WHERE p.id_client = ?
-                  ORDER BY p.created_at DESC";
+        $query = "SELECT p.*, j.nama_jasa,
+                         u.nama as nama_freelancer,
+                         u.no_hp as no_hp_freelancer,
+                         t.id_transaksi,
+                         t.total as total_bayar,
+                         t.status_bayar,
+                         t.bukti_pembayaran,
+                         t.tanggal_upload_bukti,
+                         t.tanggal_bayar,
+                         t.catatan_verifikasi,
+                         t.diverifikasi_at,
+                         m.metode as metode_pembayaran
+                FROM pesanan p
+                JOIN jasa j ON p.id_jasa = j.id_jasa
+                JOIN users u ON j.id_user = u.id_user
+                LEFT JOIN transaksi t ON t.id_pesanan = p.id_pesanan
+                LEFT JOIN metode_pembayaran m ON t.id_metode = m.id_metode
+                WHERE p.id_client = ?
+                ORDER BY p.created_at DESC";
+
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $clientId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
+
         $data = [];
         while ($row = mysqli_fetch_assoc($result)) {
-            $data[] = $row;
+           $data[] = $row;
         }
+
         return $data;
     }
 

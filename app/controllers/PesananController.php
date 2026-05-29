@@ -248,6 +248,81 @@ class PesananController extends Controller {
         exit;
     }
 
+    public function uploadBuktiPembayaran($id) {
+        if (!isset($_SESSION['user_id'])) {
+           header('Location: ' . BASE_URL . '/auth/login');
+           exit;
+        }
+
+        if (($_SESSION['role'] ?? '') !== 'client') {
+           header('Location: ' . BASE_URL . '/dashboard');
+           exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+           $pesananModel   = $this->model('Pesanan');
+           $transaksiModel = $this->model('Transaksi');
+
+          $pesananList = $pesananModel->getByClient($_SESSION['user_id']);
+          $isOwned = false;
+
+          foreach ($pesananList as $pesanan) {
+              if ((int)$pesanan['id_pesanan'] === (int)$id && $pesanan['status'] === 'menunggu_pembayaran') {
+                 $isOwned = true;
+                 break;
+              }
+          }
+
+          if (!$isOwned) {
+             $_SESSION['error'] = 'Pesanan tidak dapat mengunggah bukti pembayaran.';
+             header('Location: ' . BASE_URL . '/pesanan');
+             exit;
+          }
+
+          if (!isset($_FILES['bukti_pembayaran']) || $_FILES['bukti_pembayaran']['error'] !== UPLOAD_ERR_OK) {
+             $_SESSION['error'] = 'Bukti pembayaran wajib diunggah.';
+             header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+             exit;
+          }
+
+         $allowedExt = ['jpg', 'jpeg', 'png', 'pdf'];
+         $fileName = $_FILES['bukti_pembayaran']['name'];
+         $fileTmp  = $_FILES['bukti_pembayaran']['tmp_name'];
+         $fileExt  = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+         if (!in_array($fileExt, $allowedExt)) {
+             $_SESSION['error'] = 'Format bukti pembayaran harus JPG, PNG, atau PDF.';
+             header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+             exit;
+         }
+
+         $uploadDir = __DIR__ . '/../../public/uploads/bukti_pembayaran/';
+
+         if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+         }
+
+         $newFileName = 'bukti_' . $id . '_' . time() . '.' . $fileExt;
+         $targetPath = $uploadDir . $newFileName;
+
+         if (!move_uploaded_file($fileTmp, $targetPath)) {
+             $_SESSION['error'] = 'Gagal mengunggah bukti pembayaran.';
+             header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+             exit;
+         }
+
+         $transaksiModel->uploadBuktiPembayaran($id, $newFileName);
+         $pesananModel->updateStatus($id, 'menunggu_verifikasi');
+
+         $_SESSION['success'] = 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi freelancer.';
+         header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+         exit;
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan');
+        exit;
+    }
+
     public function terimaPembayaran($id) {
         [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
 
