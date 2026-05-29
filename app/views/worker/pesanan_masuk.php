@@ -226,7 +226,6 @@ function baseInfo(data) {
     return `
         ${infoRow('Nama Jasa', data.nama_jasa)}
         ${infoRow('Client', data.nama_client)}
-        ${infoRow('WhatsApp Client', data.no_hp_client)}
         ${infoRow('Harga Awal', formatCurrency(data.harga_awal || data.harga_jasa))}
         ${infoRow('Catatan Awal Client', data.catatan)}
         ${infoRow('Deadline Awal', data.deadline)}
@@ -335,9 +334,8 @@ function openDetail(row) {
 
     if (data.status === 'pending') {
         actions = `
-            ${wa ? `<a class="worker-order-secondary" href="${wa}" target="_blank" rel="noopener">Hubungi Client</a>` : ''}
-            ${actionButton('Mulai Diskusi', `${BASE_URL}/pesanan/mulaiDiskusi/${data.id_pesanan}`, 'worker-order-primary')}
-            ${cancelButton(data)}`;
+            ${cancelButton(data)}
+            ${actionButton('Mulai Diskusi', `${BASE_URL}/pesanan/mulaiDiskusi/${data.id_pesanan}`, 'worker-order-primary')}`;
     }
 
     if (data.status === 'diskusi') {
@@ -395,7 +393,7 @@ function openDetail(row) {
     }
 
     document.getElementById('modalContent').innerHTML = content;
-    document.getElementById('modalActions').innerHTML = actions || '<button type="button" class="worker-order-secondary" onclick="closeDetail()">Tutup</button>';
+    document.getElementById('modalActions').innerHTML = actions || (data.status === 'selesai' ? '' : '<button type="button" class="worker-order-secondary" onclick="closeDetail()">Tutup</button>');
     document.getElementById('detailModal').classList.add('open');
 }
 
