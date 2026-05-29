@@ -54,6 +54,7 @@ class App {
 
         // ── Worker / Kelola Jasa Freelancer ──
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],
+        'worker/jasa/detail/:id' => ['controller' => 'WorkerController', 'method' => 'detailJasa'],
         'worker/tambah'       => ['controller' => 'WorkerController', 'method' => 'tambah'],
         'worker/simpan'       => ['controller' => 'WorkerController', 'method' => 'simpan'],
         'worker/edit/:id'     => ['controller' => 'WorkerController', 'method' => 'edit'],

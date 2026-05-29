@@ -26,6 +26,18 @@ class Review{
         return $data;
     }
 
+    public function getSummaryByJasa($id_jasa) {
+        $query = "SELECT COUNT(*) as total_review, COALESCE(AVG(r.rating), 0) as rata_rating
+                  FROM review r
+                  JOIN pesanan p ON r.id_pesanan = p.id_pesanan
+                  WHERE p.id_jasa = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id_jasa);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_assoc($result) ?: ['total_review' => 0, 'rata_rating' => 0];
+    }
+
     public function create($data) {
         $query = "INSERT INTO review (id_pesanan, id_client, rating, komentar) VALUES (?, ?, ?, ?)";
         $stmt = mysqli_prepare($this->conn, $query);

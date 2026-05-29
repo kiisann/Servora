@@ -224,6 +224,14 @@ class PesananController extends Controller {
             'catatan_worker'       => trim($_POST['catatan_worker'] ?? ''),
         ]);
 
+        $transaksiModel = $this->model('Transaksi');
+        $transaksiModel->create([
+            'id_pesanan'   => $id,
+            'total'        => $hargaFinal,
+            'id_metode'    => 1,
+            'status_bayar' => 'belum lunas'
+        ]);
+
         $_SESSION['success'] = 'Detail final pesanan berhasil dikirim ke client.';
         header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
         exit;
@@ -296,7 +304,7 @@ class PesananController extends Controller {
              exit;
          }
 
-         $uploadDir = __DIR__ . '/../../public/uploads/bukti_pembayaran/';
+         $uploadDir = __DIR__ . '/../../public/assets/images/bukti_pembayaran/';
 
          if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
@@ -311,10 +319,14 @@ class PesananController extends Controller {
              exit;
          }
 
-         $transaksiModel->uploadBuktiPembayaran($id, $newFileName);
+         $idMetode = $_POST['id_metode'] ?? null;
+
+         $transaksiModel->uploadBuktiPembayaran($id, $newFileName, $idMetode);
+
          $pesananModel->updateStatus($id, 'menunggu_verifikasi');
 
          $_SESSION['success'] = 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi freelancer.';
+         
          header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
          exit;
         }

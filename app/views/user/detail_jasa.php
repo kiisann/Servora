@@ -157,15 +157,6 @@ $hargaFormat = 'Rp' . number_format($jasaItem['harga'], 0, ',', '.');
                                           class="form-textarea"
                                           placeholder="Jelaskan kebutuhanmu secara detail..."></textarea>
                             </div>
-                            <div class="form-group form-mb">
-    <label for="id_metode">Metode Pembayaran</label>
-    <select id="id_metode" name="id_metode" class="form-input" required>
-        <option value="">Pilih metode pembayaran</option>
-        <option value="1">Transfer Bank</option>
-        <option value="2">E-Wallet</option>
-        <option value="3">QRIS</option>
-    </select>
-</div>
 
                             <button type="submit" class="btn-order">
                                 🛒 Pesan Sekarang

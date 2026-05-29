@@ -109,7 +109,7 @@ $selectedId  = $selected_id ?? null;
 
 <!-- Detail Modal Popup -->
 <div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:520px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
             <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalTitle">Detail Pesanan</h3>
             <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
@@ -161,10 +161,22 @@ function openDetail(row) {
              enctype="multipart/form-data"
              style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:12px;">
 
-            <label style="font-size:13px;font-weight:600;color:#1e293b;">
-                Upload Bukti Pembayaran
-            </label>
+           <label style="font-size:13px;font-weight:600;color:#1e293b;">
+              Pilih Metode Pembayaran
+           </label>
 
+          <select name="id_metode"
+                  required
+                  style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;width:100%;">
+              <option value="">Pilih metode pembayaran</option>
+              <option value="1">Transfer Bank</option>
+              <option value="2">E-Wallet</option>
+              <option value="3">QRIS</option>
+          </select>
+
+          <label style="font-size:13px;font-weight:600;color:#1e293b;">
+             Upload Bukti Pembayaran
+          </label>
             <input type="file"
                    name="bukti_pembayaran"
                    accept=".jpg,.jpeg,.png,.pdf"
