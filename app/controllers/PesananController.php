@@ -293,6 +293,13 @@ class PesananController extends Controller {
              exit;
           }
 
+         $idMetode = $_POST['id_metode'] ?? null;
+         if (empty($idMetode)) {
+             $_SESSION['error'] = 'Metode pembayaran wajib dipilih.';
+             header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+             exit;
+         }
+
          $allowedExt = ['jpg', 'jpeg', 'png', 'pdf'];
          $fileName = $_FILES['bukti_pembayaran']['name'];
          $fileTmp  = $_FILES['bukti_pembayaran']['tmp_name'];
@@ -319,9 +326,8 @@ class PesananController extends Controller {
              exit;
          }
 
-         $idMetode = $_POST['id_metode'] ?? null;
-
-         $transaksiModel->uploadBuktiPembayaran($id, $newFileName, $idMetode);
+         $buktiPath = 'assets/images/bukti_pembayaran/' . $newFileName;
+         $transaksiModel->uploadBuktiPembayaran($id, $buktiPath, $idMetode);
 
          $pesananModel->updateStatus($id, 'menunggu_verifikasi');
 

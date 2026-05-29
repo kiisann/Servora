@@ -359,8 +359,8 @@ function openDetail(row) {
             </div>`;
         actions = `
             ${wa ? `<a class="worker-order-secondary" href="${wa}" target="_blank" rel="noopener">Hubungi Client</a>` : ''}
-            ${actionButton('Terima Pembayaran', `${BASE_URL}/pesanan/terimaPembayaran/${data.id_pesanan}`, 'worker-order-primary')}
-            ${rejectPaymentButton(data)}`;
+            ${rejectPaymentButton(data)}
+            ${actionButton('Terima Pembayaran', `${BASE_URL}/pesanan/terimaPembayaran/${data.id_pesanan}`, 'worker-order-primary')}`;
     }
 
     if (data.status === 'diproses') {
