@@ -23,6 +23,7 @@ class App {
         'jasa'           => ['controller' => 'JasaController',       'method' => 'index'],
         'jasa/detail/:id'=> ['controller' => 'JasaController',       'method' => 'detail'],
         'jasa/create'    => ['controller' => 'JasaController',       'method' => 'create'],
+        'jasa/update/:id'=> ['controller' => 'JasaController',       'method' => 'update'],
         'jasa/delete/:id'=> ['controller' => 'JasaController',       'method' => 'delete'],
 
         // ── Pesanan (role-based: client → pesanan, freelancer → pesanan_masuk) ──
@@ -30,6 +31,12 @@ class App {
         'pesanan/detail/:id'   => ['controller' => 'PesananController', 'method' => 'detail'],
         'pesanan/order'        => ['controller' => 'PesananController', 'method' => 'order'],
         'pesanan/updateStatus/:id' => ['controller' => 'PesananController', 'method' => 'updateStatus'],
+        'pesanan/mulaiDiskusi/:id' => ['controller' => 'PesananController', 'method' => 'mulaiDiskusi'],
+        'pesanan/submitFinal/:id' => ['controller' => 'PesananController', 'method' => 'submitFinal'],
+        'pesanan/batalkan/:id' => ['controller' => 'PesananController', 'method' => 'batalkan'],
+        'pesanan/terimaPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'terimaPembayaran'],
+        'pesanan/tolakPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'tolakPembayaran'],
+        'pesanan/tandaiSelesai/:id' => ['controller' => 'PesananController', 'method' => 'tandaiSelesai'],
 
         // ── Riwayat (role-based: client → riwayat, freelancer → riwayat) ──
         'riwayat'        => ['controller' => 'RiwayatController',    'method' => 'index'],
@@ -42,6 +49,7 @@ class App {
         'user/update/:id'       => ['controller' => 'UserController', 'method' => 'update'],
         'user/updateAdmin/:id'  => ['controller' => 'UserController', 'method' => 'updateAdmin'],
         'user/delete/:id'       => ['controller' => 'UserController', 'method' => 'delete'],
+        'user/store'            => ['controller' => 'UserController', 'method' => 'store'],
 
         // ── Worker / Kelola Jasa Freelancer ──
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],

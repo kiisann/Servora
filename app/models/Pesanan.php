@@ -25,7 +25,7 @@ class Pesanan {
     }
 
     public function getById($id) {
-        $query = "SELECT p.*, j.nama_jasa, u.nama as nama_client 
+        $query = "SELECT p.*, j.nama_jasa, j.harga as harga_jasa, u.nama as nama_client, u.no_hp as no_hp_client
                   FROM pesanan p
                   JOIN jasa j ON p.id_jasa = j.id_jasa
                   JOIN users u ON p.id_client = u.id_user
@@ -38,19 +38,18 @@ class Pesanan {
     }
 
     public function create($data) {
-    $query = "INSERT INTO pesanan (id_client, id_jasa, status, deadline, catatan) 
-              VALUES (?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($this->conn, $query);
-    
-    $status = $data['status'] ?? 'pending';
-    
-    mysqli_stmt_bind_param($stmt, "iisss", 
-        $data['id_client'], $data['id_jasa'], $status, 
-        $data['deadline'], $data['catatan']
-    );
-
-    if (mysqli_stmt_execute($stmt)) {
-        return mysqli_insert_id($this->conn);
+        $query = "INSERT INTO pesanan (id_client, id_jasa, harga_awal, status, deadline, catatan) 
+                  VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($this->conn, $query);
+        
+        $status = $data['status'] ?? 'pending';
+        $hargaAwal = $data['harga_awal'] ?? null;
+        
+        mysqli_stmt_bind_param($stmt, "iidsss", 
+            $data['id_client'], $data['id_jasa'], $hargaAwal, $status, 
+            $data['deadline'], $data['catatan']
+        );
+        return mysqli_stmt_execute($stmt);
     }
 
     return false;
@@ -75,10 +74,17 @@ class Pesanan {
     }
 
     public function getByFreelancer($freelancerId) {
-        $query = "SELECT p.*, j.nama_jasa, u.nama as nama_client
+        $query = "SELECT p.*, j.nama_jasa, j.harga as harga_jasa,
+                         u.nama as nama_client, u.no_hp as no_hp_client,
+                         t.id_transaksi, t.total as total_bayar, t.status_bayar,
+                         t.bukti_pembayaran, t.tanggal_upload_bukti, t.tanggal_bayar,
+                         t.catatan_verifikasi, t.diverifikasi_at,
+                         m.metode as metode_pembayaran
                   FROM pesanan p
                   JOIN jasa j ON p.id_jasa = j.id_jasa
                   JOIN users u ON p.id_client = u.id_user
+                  LEFT JOIN transaksi t ON t.id_pesanan = p.id_pesanan
+                  LEFT JOIN metode_pembayaran m ON t.id_metode = m.id_metode
                   WHERE j.id_user = ?
                   ORDER BY p.created_at DESC";
         $stmt = mysqli_prepare($this->conn, $query);
@@ -96,6 +102,62 @@ class Pesanan {
         $query = "UPDATE pesanan SET status=? WHERE id_pesanan=?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "si", $status, $id);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function getByIdForFreelancer($id, $freelancerId) {
+        $query = "SELECT p.*, j.id_user as id_freelancer
+                  FROM pesanan p
+                  JOIN jasa j ON p.id_jasa = j.id_jasa
+                  WHERE p.id_pesanan = ? AND j.id_user = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "ii", $id, $freelancerId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_assoc($result);
+    }
+
+    public function updateFinalDetail($id, $data) {
+        $query = "UPDATE pesanan
+                  SET detail_project_final = ?,
+                      harga_final = ?,
+                      waktu_pengerjaan = ?,
+                      maksimal_revisi = ?,
+                      deadline_final = ?,
+                      catatan_worker = ?,
+                      status = 'menunggu_pembayaran'
+                  WHERE id_pesanan = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "sdsissi",
+            $data['detail_project_final'],
+            $data['harga_final'],
+            $data['waktu_pengerjaan'],
+            $data['maksimal_revisi'],
+            $data['deadline_final'],
+            $data['catatan_worker'],
+            $id
+        );
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function cancelByWorker($id, $reason) {
+        $query = "UPDATE pesanan
+                  SET status = 'dibatalkan',
+                      alasan_pembatalan = ?,
+                      dibatalkan_oleh = 'worker',
+                      dibatalkan_at = NOW()
+                  WHERE id_pesanan = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "si", $reason, $id);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function markFinished($id) {
+        $query = "UPDATE pesanan SET status = 'selesai', selesai_at = NOW() WHERE id_pesanan = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $id);
         return mysqli_stmt_execute($stmt);
     }
 

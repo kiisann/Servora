@@ -20,9 +20,6 @@
                 <p class="page-subtitle">Ringkasan aktivitas sistem Servora.</p>
             </div>
             <div class="header-right">
-                <div class="search-bar">
-                    <input type="text" placeholder="Cari...">
-                </div>
                 <div class="header-actions">
                     <button class="icon-btn">
                     </button>

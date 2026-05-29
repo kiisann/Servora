@@ -1,5 +1,27 @@
 <?php
 class PesananController extends Controller {
+    private function requireFreelancerOrder($id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if (($_SESSION['role'] ?? '') !== 'freelancer') {
+            header('Location: ' . BASE_URL . '/dashboard');
+            exit;
+        }
+
+        $pesananModel = $this->model('Pesanan');
+        $pesanan = $pesananModel->getByIdForFreelancer((int)$id, (int)$_SESSION['user_id']);
+
+        if (!$pesanan) {
+            $_SESSION['error'] = 'Pesanan tidak ditemukan atau bukan milik Anda.';
+            header('Location: ' . BASE_URL . '/pesanan');
+            exit;
+        }
+
+        return [$pesananModel, $pesanan];
+    }
 
     public function index() {
         if (!isset($_SESSION['user_id'])) {
@@ -88,22 +110,18 @@ class PesananController extends Controller {
             exit;
         }
 
-        $pesananData = [
-            'id_client' => $_SESSION['user_id'],
-            'id_jasa'   => $idJasa,
-            'deadline'  => $_POST['deadline'] ?? null,
-            'catatan'   => $_POST['catatan'] ?? '',
-            'status'    => 'pending',
-        ];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pesananModel = $this->model('Pesanan');
+            $jasaModel = $this->model('Jasa');
+            $jasa = $jasaModel->getById($_POST['id_jasa'] ?? 0);
 
-        $idPesanan = $pesananModel->create($pesananData);
-
-        if ($idPesanan) {
-            $transaksiData = [
-                'id_pesanan'   => $idPesanan,
-                'total'        => $jasa['harga'],
-                'id_metode'    => $idMetode,
-                'status_bayar' => 'belum lunas',
+            $pesananData = [
+                'id_client' => $_SESSION['user_id'],
+                'id_jasa'   => $_POST['id_jasa']   ?? null,
+                'harga_awal'=> $jasa['harga'] ?? null,
+                'deadline'  => $_POST['deadline']  ?? null,
+                'catatan'   => $_POST['catatan']   ?? '',
+                'status'    => 'pending',
             ];
 
             $transaksiModel->create($transaksiData);
@@ -130,13 +148,125 @@ class PesananController extends Controller {
             $pesananModel = $this->model('Pesanan');
             $status       = $_POST['status'] ?? '';
 
-            $allowedStatus = ['pending', 'diproses', 'selesai', 'dibatalkan'];
+            $allowedStatus = ['pending', 'diskusi', 'menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai', 'dibatalkan'];
             if (!in_array($status, $allowedStatus)) {
                 header('Location: ' . BASE_URL . '/pesanan');
                 exit;
             }
 
             $pesananModel->updateStatus($id, $status);
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function mulaiDiskusi($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'pending') {
+            $pesananModel->updateStatus($id, 'diskusi');
+            $_SESSION['success'] = 'Pesanan masuk ke tahap diskusi.';
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function submitFinal($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $pesanan['status'] !== 'diskusi') {
+            header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+            exit;
+        }
+
+        $detailProject = trim($_POST['detail_project_final'] ?? '');
+        $hargaFinal = (float)($_POST['harga_final'] ?? 0);
+        $waktuPengerjaan = trim($_POST['waktu_pengerjaan'] ?? '');
+        $maksimalRevisi = (int)($_POST['maksimal_revisi'] ?? 0);
+        $deadlineFinal = $_POST['deadline_final'] ?? null;
+
+        if ($detailProject === '' || $hargaFinal <= 0 || $waktuPengerjaan === '' || $maksimalRevisi < 0 || empty($deadlineFinal)) {
+            $_SESSION['error'] = 'Detail final, harga final, waktu pengerjaan, revisi, dan deadline wajib diisi.';
+            header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+            exit;
+        }
+
+        $pesananModel->updateFinalDetail($id, [
+            'detail_project_final' => $detailProject,
+            'harga_final'          => $hargaFinal,
+            'waktu_pengerjaan'     => $waktuPengerjaan,
+            'maksimal_revisi'      => $maksimalRevisi,
+            'deadline_final'       => $deadlineFinal,
+            'catatan_worker'       => trim($_POST['catatan_worker'] ?? ''),
+        ]);
+
+        $_SESSION['success'] = 'Detail final pesanan berhasil dikirim ke client.';
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function batalkan($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($pesanan['status'], ['pending', 'diskusi', 'menunggu_pembayaran', 'menunggu_verifikasi', 'diproses'])) {
+            $reason = trim($_POST['alasan_pembatalan'] ?? '');
+            if ($reason === '') {
+                $_SESSION['error'] = 'Alasan pembatalan wajib diisi.';
+                header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+                exit;
+            }
+
+            $pesananModel->cancelByWorker($id, $reason);
+            $_SESSION['success'] = 'Pesanan berhasil dibatalkan.';
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function terimaPembayaran($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'menunggu_verifikasi') {
+            $transaksiModel = $this->model('Transaksi');
+            $transaksiModel->updatePaymentAcceptedByPesanan($id);
+            $pesananModel->updateStatus($id, 'diproses');
+            $_SESSION['success'] = 'Pembayaran diterima. Pesanan masuk tahap diproses.';
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function tolakPembayaran($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'menunggu_verifikasi') {
+            $note = trim($_POST['catatan_verifikasi'] ?? '');
+            if ($note === '') {
+                $_SESSION['error'] = 'Catatan penolakan pembayaran wajib diisi.';
+                header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+                exit;
+            }
+
+            $transaksiModel = $this->model('Transaksi');
+            $transaksiModel->updatePaymentRejectedByPesanan($id, $note);
+            $pesananModel->updateStatus($id, 'menunggu_pembayaran');
+            $_SESSION['success'] = 'Pembayaran ditolak dan dikembalikan ke tahap menunggu pembayaran.';
+        }
+
+        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+        exit;
+    }
+
+    public function tandaiSelesai($id) {
+        [$pesananModel, $pesanan] = $this->requireFreelancerOrder($id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'diproses') {
+            $pesananModel->markFinished($id);
+            $_SESSION['success'] = 'Pesanan berhasil ditandai selesai.';
         }
 
         header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);

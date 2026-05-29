@@ -39,17 +39,35 @@ class Jasa {
     }
 
     public function create($data) {
-        $query = "INSERT INTO jasa (id_user, id_kategori, nama_jasa, deskripsi, harga, gambar, status) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO jasa (
+            id_user,
+            id_kategori,
+            nama_jasa,
+            deskripsi,
+            harga,
+            gambar,
+            status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         $stmt = mysqli_prepare($this->conn, $query);
-        
         $status = $data['status'] ?? 'aktif';
-        
-        mysqli_stmt_bind_param($stmt, "iissdss", 
-            $data['id_user'], $data['id_kategori'], $data['nama_jasa'], 
-            $data['deskripsi'], $data['harga'], $data['gambar'], $status
+        $harga  = $data['harga'] ?? 0;
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "iississ",
+            $data['id_user'],
+            $data['id_kategori'],
+            $data['nama_jasa'],
+            $data['deskripsi'],
+            $harga,
+            $data['gambar'],
+            $status
         );
-        return mysqli_stmt_execute($stmt);
+        if (!mysqli_stmt_execute($stmt)) {
+            die(mysqli_stmt_error($stmt));
+        }
+        return true;
     }
 
     public function updateByAdmin($id, $data) {

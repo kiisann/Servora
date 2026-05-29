@@ -31,21 +31,21 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Pengguna</div>
-                        <div class="value"><?= $total_pengguna ?? 0 ?></div>
+                        <div class="value"><?= number_format($total_pengguna ?? 0) ?></div>
                     </div>
                     <div class="stat-icon blue"></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Jasa</div>
-                        <div class="value"><?= $total_jasa ?? 0 ?></div>
+                        <div class="value"><?= number_format($total_jasa ?? 0) ?></div>
                     </div>
                     <div class="stat-icon green"></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Pesanan</div>
-                        <div class="value"><?= $total_pesanan ?? 0 ?></div>
+                        <div class="value"><?= number_format($total_pesanan ?? 0) ?></div>
                     </div>
                     <div class="stat-icon orange"></div>
                 </div>
@@ -56,18 +56,17 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                     <h3>Log Aktivitas</h3>
                 </div>
                 <div class="activity-list">
-                    <?php if (!empty($recent_pesanan)): ?>
-                        <?php foreach($recent_pesanan as $p): ?>
+                    <?php if (!empty($logs)): ?>
+                        <?php foreach($logs as $log): ?>
                         <div class="activity-item">
                             <div class="activity-bullet"></div>
                             <div class="activity-content">
                                 <div class="activity-text">
-                                    Pesanan <strong>#<?= $p['id_pesanan'] ?></strong> 
-                                    (<?= htmlspecialchars($p['nama_jasa']) ?>) 
-                                    oleh <?= htmlspecialchars($p['nama_client'] ?? '-') ?>
-                                    — <span class="badge <?= $p['status'] === 'selesai' ? 'success' : ($p['status'] === 'dibatalkan' ? 'danger' : 'info') ?>"><?= ucfirst($p['status']) ?></span>
+                                    <strong><?= htmlspecialchars($log['pengguna'])?></strong> 
+                                    <?= htmlspecialchars($log['deskripsi']) ?>
+                                    — <span class="badge <?= $log['tipe'] === 'warning' ? 'danger' : 'info' ?>"><?= strtoupper($log['tipe']) ?></span>
                                 </div>
-                                <div style="font-size:12px;color:#94a3b8;"><?= $p['created_at'] ?? '' ?></div>
+                                <div style="font-size:12px;color:#94a3b8;"><?= $log['created_at'] ?? '' ?></div>
                             </div>
                         </div>
                         <?php endforeach; ?>

@@ -88,4 +88,65 @@ class UserController extends Controller {
     header('Location: ' . BASE_URL . '/user');
     exit;
     }
+    
+    public function store() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL . '/user');
+            exit;
+        }
+
+        $nama     = trim($_POST['nama'] ?? '');
+        $email    = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $role     = $_POST['role'] ?? 'client';
+        $status   = $_POST['status'] ?? 'aktif';
+        $no_hp    = trim($_POST['no_hp'] ?? '');
+        $kampus   = trim($_POST['kampus'] ?? '');
+        $bio      = trim($_POST['bio'] ?? '');
+        $saldo    = (double)($_POST['saldo'] ?? 0.00);
+
+        // Validasi field wajib
+        if (empty($nama) || empty($email) || empty($password)) {
+            $_SESSION['error'] = 'Nama, email, dan password wajib diisi.';
+            header('Location: ' . BASE_URL . '/user');
+            exit;
+        }
+
+        $userModel = $this->model('User');
+
+        // Cek email sudah terdaftar
+        $existing = $userModel->getByEmail($email);
+        if ($existing) {
+            $_SESSION['error'] = 'Email sudah terdaftar, gunakan email lain.';
+            header('Location: ' . BASE_URL . '/user');
+            exit;
+        }
+
+        $userData = [
+            'nama'     => $nama,
+            'email'    => $email,
+            'password' => $password,
+            'role'     => $role,
+            'status'   => $status,
+            'no_hp'    => $no_hp,
+            'kampus'   => $kampus,
+            'bio'      => $bio,
+            'saldo'    => $saldo,
+            'foto'     => null,
+        ];
+
+        if ($userModel->create($userData)) {
+            $_SESSION['success'] = 'Pengguna baru berhasil ditambahkan!';
+        } else {
+            $_SESSION['error'] = 'Gagal menambahkan pengguna, coba lagi.';
+        }
+
+        header('Location: ' . BASE_URL . '/user');
+        exit;
+    }
 }

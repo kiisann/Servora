@@ -48,4 +48,26 @@ class Transaksi {
         mysqli_stmt_bind_param($stmt, "si", $status, $id);
         return mysqli_stmt_execute($stmt);
     }
+
+    public function updatePaymentAcceptedByPesanan($idPesanan) {
+        $query = "UPDATE transaksi
+                  SET status_bayar = 'lunas',
+                      catatan_verifikasi = NULL,
+                      diverifikasi_at = NOW()
+                  WHERE id_pesanan = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $idPesanan);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function updatePaymentRejectedByPesanan($idPesanan, $note) {
+        $query = "UPDATE transaksi
+                  SET status_bayar = 'belum lunas',
+                      catatan_verifikasi = ?,
+                      diverifikasi_at = NOW()
+                  WHERE id_pesanan = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "si", $note, $idPesanan);
+        return mysqli_stmt_execute($stmt);
+    }
 }
