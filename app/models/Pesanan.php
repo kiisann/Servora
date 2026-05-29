@@ -56,7 +56,7 @@ class Pesanan {
 }
 
     public function getByClient($clientId) {
-        $query = "SELECT p.*, j.nama_jasa, u.nama as nama_freelancer
+        $query = "SELECT p.*, j.nama_jasa, u.nama as nama_freelancer, u.no_hp as no_hp_freelancer
                   FROM pesanan p
                   JOIN jasa j ON p.id_jasa = j.id_jasa
                   JOIN users u ON j.id_user = u.id_user
