@@ -126,7 +126,40 @@ function openDetail(row) {
     const data = JSON.parse(row.dataset.pesanan);
     document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
 
-    const statusMap = {pending:'Menunggu',diproses:'Diproses',selesai:'Selesai',dibatalkan:'Dibatalkan'};
+    const statusMap = {
+        pending: 'Menunggu',
+        diskusi: 'Diskusi',
+        menunggu_pembayaran: 'Menunggu Pembayaran',
+        menunggu_verifikasi: 'Menunggu Verifikasi',
+        diproses: 'Diproses',
+        selesai: 'Selesai',
+        dibatalkan: 'Dibatalkan'
+    };
+
+    const canContactWorker = data.status !== 'pending';
+    const showFinalDetail = ['menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai'].includes(data.status);
+
+    const contactRow = canContactWorker ? `
+        <tr>
+            <td style="padding:8px 0;color:#64748b;">Kontak</td>
+            <td style="padding:8px 0;">
+                <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
+                   target="_blank"
+                   style="color:#25D366;font-weight:600;text-decoration:none;">
+                   Hubungi Freelancer
+                </a>
+            </td>
+        </tr>
+    ` : '';
+
+    const finalDetailRows = showFinalDetail ? `
+        <tr><td style="padding:8px 0;color:#64748b;">Harga Awal</td><td style="padding:8px 0;color:#1e293b;">${data.harga_awal ? 'Rp' + Number(data.harga_awal).toLocaleString('id-ID') : '-'}</td></tr>
+        <tr><td style="padding:8px 0;color:#64748b;">Harga Final</td><td style="padding:8px 0;color:#1e293b;">${data.harga_final ? 'Rp' + Number(data.harga_final).toLocaleString('id-ID') : '-'}</td></tr>
+        <tr><td style="padding:8px 0;color:#64748b;">Deadline Final</td><td style="padding:8px 0;color:#1e293b;">${data.deadline_final || '-'}</td></tr>
+        <tr><td style="padding:8px 0;color:#64748b;">Waktu Pengerjaan</td><td style="padding:8px 0;color:#1e293b;">${data.waktu_pengerjaan || '-'}</td></tr>
+        <tr><td style="padding:8px 0;color:#64748b;">Maksimal Revisi</td><td style="padding:8px 0;color:#1e293b;">${data.maksimal_revisi || '-'}</td></tr>
+        <tr><td style="padding:8px 0;color:#64748b;">Catatan Worker</td><td style="padding:8px 0;color:#1e293b;">${data.catatan_worker || '-'}</td></tr>
+    ` : '';
 
     document.getElementById('modalContent').innerHTML = `
         <table style="width:100%;font-size:14px;border-collapse:collapse;">
@@ -136,18 +169,8 @@ function openDetail(row) {
             <tr><td style="padding:8px 0;color:#64748b;">Deadline</td><td style="padding:8px 0;color:#1e293b;">${data.deadline || '-'}</td></tr>
             <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
             <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
-        
-        <tr>
-           <td style="padding:8px 0;color:#64748b;">Kontak</td>
-           <td style="padding:8px 0;">
-               <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
-                  target="_blank"
-                  style="color:#25D366;font-weight:600;text-decoration:none;">
-                  Hubungi Freelancer
-               </a>
-           </td>
-        </tr>
-
+            ${finalDetailRows}
+            ${contactRow}
         </table>`;
     document.getElementById('detailModal').style.display = 'flex';
 }

@@ -95,43 +95,34 @@ class PesananController extends Controller {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $pesananModel  = $this->model('Pesanan');
-        $transaksiModel = $this->model('Transaksi');
-        $jasaModel = $this->model('Jasa');
+        $pesananModel = $this->model('Pesanan');
+        $jasaModel    = $this->model('Jasa');
 
         $idJasa = $_POST['id_jasa'] ?? null;
-        $idMetode = $_POST['id_metode'] ?? null;
+        $jasa   = $jasaModel->getById($idJasa);
 
-        $jasa = $jasaModel->getById($idJasa);
-
-        if (!$jasa || empty($idMetode)) {
-            $_SESSION['error'] = 'Data pesanan belum lengkap.';
+        if (!$jasa) {
+            $_SESSION['error'] = 'Data jasa tidak ditemukan.';
             header('Location: ' . BASE_URL . '/jasa');
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $pesananModel = $this->model('Pesanan');
-            $jasaModel = $this->model('Jasa');
-            $jasa = $jasaModel->getById($_POST['id_jasa'] ?? 0);
+        $pesananData = [
+            'id_client'  => $_SESSION['user_id'],
+            'id_jasa'    => $idJasa,
+            'harga_awal' => $jasa['harga'] ?? null,
+            'deadline'   => $_POST['deadline'] ?? null,
+            'catatan'    => $_POST['catatan'] ?? '',
+            'status'     => 'pending',
+        ];
 
-            $pesananData = [
-                'id_client' => $_SESSION['user_id'],
-                'id_jasa'   => $_POST['id_jasa']   ?? null,
-                'harga_awal'=> $jasa['harga'] ?? null,
-                'deadline'  => $_POST['deadline']  ?? null,
-                'catatan'   => $_POST['catatan']   ?? '',
-                'status'    => 'pending',
-            ];
-
-            $transaksiModel->create($transaksiData);
-
+        if ($pesananModel->create($pesananData)) {
             $_SESSION['success'] = 'Pesanan berhasil dibuat!';
             header('Location: ' . BASE_URL . '/pesanan');
             exit;
-        } else {
-            $_SESSION['error'] = 'Gagal membuat pesanan, coba lagi.';
         }
+
+        $_SESSION['error'] = 'Gagal membuat pesanan, coba lagi.';
     }
 
     header('Location: ' . BASE_URL . '/jasa');
