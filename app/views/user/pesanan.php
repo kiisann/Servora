@@ -115,8 +115,8 @@ $selectedId  = $selected_id ?? null;
             <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
         </div>
         <div id="modalContent"></div>
-        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
-            <button onclick="closeDetail()" class="btn" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;">Tutup</button>
+        <div id="modalActions"
+            style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
         </div>
     </div>
 </div>
@@ -138,7 +138,22 @@ function openDetail(row) {
 
     const canContactWorker = data.status !== 'pending';
     const showFinalDetail = ['menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai'].includes(data.status);
-
+    const cancelButton = data.status === 'pending' ? `
+       <form method="POST" action="<?= BASE_URL ?>/pesanan/updateStatus/${data.id_pesanan}">
+             <input type="hidden" name="status" value="dibatalkan">
+             <button type="submit"
+                onclick="return confirm('Yakin ingin membatalkan pesanan ini?')"
+                style="padding:8px 16px;
+                      border:none;
+                      border-radius:8px;
+                      background:#ef4444;
+                      color:white;
+                      cursor:pointer;">
+                Batalkan Pesanan
+             </button>
+       </form>
+    ` : '';
+    
     const contactRow = canContactWorker ? `
         <tr>
             <td style="padding:8px 0;color:#64748b;">Kontak</td>
@@ -172,6 +187,18 @@ function openDetail(row) {
             ${finalDetailRows}
             ${contactRow}
         </table>`;
+
+    document.getElementById('modalActions').innerHTML = `
+        ${cancelButton}
+        <button onclick="closeDetail()"
+            style="padding:8px 16px;
+                   border:1px solid #e2e8f0;
+                   border-radius:8px;
+                   background:#fff;
+                   cursor:pointer;">
+            Tutup
+        </button>
+    `;
     document.getElementById('detailModal').style.display = 'flex';
 }
 

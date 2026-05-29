@@ -129,6 +129,37 @@ class PesananController extends Controller {
     exit;
 }
 
+    public function batalkanclient($id) {
+        if (!isset($_SESSION['user_id'])) {
+           header('Location: ' . BASE_URL . '/auth/login');
+           exit;
+        }
+
+        if (($_SESSION['role'] ?? '') !== 'client') {
+           header('Location: ' . BASE_URL . '/dashboard');
+           exit;
+        }
+
+       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          $pesananModel = $this->model('Pesanan');
+          $pesananList  = $pesananModel->getByClient($_SESSION['user_id']);
+
+          foreach ($pesananList as $pesanan) {
+              if ((int)$pesanan['id_pesanan'] === (int)$id && $pesanan['status'] === 'pending') {
+                 $pesananModel->updateStatus($id, 'dibatalkan');
+                 $_SESSION['success'] = 'Pesanan berhasil dibatalkan.';
+                 header('Location: ' . BASE_URL . '/pesanan');
+                 exit;
+             }
+         }
+
+        $_SESSION['error'] = 'Pesanan tidak dapat dibatalkan.';
+      }
+
+      header('Location: ' . BASE_URL . '/pesanan');
+      exit;
+    }
+
     public function updateStatus($id) {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
