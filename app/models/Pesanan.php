@@ -52,9 +52,6 @@ class Pesanan {
         return mysqli_stmt_execute($stmt);
     }
 
-    return false;
-}
-
     public function getByClient($clientId) {
         $query = "SELECT p.*, j.nama_jasa, u.nama as nama_freelancer, u.no_hp as no_hp_freelancer
                   FROM pesanan p
