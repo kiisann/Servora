@@ -71,6 +71,36 @@ class WorkerController extends Controller {
         $this->view('worker/kelola_jasa', $data);
     }
 
+    public function detailJasa($id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/auth/login');
+            exit;
+        }
+
+        if ($_SESSION['role'] !== 'freelancer') {
+            header('Location: ' . BASE_URL . '/dashboard');
+            exit;
+        }
+
+        $jasaModel = $this->model('Jasa');
+        $reviewModel = $this->model('Review');
+        $jasa = $jasaModel->getById($id);
+
+        if (!$jasa || (int)$jasa['id_user'] !== (int)$_SESSION['user_id']) {
+            $_SESSION['error'] = 'Jasa tidak ditemukan atau bukan milik Anda.';
+            header('Location: ' . BASE_URL . '/worker/jasa');
+            exit;
+        }
+
+        $data['jasa_item'] = $jasa;
+        $data['reviews'] = $reviewModel->getByJasa($id);
+        $data['review_summary'] = $reviewModel->getSummaryByJasa($id);
+        $data['role'] = $_SESSION['role'];
+        $data['nama'] = $_SESSION['nama'];
+
+        $this->view('worker/detail_jasa', $data);
+    }
+
     /**
      * Route: /worker/tambah
      * Form tambah jasa baru
