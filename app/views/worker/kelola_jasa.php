@@ -38,6 +38,7 @@ $jasaList = $jasa ?? [];
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
                     <?php foreach($jasaList as $j): ?>
                     <div class="card-container" style="padding:0;overflow:hidden;">
+                        <a href="<?= BASE_URL ?>/worker/jasa/detail/<?= $j['id_jasa'] ?>" style="display:block;color:inherit;text-decoration:none;">
                         <div style="height:160px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;overflow:hidden;">
                             <?php if (!empty($j['gambar'])): ?>
                                 <img src="<?= BASE_URL . '/' . htmlspecialchars(ltrim($j['gambar'], '/')) ?>" alt="<?= htmlspecialchars($j['nama_jasa']) ?>" style="width:100%;height:100%;object-fit:cover;">
@@ -53,6 +54,9 @@ $jasaList = $jasa ?? [];
                                 <span style="font-weight:700;color:#6366f1;">Rp<?= number_format($j['harga'],0,',','.') ?></span>
                                 <span class="badge <?= $j['status'] === 'aktif' ? 'success' : 'warning' ?>"><?= ucfirst($j['status']) ?></span>
                             </div>
+                        </div>
+                        </a>
+                        <div style="padding:0 16px 16px;">
                             <div style="display:flex;gap:8px;">
                                 <a href="<?= BASE_URL ?>/worker/edit/<?= $j['id_jasa'] ?>" style="flex:1;padding:8px;border:1px solid #6366f1;border-radius:8px;background:#fff;color:#6366f1;font-size:13px;font-weight:600;text-align:center;text-decoration:none;">Edit</a>
                                 <a href="<?= BASE_URL ?>/worker/hapus/<?= $j['id_jasa'] ?>" onclick="return confirm('Hapus jasa ini?')" style="padding:8px 12px;border:1px solid #ef4444;border-radius:8px;background:#fff;color:#ef4444;font-size:13px;font-weight:600;text-decoration:none;">Hapus</a>
