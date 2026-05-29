@@ -164,7 +164,6 @@ $hargaFormat = 'Rp' . number_format($jasaItem['harga'], 0, ',', '.');
         <option value="1">Transfer Bank</option>
         <option value="2">E-Wallet</option>
         <option value="3">QRIS</option>
-        <option value="4">Tunai</option>
     </select>
 </div>
 
