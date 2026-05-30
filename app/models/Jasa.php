@@ -151,7 +151,7 @@ class Jasa {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM jasa WHERE id_jasa = ?";
+        $query = "UPDATE jasa SET status = 'nonaktif' WHERE id_jasa = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         return mysqli_stmt_execute($stmt);
@@ -189,7 +189,7 @@ class Jasa {
             'success' => false,
             'type' => 'error',
             'message' => 'Gagal menghapus jasa.'
-];
+        ];
     }
 
     // Jika jasa belum pernah dipesan

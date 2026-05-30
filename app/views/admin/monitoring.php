@@ -17,7 +17,6 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
 
 <div class="dashboard-container">
     <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
-    <?php require_once __DIR__ . '/../../../public/assets/icons/icons.php'; ?>
 
     <main class="main-content">
         <header class="top-header">
@@ -34,27 +33,21 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                         <div class="title">Total Pengguna</div>
                         <div class="value"><?= number_format($total_pengguna ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon blue">
-                        <?= $icons['users'] ?>
-                    </div>
+                    <div class="stat-icon blue"></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Jasa</div>
                         <div class="value"><?= number_format($total_jasa ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon green">
-                        <?= $icons['package'] ?>
-                    </div>
+                    <div class="stat-icon green"></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Pesanan</div>
                         <div class="value"><?= number_format($total_pesanan ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon orange">
-                        <?= $icons['clipboard'] ?>
-                    </div>
+                    <div class="stat-icon orange"></div>
                 </div>
             </section>
 

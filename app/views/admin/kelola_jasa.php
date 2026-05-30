@@ -43,8 +43,7 @@ $jasaList = $jasa ?? [];
         <div class="page-content">
             <div class="card-container">
                 <div class="card-header">
-                    <h4>Daftar Jasa</h4>
-                    <input type="text" id="searchJasa" placeholder="Cari jasa...">
+                    <h3>Daftar Jasa</h3>
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
