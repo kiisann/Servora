@@ -43,6 +43,7 @@ class ProfileController extends Controller {
         ];
 
         if ($userModel->update($id, $userData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Memperbarui profil akun','info');
             // Perbarui session nama jika berubah
             if (!empty($userData['nama'])) {
                 $_SESSION['nama'] = $userData['nama'];

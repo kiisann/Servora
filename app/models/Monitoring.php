@@ -52,7 +52,7 @@ class Monitoring {
     }
 
     public function getTotalUsers() {
-        $sql = "SELECT COUNT(*) as total FROM users";
+        $sql = "SELECT COUNT(*) as total FROM users WHERE role != 'admin'";
         $result = mysqli_query($this->conn, $sql);
         $data = mysqli_fetch_assoc($result);
 
@@ -89,5 +89,11 @@ class Monitoring {
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    
+    public function getAllLogs(){
+        $query = "SELECT * FROM log_aktivitas ORDER BY created_at DESC";
+        return $this->conn->query($query);
     }
 }

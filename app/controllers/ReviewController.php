@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class ReviewController extends Controller{
     private $reviewModel;
     public function __construct() {
@@ -15,8 +16,9 @@ class ReviewController extends Controller{
             header('Location: ' . BASE_URL . '/review');
             exit;
         }
-        $this->reviewModel->delete($id);
-
+        if ($this->reviewModel->delete($id)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menghapus review ID ' . $id, 'warning');
+        }
         header('Location: ' . BASE_URL . '/review');
         exit;
     }

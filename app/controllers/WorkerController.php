@@ -162,6 +162,7 @@ class WorkerController extends Controller {
         ];
 
         if ($jasaModel->create($jasaData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menambahkan jasa: ' . $namaJasa);
             $_SESSION['success'] = 'Jasa berhasil ditambahkan!';
         } else {
             $_SESSION['error'] = 'Gagal menambahkan jasa, coba lagi.';
@@ -252,6 +253,7 @@ class WorkerController extends Controller {
         ];
 
         if ($jasaModel->update($id, $jasaData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Mengubah jasa: ' . $namaJasa);
             $_SESSION['success'] = 'Jasa berhasil diperbarui!';
         } else {
             $_SESSION['error'] = 'Gagal memperbarui jasa, coba lagi.';
@@ -294,6 +296,7 @@ class WorkerController extends Controller {
     $result = $jasaModel->deleteByWorker($id, $_SESSION['user_id']);
 
     if ($result['success']) {
+        Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menghapus jasa: ' . $jasa['nama_jasa'],'warning');
         $_SESSION['success'] = $result['message'];
     } else {
         $_SESSION['error'] = $result['message'];
