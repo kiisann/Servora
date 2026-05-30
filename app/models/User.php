@@ -10,7 +10,7 @@ class User {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users WHERE status != 'dihapus'";
         $result = mysqli_query($this->conn, $query);
         $data = [];
         if ($result) {
@@ -68,7 +68,7 @@ class User {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM users WHERE id_user = ?";
+        $query = "UPDATE users SET status = 'dihapus', deleted_at = NOW() WHERE id_user = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         return mysqli_stmt_execute($stmt);

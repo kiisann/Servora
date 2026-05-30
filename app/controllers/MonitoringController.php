@@ -7,37 +7,31 @@ class MonitoringController extends Controller {
             exit;
         }
 
-        // Hanya admin yang boleh akses monitoring
         if ($_SESSION['role'] !== 'admin') {
             header('Location: ' . BASE_URL . '/dashboard');
             exit;
         }
 
-        global $conn;
+        $monitoringModel = $this->model('Monitoring');
 
-        $queryUser = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users WHERE role != 'admin'");
-        $totalUser = mysqli_fetch_assoc($queryUser);
+        $filter_tipe = $_GET['tipe'] ?? '';
+        $tipe_valid = ['info','warning','error'];
 
-        $queryJasa = mysqli_query($conn, "SELECT COUNT(*) AS total FROM jasa");
-        $totalJasa = mysqli_fetch_assoc($queryJasa);
-
-        $queryPesanan = mysqli_query($conn, "SELECT COUNT(*) AS total FROM pesanan");
-        $totalPesanan = mysqli_fetch_assoc($queryPesanan);
-
-        $userQuery = mysqli_query($conn, "SELECT * FROM log_aktivitas ORDER BY created_at DESC LIMIT 10 ");
-        $logs = [];
-
-        while($row = mysqli_fetch_assoc($userQuery)) {
-            $logs[] = $row;
+        if(!empty($filter_tipe) && in_array($filter_tipe, $tipe_valid)){
+            $logs = $monitoringModel->getLogs($filter_tipe,50);
+        }else{
+            $filter_tipe = '';
+            $logs = $monitoringModel->getLogs(null,50);
         }
-
+        
         $data = [
             'role' => $_SESSION['role'],
             'nama' => $_SESSION['nama'],
-            'total_pengguna' => $totalUser['total'],
-            'total_jasa' => $totalJasa['total'],
-            'total_pesanan' => $totalPesanan['total'],
-            'logs' => $logs
+            'total_pengguna' => $monitoringModel->getTotalUsers(),
+            'total_jasa' => $monitoringModel->getTotalJasa(),
+            'total_pesanan' => $monitoringModel->getTotalPesanan(),
+            'logs' => $logs,
+            'filter_tipe' => $filter_tipe
         ];
 
 

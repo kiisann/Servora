@@ -165,6 +165,12 @@ public function update($id){
         // update database
         $jasaModel->updateByAdmin($id, $data);
 
+        if ($jasaModel->updateByAdmin($id, $data)) {
+            $_SESSION['success'] = 'Data jasa berhasil diperbarui!';
+        } else {
+            $_SESSION['error'] = 'Gagal memperbarui data jasa.';
+        }
+
         // redirect
         header('Location: ' . BASE_URL . '/jasa');
         exit;

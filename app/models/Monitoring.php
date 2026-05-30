@@ -1,6 +1,12 @@
 <?php
 
-class MonitoringController extends Controller {
+class Monitoring {
+    private $conn;
+
+    public function __construct() {
+        global $conn;
+        $this->conn = $conn;
+    }
 
     public function index() {
 
@@ -9,30 +15,79 @@ class MonitoringController extends Controller {
             exit;
         }
 
-        // Hanya admin
         if ($_SESSION['role'] !== 'admin') {
             header('Location: ' . BASE_URL . '/dashboard');
             exit;
         }
 
-        // Load model
         $monitoringModel = $this->model('Monitoring');
 
-        // Data
         $data = [
 
             'role' => $_SESSION['role'],
             'nama' => $_SESSION['nama'],
-
             'total_pengguna' => $monitoringModel->getTotalUsers(),
-
             'total_jasa' => $monitoringModel->getTotalJasa(),
-
             'total_pesanan' => $monitoringModel->getTotalPesanan(),
-
             'logs' => $monitoringModel->getLogs()
         ];
 
         $this->view('admin/monitoring', $data);
+    }
+
+        public function catat($pengguna, $deskripsi, $tipe = 'info') {
+        $query = "INSERT INTO log_aktivitas (pengguna, deskripsi, tipe) VALUES (?, ?, ?)";
+        $stmt  = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "sss", $pengguna, $deskripsi, $tipe);
+        return mysqli_stmt_execute($stmt);
+    }
+
+    public function getAll($limit = 50) {
+        $query  = "SELECT * FROM log_aktivitas ORDER BY created_at DESC LIMIT ?";
+        $stmt   = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $limit);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    public function getTotalUsers() {
+        $sql = "SELECT COUNT(*) as total FROM users";
+        $result = mysqli_query($this->conn, $sql);
+        $data = mysqli_fetch_assoc($result);
+
+        return $data['total'] ?? 0;
+    }
+
+    public function getTotalJasa() {
+        $query  = "SELECT COUNT(*) AS total FROM jasa WHERE status != 'dihapus'";
+        $result = mysqli_query($this->conn, $query);
+        $row    = mysqli_fetch_assoc($result);
+        return $row['total'] ?? 0;
+    }
+ 
+    public function getTotalPesanan() {
+        $query  = "SELECT COUNT(*) AS total FROM pesanan";
+        $result = mysqli_query($this->conn, $query);
+        $row    = mysqli_fetch_assoc($result);
+        return $row['total'] ?? 0;
+    }
+
+    public function getLogs($limit = 10) {
+        $query  = "SELECT * FROM log_aktivitas ORDER BY created_at DESC LIMIT ?";
+        $stmt   = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $limit);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+ 
+    public function getLogsByTipe($tipe, $limit = 50) {
+        $query  = "SELECT * FROM log_aktivitas WHERE tipe = ? ORDER BY created_at DESC LIMIT ?";
+        $stmt   = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "si", $tipe, $limit);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }

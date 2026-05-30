@@ -101,6 +101,12 @@ class AuthController extends Controller {
         }
     }
 
+    public function logActivity(){
+        $this->LogAktivitas->catat(
+            $nama,
+            "Pengguna baru ");
+    }
+
     public function logout() {
         session_unset();
         session_destroy();
