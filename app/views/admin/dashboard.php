@@ -10,7 +10,7 @@
 
 <div class="dashboard-container">
     <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
-
+    <?php require_once __DIR__ . '/../../../public/assets/icons/icons.php'; ?>
 
 
     <main class="main-content">
@@ -34,7 +34,9 @@
                     <div class="title">Total Pengguna</div>
                     <div class="value"><?= number_format($total_pengguna ?? 0) ?></div>
                 </div>
-                <div class="stat-icon blue"></div>
+                <div class="stat-icon blue">
+                    <?= $icons['users'] ?>
+                </div>
             </div>
 
             <div class="stat-card">
@@ -42,7 +44,9 @@
                     <div class="title">Total Jasa</div>
                     <div class="value"><?= number_format($total_jasa ?? 0) ?></div>
                 </div>
-                <div class="stat-icon green"></div>
+                <div class="stat-icon green">
+                    <?= $icons['package'] ?>
+                </div>
             </div>
 
             <div class="stat-card">
@@ -50,7 +54,9 @@
                     <div class="title">Total Pesanan</div>
                     <div class="value"><?= number_format($total_pesanan ?? 0) ?></div>
                 </div>
-                <div class="stat-icon orange"></div>
+                <div class="stat-icon orange">
+                    <?= $icons['users'] ?>
+                </div>
             </div>
         </section>
 

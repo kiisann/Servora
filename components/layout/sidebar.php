@@ -21,6 +21,7 @@ $menus = [
         ['icon' => $icons['dashboard'],   'text' => 'Dashboard',        'url' => '/dashboard',             'match' => '/dashboard'],
         ['icon' => $icons['users'],       'text' => 'Kelola Pengguna',  'url' => '/user',                  'match' => '/user'],
         ['icon' => $icons['package'],     'text' => 'Kelola Jasa',      'url' => '/jasa',                  'match' => '/jasa'],
+        ['icon' => $icons['star'],  'text' => 'Rating & Review',       'url' => '/review',             'match' => '/review'],
         ['icon' => $icons['monitoring'],  'text' => 'Monitoring',       'url' => '/monitoring',             'match' => '/monitoring'],
     ],
     'client' => [
