@@ -117,7 +117,7 @@ $statusBadges = [
                 <h3 id="modalTitle">Detail Pesanan</h3>
                 <p id="modalSubtitle"></p>
             </div>
-            <button class="worker-order-close" type="button" onclick="closeDetail()">x</button>
+            <button class="worker-order-close" type="button" onclick="closeDetail()" aria-label="Tutup">&times;</button>
         </div>
         <div id="modalContent"></div>
         <div id="modalActions" class="worker-order-actions"></div>
@@ -131,7 +131,7 @@ $statusBadges = [
                 <h3 id="reasonTitle">Isi Alasan</h3>
                 <p id="reasonSubtitle"></p>
             </div>
-            <button class="worker-order-close" type="button" onclick="closeReasonModal()">x</button>
+            <button class="worker-order-close" type="button" onclick="closeReasonModal()" aria-label="Tutup">&times;</button>
         </div>
         <form id="reasonForm" method="POST" class="worker-order-form">
             <label id="reasonLabel">Alasan</label>

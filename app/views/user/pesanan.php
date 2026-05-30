@@ -137,7 +137,7 @@ function openDetail(row) {
         dibatalkan: 'Dibatalkan'
     };
 
-    const canContactWorker = data.status !== 'pending';
+    const canContactWorker = !['pending', 'selesai', 'dibatalkan'].includes(data.status);
     const showFinalDetail = ['menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai'].includes(data.status);
     const cancelButton = data.status === 'pending' ? `
        <form method="POST" action="<?= BASE_URL ?>/pesanan/updateStatus/${data.id_pesanan}">
