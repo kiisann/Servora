@@ -213,11 +213,22 @@ function infoRow(label, value) {
 
 function paymentProof(data) {
     if (!data.bukti_pembayaran) return infoRow('Bukti Pembayaran', '-');
+    const proofUrl = assetUrl(data.bukti_pembayaran);
+    const isPdf = String(data.bukti_pembayaran).toLowerCase().endsWith('.pdf');
+
+    if (isPdf) {
+        return `
+            <div class="worker-order-proof">
+                <span>Bukti Pembayaran</span>
+                <a href="${proofUrl}" target="_blank" rel="noopener">Lihat bukti pembayaran PDF</a>
+            </div>`;
+    }
+
     return `
         <div class="worker-order-proof">
             <span>Bukti Pembayaran</span>
-            <a href="${assetUrl(data.bukti_pembayaran)}" target="_blank" rel="noopener">
-                <img src="${assetUrl(data.bukti_pembayaran)}" alt="Bukti Pembayaran">
+            <a href="${proofUrl}" target="_blank" rel="noopener">
+                <img src="${proofUrl}" alt="Bukti Pembayaran">
             </a>
         </div>`;
 }

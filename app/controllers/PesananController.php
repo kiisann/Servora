@@ -169,6 +169,7 @@ class PesananController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pesananModel = $this->model('Pesanan');
             $status       = $_POST['status'] ?? '';
+            $role         = $_SESSION['role'] ?? 'client';
 
             $allowedStatus = ['pending', 'diskusi', 'menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai', 'dibatalkan'];
             if (!in_array($status, $allowedStatus)) {
@@ -176,7 +177,23 @@ class PesananController extends Controller {
                 exit;
             }
 
-            $pesananModel->updateStatus($id, $status);
+            if ($role === 'admin') {
+                $pesananModel->updateStatus($id, $status);
+            } elseif ($role === 'client' && $status === 'dibatalkan') {
+                $pesananList = $pesananModel->getByClient($_SESSION['user_id']);
+                foreach ($pesananList as $pesanan) {
+                    if ((int)$pesanan['id_pesanan'] === (int)$id && $pesanan['status'] === 'pending') {
+                        $pesananModel->updateStatus($id, $status);
+                        $_SESSION['success'] = 'Pesanan berhasil dibatalkan.';
+                        header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
+                        exit;
+                    }
+                }
+
+                $_SESSION['error'] = 'Pesanan tidak dapat dibatalkan.';
+            } else {
+                $_SESSION['error'] = 'Aksi tidak diizinkan.';
+            }
         }
 
         header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);

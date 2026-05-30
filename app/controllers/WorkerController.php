@@ -276,6 +276,11 @@ class WorkerController extends Controller {
         exit;
     }
 
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Location: ' . BASE_URL . '/worker/jasa');
+        exit;
+    }
+
     $jasaModel = $this->model('Jasa');
 
     // Pastikan jasa milik freelancer yang login

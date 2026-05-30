@@ -59,7 +59,9 @@ $jasaList = $jasa ?? [];
                         <div style="padding:0 16px 16px;">
                             <div style="display:flex;gap:8px;">
                                 <a href="<?= BASE_URL ?>/worker/edit/<?= $j['id_jasa'] ?>" style="flex:1;padding:8px;border:1px solid #6366f1;border-radius:8px;background:#fff;color:#6366f1;font-size:13px;font-weight:600;text-align:center;text-decoration:none;">Edit</a>
-                                <a href="<?= BASE_URL ?>/worker/hapus/<?= $j['id_jasa'] ?>" onclick="return confirm('Hapus jasa ini?')" style="padding:8px 12px;border:1px solid #ef4444;border-radius:8px;background:#fff;color:#ef4444;font-size:13px;font-weight:600;text-decoration:none;">Hapus</a>
+                                <form method="POST" action="<?= BASE_URL ?>/worker/hapus/<?= $j['id_jasa'] ?>" onsubmit="return confirm('Hapus jasa ini?')" style="margin:0;">
+                                    <button type="submit" style="padding:8px 12px;border:1px solid #ef4444;border-radius:8px;background:#fff;color:#ef4444;font-size:13px;font-weight:600;cursor:pointer;">Hapus</button>
+                                </form>
                             </div>
                         </div>
                     </div>
