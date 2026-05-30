@@ -74,7 +74,7 @@ class Transaksi {
         $query = "UPDATE transaksi
                  SET bukti_pembayaran = ?,
                      tanggal_upload_bukti = NOW(),
-                     status_bayar = 'menunggu verifikasi',
+                     status_bayar = 'belum lunas',
                      catatan_verifikasi = NULL,
                      id_metode = ?
                  WHERE id_pesanan = ?";

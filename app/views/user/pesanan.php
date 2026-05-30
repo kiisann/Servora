@@ -137,7 +137,7 @@ function openDetail(row) {
         dibatalkan: 'Dibatalkan'
     };
 
-    const canContactWorker = data.status !== 'pending';
+    const canContactWorker = !['pending', 'selesai', 'dibatalkan'].includes(data.status);
     const showFinalDetail = ['menunggu_pembayaran', 'menunggu_verifikasi', 'diproses', 'selesai'].includes(data.status);
     const cancelButton = data.status === 'pending' ? `
        <form method="POST" action="<?= BASE_URL ?>/pesanan/updateStatus/${data.id_pesanan}">
@@ -196,17 +196,20 @@ function openDetail(row) {
        </form>
     ` : '';
     
-    const contactRow = canContactWorker ? `
-        <tr>
-            <td style="padding:8px 0;color:#64748b;">Kontak</td>
-            <td style="padding:8px 0;">
-                <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
-                   target="_blank"
-                   style="color:#25D366;font-weight:600;text-decoration:none;">
-                   Hubungi Freelancer
-                </a>
-            </td>
-        </tr>
+    const contactButton = canContactWorker ? `
+        <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
+           target="_blank"
+           style="
+                padding:10px 18px;
+                border:none;
+                border-radius:8px;
+                background:#6366f1;
+                color:white;
+                font-weight:600;
+                text-decoration:none;
+                cursor:pointer;">
+           Hubungi Freelancer
+        </a>
     ` : '';
 
     const finalDetailRows = showFinalDetail ? `
@@ -227,7 +230,6 @@ function openDetail(row) {
             <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
             <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
             ${finalDetailRows}
-            ${contactRow}
         </table>`;
 
     document.getElementById('modalActions').innerHTML = `
@@ -235,15 +237,18 @@ function openDetail(row) {
             ${uploadBuktiForm}
 
             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;">
+                ${contactButton}
                 ${cancelButton}
 
                 <button onclick="closeDetail()"
-                    style="padding:8px 16px;
-                           border:1px solid #e2e8f0;
-                           border-radius:8px;
-                           background:#fff;
-                           cursor:pointer;">
-                    Tutup
+                   style="
+                       padding:10px 18px;
+                       border:1px solid #e2e8f0;
+                       border-radius:8px;
+                       background:#fff;
+                       font-weight:600;
+                       cursor:pointer;">
+                   Tutup
                 </button>
             </div>
         </div>

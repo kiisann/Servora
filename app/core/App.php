@@ -1,9 +1,9 @@
 <?php
 
 class App {
+    private int $sessionTimeout = 900; // 15 menit dalam detik
 
     /**
-     * Explicit route table.
      * Format: 'url_path' => ['controller' => 'ControllerName', 'method' => 'methodName']
      * :id   → parameter dinamis (integer)
      */
@@ -74,6 +74,7 @@ class App {
     ];
 
     public function __construct() {
+        $this->checkSessionTimeout();
         $rawUrl = $this->parseURL();
         $this->dispatch($rawUrl);
     }
@@ -133,5 +134,21 @@ class App {
             return filter_var($url, FILTER_SANITIZE_URL);
         }
         return '';
+    }
+
+    private function checkSessionTimeout(): void {
+        if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $this->sessionTimeout)) {
+                session_unset();
+                session_destroy();
+                
+                // Mulai session baru hanya untuk menyimpan pesan flash error
+                session_start();
+                $_SESSION['error'] = 'Sesi Anda telah berakhir karena tidak ada aktivitas selama 15 menit.';
+                header('Location: ' . BASE_URL . '/auth/login');
+                exit;
+            }
+            $_SESSION['last_activity'] = time();
+        }
     }
 }

@@ -1,5 +1,35 @@
 <?php
 class JasaController extends Controller {
+    private function uploadGambarJasa($redirectUrl, $currentImage = null) {
+        if (empty($_FILES['gambar']['name'])) {
+            return $currentImage;
+        }
+
+        $allowedExt = ['jpg', 'jpeg', 'png', 'webp'];
+        $fileExt = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($fileExt, $allowedExt)) {
+            $_SESSION['error'] = 'Format gambar harus JPG, PNG, atau WebP.';
+            header('Location: ' . $redirectUrl);
+            exit;
+        }
+
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/images/upload';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+
+        $namaFile = 'jasa-admin-' . time() . '-' . bin2hex(random_bytes(4)) . '.' . $fileExt;
+        $targetPath = $uploadDir . '/' . $namaFile;
+
+        if (!move_uploaded_file($_FILES['gambar']['tmp_name'], $targetPath)) {
+            $_SESSION['error'] = 'Gagal mengupload gambar jasa.';
+            header('Location: ' . $redirectUrl);
+            exit;
+        }
+
+        return 'assets/images/upload/' . $namaFile;
+    }
 
     public function index() {
         if (!isset($_SESSION['user_id'])) {
@@ -58,10 +88,8 @@ class JasaController extends Controller {
 
         if ($role === 'freelancer') {
             // Freelancer melihat detail jasanya sendiri — tampilkan form edit
-            $kategoriModel    = $this->model('KategoriJasa');
-            $data['kategori'] = $kategoriModel->getAll();
-            $data['jasa_item'] = $data['jasa'];
-            $this->view('worker/kelola_jasa', $data);
+            header('Location: ' . BASE_URL . '/worker/jasa/detail/' . $id);
+            exit;
         } else {
             $this->view('user/detail_jasa', $data);
         }
@@ -78,20 +106,8 @@ class JasaController extends Controller {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $jasaModel = $this->model('Jasa');
-            $gambar = null;
+            $gambar = $this->uploadGambarJasa(BASE_URL . '/jasa');
 
-            if (!empty($_FILES['gambar']['name'])) {
-                $namaFile =
-                    time() . '_' . basename($_FILES['gambar']['name']);
-                $uploadPath =
-                    '../public/uploads/' . $namaFile;
-
-                move_uploaded_file(
-                    $_FILES['gambar']['tmp_name'],
-                    $uploadPath
-                );
-                $gambar = $namaFile;
-            }
             $jasaData = [
                 'id_user'     => $_SESSION['user_id'],
                 'id_kategori' => $_POST['id_kategori'] ?? null,
@@ -134,19 +150,7 @@ public function update($id){
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $gambar = $_POST['gambar_lama'];
-
-        // upload gambar baru
-        if (!empty($_FILES['gambar']['name'])) {
-
-            $namaFile = time() . '_' . $_FILES['gambar']['name'];
-
-            move_uploaded_file(
-                $_FILES['gambar']['tmp_name'],
-                '../public/uploads/' . $namaFile
-            );
-
-            $gambar = $namaFile;
-        }
+        $gambar = $this->uploadGambarJasa(BASE_URL . '/jasa', $gambar);
 
         // data update
         $data = [

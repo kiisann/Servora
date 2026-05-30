@@ -117,7 +117,7 @@ $statusBadges = [
                 <h3 id="modalTitle">Detail Pesanan</h3>
                 <p id="modalSubtitle"></p>
             </div>
-            <button class="worker-order-close" type="button" onclick="closeDetail()">x</button>
+            <button class="worker-order-close" type="button" onclick="closeDetail()" aria-label="Tutup">&times;</button>
         </div>
         <div id="modalContent"></div>
         <div id="modalActions" class="worker-order-actions"></div>
@@ -131,7 +131,7 @@ $statusBadges = [
                 <h3 id="reasonTitle">Isi Alasan</h3>
                 <p id="reasonSubtitle"></p>
             </div>
-            <button class="worker-order-close" type="button" onclick="closeReasonModal()">x</button>
+            <button class="worker-order-close" type="button" onclick="closeReasonModal()" aria-label="Tutup">&times;</button>
         </div>
         <form id="reasonForm" method="POST" class="worker-order-form">
             <label id="reasonLabel">Alasan</label>
@@ -213,11 +213,22 @@ function infoRow(label, value) {
 
 function paymentProof(data) {
     if (!data.bukti_pembayaran) return infoRow('Bukti Pembayaran', '-');
+    const proofUrl = assetUrl(data.bukti_pembayaran);
+    const isPdf = String(data.bukti_pembayaran).toLowerCase().endsWith('.pdf');
+
+    if (isPdf) {
+        return `
+            <div class="worker-order-proof">
+                <span>Bukti Pembayaran</span>
+                <a href="${proofUrl}" target="_blank" rel="noopener">Lihat bukti pembayaran PDF</a>
+            </div>`;
+    }
+
     return `
         <div class="worker-order-proof">
             <span>Bukti Pembayaran</span>
-            <a href="${assetUrl(data.bukti_pembayaran)}" target="_blank" rel="noopener">
-                <img src="${assetUrl(data.bukti_pembayaran)}" alt="Bukti Pembayaran">
+            <a href="${proofUrl}" target="_blank" rel="noopener">
+                <img src="${proofUrl}" alt="Bukti Pembayaran">
             </a>
         </div>`;
 }
@@ -359,8 +370,8 @@ function openDetail(row) {
             </div>`;
         actions = `
             ${wa ? `<a class="worker-order-secondary" href="${wa}" target="_blank" rel="noopener">Hubungi Client</a>` : ''}
-            ${actionButton('Terima Pembayaran', `${BASE_URL}/pesanan/terimaPembayaran/${data.id_pesanan}`, 'worker-order-primary')}
-            ${rejectPaymentButton(data)}`;
+            ${rejectPaymentButton(data)}
+            ${actionButton('Terima Pembayaran', `${BASE_URL}/pesanan/terimaPembayaran/${data.id_pesanan}`, 'worker-order-primary')}`;
     }
 
     if (data.status === 'diproses') {
