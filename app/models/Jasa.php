@@ -55,7 +55,7 @@ class Jasa {
 
         mysqli_stmt_bind_param(
             $stmt,
-            "iississ",
+            "iissdss",
             $data['id_user'],
             $data['id_kategori'],
             $data['nama_jasa'],
