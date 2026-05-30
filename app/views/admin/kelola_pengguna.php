@@ -11,7 +11,7 @@ $pengguna = $pengguna ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Pengguna – Servora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -41,51 +41,57 @@ $pengguna = $pengguna ?? [];
         <?php endif; ?>
 
         <div class="page-content">
-            <div style="overflow-x:auto;">
-                <table style="width:100%;border-collapse:collapse;font-size:14px;">
-                    <thead>
-                        <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                            <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Email</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Role</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Bergabung</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($pengguna)): ?>
-                                <?php foreach($pengguna as $u): ?>
-                                 <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:12px 16px;">
-                                        <div style="display:flex;align-items:center;gap:10px;">
-                                            <div style="width:36px;height:36px;border-radius:50%;background:#ede9fe;color:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
-                                            <span style="font-weight:600;"><?= htmlspecialchars($u['nama']) ?></span>
-                                        </div>
-                                    </td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= htmlspecialchars($u['email']) ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
-                                    <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
-                                     <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
-                                         <button type="button" class="btn-edit" onclick="openEditPengguna(this.closest('tr'))">
-                                             Edit
-                                         </button>
-                                         <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
-                                            class="btn-delete"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
-                                            Hapus
-                                         </a>
-                                     </td>
+            <div class= "card-container">
+                <div class="card-header">
+                    <h4>Daftar Pengguna</h4>
+                    <input type="text" id="searchPengguna" placeholder="Cari pengguna...">
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                        <thead>
+                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
+                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Email</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Role</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Bergabung</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
+                                    <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
                                 </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                        </thead>
+                            <tbody>
+                                <?php if (!empty($pengguna)): ?>
+                                    <?php foreach($pengguna as $u): ?>
+                                    <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:12px 16px;">
+                                            <div style="display:flex;align-items:center;gap:10px;">
+                                                <div style="width:36px;height:36px;border-radius:50%;background:#ede9fe;color:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
+                                                <span style="font-weight:600;"><?= htmlspecialchars($u['nama']) ?></span>
+                                            </div>
+                                        </td>
+                                        <td style="padding:12px 16px;color:#64748b;"><?= htmlspecialchars($u['email']) ?></td>
+                                        <td style="padding:12px 16px;"><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
+                                        <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
+                                        <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
+                                        <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
+                                        <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
+                                            <button type="button" class="btn-edit" onclick="openEditPengguna(this.closest('tr'))">
+                                                Edit
+                                            </button>
+                                            <a href="<?= BASE_URL ?>/user/delete/<?= $u['id_user'] ?>" 
+                                                class="btn-delete"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                                Hapus
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

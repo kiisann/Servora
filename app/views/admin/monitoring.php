@@ -10,13 +10,14 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitoring – Servora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 
 <div class="dashboard-container">
     <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
+    <?php require_once __DIR__ . '/../../../public/assets/icons/icons.php'; ?>
 
     <main class="main-content">
         <header class="top-header">
@@ -33,21 +34,27 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                         <div class="title">Total Pengguna</div>
                         <div class="value"><?= number_format($total_pengguna ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon blue"></div>
+                    <div class="stat-icon blue">
+                        <?= $icons['users'] ?>
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Jasa</div>
                         <div class="value"><?= number_format($total_jasa ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon green"></div>
+                    <div class="stat-icon green">
+                        <?= $icons['package'] ?>
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
                         <div class="title">Total Pesanan</div>
                         <div class="value"><?= number_format($total_pesanan ?? 0) ?></div>
                     </div>
-                    <div class="stat-icon orange"></div>
+                    <div class="stat-icon orange">
+                        <?= $icons['users'] ?>
+                        </div>
                 </div>
             </section>
 

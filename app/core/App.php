@@ -67,6 +67,10 @@ class App {
 
         // ── Home (landing page) ──
         'home'           => ['controller' => 'HomeController',       'method' => 'index'],
+
+        // ── Review (admin only) ──
+        'review'                => ['controller' => 'ReviewController', 'method' => 'index'],
+        'review/delete/:id'     => ['controller' => 'ReviewController', 'method' => 'delete'],
     ];
 
     public function __construct() {

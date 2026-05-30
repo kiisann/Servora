@@ -151,7 +151,7 @@ class Jasa {
     }
 
     public function delete($id) {
-        $query = "UPDATE jasa SET status = 'nonaktif' WHERE id_jasa = ?";
+        $query = "DELETE FROM jasa WHERE id_jasa = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         return mysqli_stmt_execute($stmt);

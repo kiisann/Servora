@@ -11,7 +11,7 @@ $jasaList = $jasa ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Jasa – Servora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -43,7 +43,8 @@ $jasaList = $jasa ?? [];
         <div class="page-content">
             <div class="card-container">
                 <div class="card-header">
-                    <h3>Daftar Jasa</h3>
+                    <h4>Daftar Jasa</h4>
+                    <input type="text" id="searchJasa" placeholder="Cari jasa...">
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
