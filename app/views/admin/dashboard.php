@@ -55,7 +55,7 @@
                     <div class="value"><?= number_format($total_pesanan ?? 0) ?></div>
                 </div>
                 <div class="stat-icon orange">
-                    <?= $icons['users'] ?>
+                    <?= $icons['clipboard'] ?>
                 </div>
             </div>
         </section>
