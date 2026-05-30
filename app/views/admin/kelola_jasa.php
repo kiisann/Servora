@@ -135,7 +135,7 @@ $jasaList = $jasa ?? [];
 
                 <div class="modal-field-full">
                     <label class="modal-field-label">Gambar</label>
-                    <input type="file" name="gambar" class="modal-field-input"></div>
+                    <input type="file" name="gambar" accept="image/jpeg,image/png,image/webp" class="modal-field-input"></div>
             </div>
             <div class="modal-actions-container">
                 <button type="button" class="modal-cancel-btn" onclick="closeEditJasa()">Batal</button>
