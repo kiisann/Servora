@@ -60,7 +60,7 @@ $baseUrl = defined('BASE_URL') ? BASE_URL : '';
         </nav>
 
         <div class="sidebar-footer">
-            <a href="<?= $baseUrl ?>/profile" class="user-profile-small" style="text-decoration:none;">
+            <a href="<?= $baseUrl ?>/profile" class="user-profile-small inline-profile-link">
                 <div class="sidebar-avatar"><?= htmlspecialchars($currentUser['avatar']) ?></div>
                 <div class="user-info">
                     <div class="name"><?= htmlspecialchars($currentUser['name']) ?></div>

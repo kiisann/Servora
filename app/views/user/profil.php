@@ -7,9 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profil – Servora Client</title>
   <meta name="description" content="Kelola informasi profil akunmu di Servora." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../public/css/style_user.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 <div class="layout">
@@ -36,7 +34,7 @@
       </a>
     </nav>
     <div class="sidebar-user">
-      <a href="profil.php" style="display:flex;align-items:center;gap:10px;">
+      <a href="profil.php" class="profile-user-link">
         <div class="avatar">R</div>
         <div class="user-info">
           <div class="user-name">Rina Pratiwi</div>
@@ -66,20 +64,20 @@
         <div>
           <div class="profile-name">Rina Pratiwi</div>
           <div class="profile-email">rina@student.ac.id</div>
-          <div style="margin-top:10px;">
+          <div class="profile-badge-wrap">
             <span class="badge badge-blue">Client</span>
           </div>
         </div>
-        <div style="margin-left:auto;">
+        <div class="profile-header-action">
           <button class="btn btn-outline" onclick="toggleEdit()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931zm0 0L19.5 7.125" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931zm0 0L19.5 7.125" /></svg>
             Edit Profil
           </button>
         </div>
       </div>
 
       <!-- FORM SECTION -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+      <div class="profile-main-grid">
 
         <!-- INFO PRIBADI -->
         <div class="card">
@@ -110,12 +108,12 @@
                 <label for="university">Universitas</label>
                 <input type="text" id="university" value="Universitas Indonesia" disabled />
               </div>
-              <div class="form-group" style="margin-bottom:0;">
+              <div class="form-group form-group-flat">
                 <label for="bio">Bio singkat</label>
                 <textarea id="bio" rows="3" disabled>Mahasiswa aktif yang sering membutuhkan jasa desain dan konten.</textarea>
               </div>
-              <div id="save-btn-wrap" style="display:none;margin-top:16px;text-align:right;">
-                <button type="button" class="btn btn-outline" style="margin-right:8px;" onclick="cancelEdit()">Batal</button>
+              <div id="save-btn-wrap" class="profile-save-actions">
+                <button type="button" class="btn btn-outline btn-spaced-right" onclick="cancelEdit()">Batal</button>
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
               </div>
             </form>
@@ -123,7 +121,7 @@
         </div>
 
         <!-- RIGHT COLUMN -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="profile-side-column">
 
           <!-- KEAMANAN -->
           <div class="card">
@@ -139,11 +137,11 @@
                 <label for="new-pw">Password baru</label>
                 <input type="password" id="new-pw" placeholder="Min. 8 karakter" />
               </div>
-              <div class="form-group" style="margin-bottom:0;">
+              <div class="form-group form-group-flat">
                 <label for="confirm-pw">Konfirmasi password baru</label>
                 <input type="password" id="confirm-pw" placeholder="Ulangi password baru" />
               </div>
-              <div style="margin-top:16px;text-align:right;">
+              <div class="profile-form-submit-actions">
                 <button class="btn btn-primary" onclick="alert('Password berhasil diperbarui!')">Perbarui Password</button>
               </div>
             </div>
@@ -155,27 +153,27 @@
               <span class="card-title">Statistik Akun</span>
             </div>
             <div class="card-body">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                <div style="background:var(--gray-50);border-radius:8px;padding:14px;text-align:center;">
-                  <div style="font-size:22px;font-weight:800;color:var(--primary);">4</div>
-                  <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Total Pesanan</div>
+              <div class="profile-stats-grid">
+                <div class="profile-stat-box">
+                  <div class="profile-stat-number primary">4</div>
+                  <div class="profile-stat-label">Total Pesanan</div>
                 </div>
-                <div style="background:var(--gray-50);border-radius:8px;padding:14px;text-align:center;">
-                  <div style="font-size:22px;font-weight:800;color:var(--success);">2</div>
-                  <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Selesai</div>
+                <div class="profile-stat-box">
+                  <div class="profile-stat-number success">2</div>
+                  <div class="profile-stat-label">Selesai</div>
                 </div>
-                <div style="background:var(--gray-50);border-radius:8px;padding:14px;text-align:center;">
-                  <div style="font-size:22px;font-weight:800;color:#ea580c;">1</div>
-                  <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Berjalan</div>
+                <div class="profile-stat-box">
+                  <div class="profile-stat-number warning">1</div>
+                  <div class="profile-stat-label">Berjalan</div>
                 </div>
-                <div style="background:var(--gray-50);border-radius:8px;padding:14px;text-align:center;">
-                  <div style="font-size:22px;font-weight:800;color:var(--gray-400);">1</div>
-                  <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">Dibatalkan</div>
+                <div class="profile-stat-box">
+                  <div class="profile-stat-number muted">1</div>
+                  <div class="profile-stat-label">Dibatalkan</div>
                 </div>
               </div>
-              <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gray-100);display:flex;justify-content:space-between;font-size:13px;color:var(--gray-600);">
+              <div class="profile-total-row">
                 <span>Total pengeluaran</span>
-                <span style="font-weight:700;color:var(--gray-900);">Rp 605.000</span>
+                <span class="profile-total-price">Rp 605.000</span>
               </div>
             </div>
           </div>

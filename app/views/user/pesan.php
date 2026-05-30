@@ -7,9 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pemesanan Jasa – Servora Client</title>
   <meta name="description" content="Lengkapi detail pesananmu untuk memesan jasa di Servora." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../public/css/style_user.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 <div class="layout">
@@ -80,11 +78,11 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="order-notes">Catatan tambahan <span style="font-weight:400;color:var(--gray-400);">(opsional)</span></label>
+                  <label for="order-notes">Catatan tambahan <span class="text-optional">(opsional)</span></label>
                   <textarea id="order-notes" rows="3" placeholder="Hal lain yang perlu freelancer ketahui."></textarea>
                 </div>
 
-                <div class="form-group" style="margin-bottom:0;">
+                <div class="form-group form-group-flat">
                   <label for="order-wa">Nomor WhatsApp kamu</label>
                   <input type="tel" id="order-wa" placeholder="+62 812 ..." required />
                 </div>
@@ -92,7 +90,7 @@
               </div>
             </div>
 
-            <div style="display:flex;gap:12px;margin-top:16px;justify-content:flex-end;">
+            <div class="form-actions-inline">
               <a href="detail-jasa.html" class="btn btn-outline btn-lg">Batal</a>
               <button type="submit" class="btn btn-primary btn-lg">Konfirmasi Pesanan</button>
             </div>
@@ -101,19 +99,19 @@
           <!-- SUMMARY -->
           <div>
             <div class="summary-box">
-              <div style="font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;">Ringkasan</div>
+              <div class="summary-label">Ringkasan</div>
 
               <div class="summary-service">
                 <div class="summary-thumb">🎨</div>
-                <div style="min-width:0;">
-                  <div style="font-size:13px;font-weight:700;color:var(--gray-800);line-height:1.3;">Desain Logo &amp; Brand Identity ...</div>
-                  <div style="font-size:12px;color:var(--gray-500);margin-top:2px;">oleh Aulia Rahma</div>
+                <div class="summary-service-info">
+                  <div class="summary-service-title">Desain Logo &amp; Brand Identity ...</div>
+                  <div class="summary-service-author">oleh Aulia Rahma</div>
                 </div>
               </div>
 
-              <div class="summary-row"><span>Harga</span><span style="font-weight:600;">Rp 150.000</span></div>
+              <div class="summary-row"><span>Harga</span><span class="user-cell-name">Rp 150.000</span></div>
               <div class="summary-row"><span>Estimasi</span><span>3 hari</span></div>
-              <div class="summary-total"><span>Total</span><span style="color:var(--primary);">Rp 150.000</span></div>
+              <div class="summary-total"><span>Total</span><span class="summary-total-price">Rp 150.000</span></div>
 
               <p class="summary-note">Setelah konfirmasi, kamu akan dapat tombol untuk lanjut diskusi via WhatsApp.</p>
             </div>

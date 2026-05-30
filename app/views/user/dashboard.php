@@ -13,8 +13,6 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Client – Servora</title>
   <meta name="description" content="Dashboard client Servora – pantau pesanan dan temukan jasa mahasiswa terbaik." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css" />
 </head>
 <body>
@@ -31,7 +29,7 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
       </div>
       <div class="header-right">
         <div class="header-actions">
-          <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+          <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary btn-icon-gap">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
             Cari Jasa
           </a>
@@ -80,9 +78,9 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
         <div class="card">
           <div class="card-header">
             <span class="card-title">Pesanan terbaru</span>
-            <a href="<?= BASE_URL ?>/riwayat" class="btn btn-ghost btn-sm" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat semua</a>
+            <a href="<?= BASE_URL ?>/riwayat" class="btn btn-ghost btn-sm header-action-link">Lihat semua</a>
           </div>
-          <div class="card-body" style="padding:0 20px;">
+          <div class="card-body card-body-flush-x">
             <?php if (!empty($recent_pesanan)): ?>
               <?php foreach($recent_pesanan as $p): ?>
               <?php
@@ -120,10 +118,10 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
           <div class="card-header">
             <span class="card-title">Rekomendasi untukmu</span>
           </div>
-          <div class="card-body" style="padding:0 20px;">
+          <div class="card-body card-body-flush-x">
             <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">🎨</div>
-              <div style="flex:1;min-width:0;">
+              <div class="item-flex-fill">
                 <div class="rec-title">Desain Logo &amp; Brand Identity ...</div>
                 <div class="rec-price">Rp 150.000</div>
               </div>
@@ -131,7 +129,7 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
             </div>
             <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">✍️</div>
-              <div style="flex:1;min-width:0;">
+              <div class="item-flex-fill">
                 <div class="rec-title">Jasa Pengetikan &amp; Penulisan M...</div>
                 <div class="rec-price">Rp 35.000</div>
               </div>
@@ -139,7 +137,7 @@ $sessionEmail = htmlspecialchars($_SESSION['email'] ?? '');
             </div>
             <div class="rec-item" onclick="location.href='<?= BASE_URL ?>/jasa'">
               <div class="rec-thumb">💻</div>
-              <div style="flex:1;min-width:0;">
+              <div class="item-flex-fill">
                 <div class="rec-title">Pembuatan Website Portofolio R...</div>
                 <div class="rec-price">Rp 450.000</div>
               </div>

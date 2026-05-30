@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servora Adminn</title>
-    <link rel="stylesheet" href="../../public/css/style-admin.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 
@@ -63,7 +63,7 @@
             </div>
         </header>
 
-        <div class="review-grid" style="margin-top: 24px;">
+        <div class="review-grid review-grid-spaced">
             <div class="review-card">
                 <div class="review-time">2 hari lalu</div>
                 <div class="review-header">

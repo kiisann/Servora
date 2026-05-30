@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil - Servora Worker</title>
-    <link rel="stylesheet" href="../../public/css/style-worker.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
 
@@ -86,7 +85,7 @@
                             <i class='bx bx-camera'></i>
                         </div>
                         <input type="file" id="avatarInput" accept="image/*"
-                               style="display:none;" onchange="changeAvatar(event)">
+                               class="input-hidden" onchange="changeAvatar(event)">
                     </div>
 
                     <!-- Name & Handle -->
@@ -144,12 +143,12 @@
 
                             <!-- Nama + Username -->
                             <div class="form-row">
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="namaLengkap">Nama lengkap</label>
                                     <input type="text" id="namaLengkap" class="form-control"
                                            value="Naya Pramesti" required>
                                 </div>
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="username">Username</label>
                                     <input type="text" id="username" class="form-control"
                                            value="nayap" required>
@@ -158,12 +157,12 @@
 
                             <!-- Email + Nomor HP -->
                             <div class="form-row">
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="email">Email</label>
                                     <input type="email" id="email" class="form-control"
                                            value="naya@kampus.ac.id" required>
                                 </div>
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="nomorHp">Nomor HP</label>
                                     <input type="tel" id="nomorHp" class="form-control"
                                            value="+62 812 3456 7890">
@@ -172,12 +171,12 @@
 
                             <!-- Kampus + Jurusan -->
                             <div class="form-row">
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="kampus">Kampus</label>
                                     <input type="text" id="kampus" class="form-control"
                                            value="Universitas Gadjah Mada">
                                 </div>
-                                <div class="form-group" style="margin-bottom:0;">
+                                <div class="form-group form-group-flat">
                                     <label class="form-label" for="jurusan">Jurusan</label>
                                     <input type="text" id="jurusan" class="form-control"
                                            value="Desain Komunikasi Visual">
@@ -192,7 +191,7 @@
                             </div>
 
                             <!-- Keahlian -->
-                            <div class="form-group" style="margin-bottom:0;">
+                            <div class="form-group form-group-flat">
                                 <label class="form-label">Keahlian</label>
                                 <div class="skill-tags" id="skillTags">
                                     <span class="skill-tag">
@@ -248,17 +247,17 @@
 
                     <!-- ======= TAB: KEAMANAN (kosong sesuai permintaan) ======= -->
                     <div class="profile-tab-content" id="tab-keamanan">
-                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
-                            <i class='bx bx-lock-alt' style="font-size:40px;display:block;margin-bottom:12px;"></i>
-                            <p style="font-size:14px;">Pengaturan keamanan akan segera tersedia.</p>
+                        <div class="profile-empty-panel">
+                            <i class='bx bx-lock-alt profile-empty-icon'></i>
+                            <p class="profile-empty-text">Pengaturan keamanan akan segera tersedia.</p>
                         </div>
                     </div>
 
                     <!-- ======= TAB: NOTIFIKASI (kosong sesuai permintaan) ======= -->
                     <div class="profile-tab-content" id="tab-notifikasi">
-                        <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
-                            <i class='bx bx-bell-off' style="font-size:40px;display:block;margin-bottom:12px;"></i>
-                            <p style="font-size:14px;">Pengaturan notifikasi akan segera tersedia.</p>
+                        <div class="profile-empty-panel">
+                            <i class='bx bx-bell-off profile-empty-icon'></i>
+                            <p class="profile-empty-text">Pengaturan notifikasi akan segera tersedia.</p>
                         </div>
                     </div>
 
@@ -272,13 +271,8 @@
 </div><!-- end dashboard-container -->
 
 <!-- Toast Notification -->
-<div id="toast" style="
-  display:none; position:fixed; bottom:28px; right:28px;
-  background:#1e293b; color:#fff; padding:14px 22px;
-  border-radius:12px; font-size:14px; font-weight:500;
-  z-index:999; box-shadow:0 8px 24px rgba(0,0,0,0.2);
-  align-items:center; gap:10px;">
-  <i class='bx bx-check-circle' style="font-size:18px;color:#22c55e;"></i>
+<div id="toast" class="toast">
+  <i class='bx bx-check-circle toast-icon-success'></i>
   <span id="toastMsg">Profil berhasil disimpan!</span>
 </div>
 

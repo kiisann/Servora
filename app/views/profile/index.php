@@ -21,10 +21,6 @@ $userId = $user['id_user'] ?? $_SESSION['user_id'] ?? '';
   <title>Profil <?= ucfirst($role) ?> - Servora</title>
   <!-- Kita gunakan style admin sebagai template utama agar rapi -->
   <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
-  <style>
-    /* Sedikit penyesuaian untuk tampilan seragam */
-    .dashboard-container { min-height: 100vh; display: flex; background: #f8fafc; }
-  </style>
 </head>
 <body>
 

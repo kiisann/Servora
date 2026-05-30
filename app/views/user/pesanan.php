@@ -13,8 +13,6 @@ $selectedId  = $selected_id ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesanan Saya – Servora</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -32,7 +30,7 @@ $selectedId  = $selected_id ?? null;
             </div>
             <div class="header-right">
                 <div class="header-actions">
-                    <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+                    <a href="<?= BASE_URL ?>/jasa" class="btn btn-primary btn-icon-gap">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
                         Cari Jasa
                     </a>
@@ -46,16 +44,16 @@ $selectedId  = $selected_id ?? null;
                 <div class="card-header">
                     <h3>Daftar Pesanan</h3>
                 </div>
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <div class="table-responsive">
+                    <table class="data-table">
                         <thead>
-                            <tr style="border-bottom:1px solid var(--border-color,#e2e8f0);text-align:left;">
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">ID</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Freelancer</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Aksi</th>
+                            <tr class="data-table-head-row">
+                                <th>ID</th>
+                                <th>Jasa</th>
+                                <th>Freelancer</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,23 +75,23 @@ $selectedId  = $selected_id ?? null;
                                         default      => ucfirst($p['status'])
                                     };
                                 ?>
-                                <tr style="border-bottom:1px solid #f1f5f9;"
+                                <tr class="data-table-row"
                                     data-pesanan='<?= json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
-                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
-                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
-                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
-                                    <td style="padding:12px 16px;">
-                                        <button class="btn btn-sm" style="font-size:12px;padding:4px 12px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;"
+                                    <td class="table-cell-id">#<?= $p['id_pesanan'] ?></td>
+                                    <td class="table-cell-strong"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
+                                    <td class="table-cell-muted"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-table-detail"
                                                 onclick="openDetail(this.closest('tr'))">Detail</button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="6" style="padding:40px 16px;text-align:center;color:#94a3b8;">
-                                        Belum ada pesanan. <a href="<?= BASE_URL ?>/jasa" style="color:var(--primary,#6366f1);font-weight:600;">Cari jasa sekarang</a>
+                                    <td colspan="6" class="table-empty">
+                                        Belum ada pesanan. <a href="<?= BASE_URL ?>/jasa" class="link-primary-strong">Cari jasa sekarang</a>
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -108,15 +106,14 @@ $selectedId  = $selected_id ?? null;
 </div>
 
 <!-- Detail Modal Popup -->
-<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:520px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-            <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalTitle">Detail Pesanan</h3>
-            <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
+<div id="detailModal" class="modal-overlay detail-modal detail-modal-wide">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title-main" id="modalTitle">Detail Pesanan</h3>
+            <button onclick="closeDetail()" class="modal-close-plain">✕</button>
         </div>
         <div id="modalContent"></div>
-        <div id="modalActions"
-            style="display:flex;gap:10px;justify-content:flex-end;margin-top:24px;">
+        <div id="modalActions" class="detail-modal-actions">
         </div>
     </div>
 </div>
@@ -144,12 +141,7 @@ function openDetail(row) {
              <input type="hidden" name="status" value="dibatalkan">
              <button type="submit"
                 onclick="return confirm('Yakin ingin membatalkan pesanan ini?')"
-                style="padding:8px 16px;
-                      border:none;
-                      border-radius:8px;
-                      background:#ef4444;
-                      color:white;
-                      cursor:pointer;">
+                class="btn-modal-danger">
                 Batalkan Pesanan
              </button>
        </form>
@@ -159,38 +151,33 @@ function openDetail(row) {
        <form method="POST"
              action="<?= BASE_URL ?>/pesanan/uploadBuktiPembayaran/${data.id_pesanan}"
              enctype="multipart/form-data"
-             style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:12px;">
+             class="payment-upload-form">
 
-           <label style="font-size:13px;font-weight:600;color:#1e293b;">
+           <label class="modal-form-label">
               Pilih Metode Pembayaran
            </label>
 
           <select name="id_metode"
                   required
-                  style="padding:10px;border:1px solid #e2e8f0;border-radius:8px;width:100%;">
+                  class="modal-form-select">
               <option value="">Pilih metode pembayaran</option>
               <option value="1">Transfer Bank</option>
               <option value="2">E-Wallet</option>
               <option value="3">QRIS</option>
           </select>
 
-          <label style="font-size:13px;font-weight:600;color:#1e293b;">
+          <label class="modal-form-label">
              Upload Bukti Pembayaran
           </label>
             <input type="file"
                    name="bukti_pembayaran"
                    accept=".jpg,.jpeg,.png,.pdf"
                    required
-                   style="font-size:13px;">
+                   class="modal-form-file">
 
             <button type="submit"
                    onclick="return confirm('Yakin ingin mengunggah bukti pembayaran?')"
-                   style="padding:8px 16px;
-                          border:none;
-                          border-radius:8px;
-                          background:#2563eb;
-                          color:white;
-                          cursor:pointer;">
+                   class="btn-modal-primary">
                 Kirim Bukti Pembayaran
             </button>
        </form>
@@ -199,55 +186,41 @@ function openDetail(row) {
     const contactButton = canContactWorker ? `
         <a href="https://wa.me/${data.no_hp_freelancer ? data.no_hp_freelancer.replace(/^0/, '62') : ''}"
            target="_blank"
-           style="
-                padding:10px 18px;
-                border:none;
-                border-radius:8px;
-                background:#6366f1;
-                color:white;
-                font-weight:600;
-                text-decoration:none;
-                cursor:pointer;">
+           class="btn-modal-contact">
            Hubungi Freelancer
         </a>
     ` : '';
 
     const finalDetailRows = showFinalDetail ? `
-        <tr><td style="padding:8px 0;color:#64748b;">Harga Awal</td><td style="padding:8px 0;color:#1e293b;">${data.harga_awal ? 'Rp' + Number(data.harga_awal).toLocaleString('id-ID') : '-'}</td></tr>
-        <tr><td style="padding:8px 0;color:#64748b;">Harga Final</td><td style="padding:8px 0;color:#1e293b;">${data.harga_final ? 'Rp' + Number(data.harga_final).toLocaleString('id-ID') : '-'}</td></tr>
-        <tr><td style="padding:8px 0;color:#64748b;">Deadline Final</td><td style="padding:8px 0;color:#1e293b;">${data.deadline_final || '-'}</td></tr>
-        <tr><td style="padding:8px 0;color:#64748b;">Waktu Pengerjaan</td><td style="padding:8px 0;color:#1e293b;">${data.waktu_pengerjaan || '-'}</td></tr>
-        <tr><td style="padding:8px 0;color:#64748b;">Maksimal Revisi</td><td style="padding:8px 0;color:#1e293b;">${data.maksimal_revisi || '-'}</td></tr>
-        <tr><td style="padding:8px 0;color:#64748b;">Catatan Worker</td><td style="padding:8px 0;color:#1e293b;">${data.catatan_worker || '-'}</td></tr>
+        <tr><td class="detail-label">Harga Awal</td><td>${data.harga_awal ? 'Rp' + Number(data.harga_awal).toLocaleString('id-ID') : '-'}</td></tr>
+        <tr><td class="detail-label">Harga Final</td><td>${data.harga_final ? 'Rp' + Number(data.harga_final).toLocaleString('id-ID') : '-'}</td></tr>
+        <tr><td class="detail-label">Deadline Final</td><td>${data.deadline_final || '-'}</td></tr>
+        <tr><td class="detail-label">Waktu Pengerjaan</td><td>${data.waktu_pengerjaan || '-'}</td></tr>
+        <tr><td class="detail-label">Maksimal Revisi</td><td>${data.maksimal_revisi || '-'}</td></tr>
+        <tr><td class="detail-label">Catatan Worker</td><td>${data.catatan_worker || '-'}</td></tr>
     ` : '';
 
     document.getElementById('modalContent').innerHTML = `
-        <table style="width:100%;font-size:14px;border-collapse:collapse;">
-            <tr><td style="padding:8px 0;color:#64748b;width:40%;">Nama Jasa</td><td style="padding:8px 0;font-weight:600;color:#1e293b;">${data.nama_jasa}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Freelancer</td><td style="padding:8px 0;color:#1e293b;">${data.nama_freelancer || '-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Tanggal</td><td style="padding:8px 0;color:#1e293b;">${data.created_at || '-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Deadline</td><td style="padding:8px 0;color:#1e293b;">${data.deadline || '-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Catatan</td><td style="padding:8px 0;color:#1e293b;">${data.catatan || '-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status] || data.status}</td></tr>
+        <table class="detail-table">
+            <tr><td class="detail-label detail-label-wide">Nama Jasa</td><td class="detail-value-strong">${data.nama_jasa}</td></tr>
+            <tr><td class="detail-label">Freelancer</td><td>${data.nama_freelancer || '-'}</td></tr>
+            <tr><td class="detail-label">Tanggal</td><td>${data.created_at || '-'}</td></tr>
+            <tr><td class="detail-label">Deadline</td><td>${data.deadline || '-'}</td></tr>
+            <tr><td class="detail-label">Catatan</td><td>${data.catatan || '-'}</td></tr>
+            <tr><td class="detail-label">Status</td><td class="detail-value-strong">${statusMap[data.status] || data.status}</td></tr>
             ${finalDetailRows}
         </table>`;
 
     document.getElementById('modalActions').innerHTML = `
-        <div style="width:100%;">
+        <div class="detail-modal-action-wrap">
             ${uploadBuktiForm}
 
-            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;">
+            <div class="detail-modal-action-row">
                 ${contactButton}
                 ${cancelButton}
 
                 <button onclick="closeDetail()"
-                   style="
-                       padding:10px 18px;
-                       border:1px solid #e2e8f0;
-                       border-radius:8px;
-                       background:#fff;
-                       font-weight:600;
-                       cursor:pointer;">
+                   class="btn-modal-close">
                    Tutup
                 </button>
             </div>

@@ -10,8 +10,6 @@ $pengguna = $pengguna ?? [];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Pengguna – Servora Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -41,35 +39,35 @@ $pengguna = $pengguna ?? [];
         <?php endif; ?>
 
         <div class="page-content">
-            <div style="overflow-x:auto;">
-                <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <div class="table-responsive">
+                <table class="data-table">
                     <thead>
-                        <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                            <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Email</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Role</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Bergabung</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
+                        <tr class="data-table-head-row">
+                            <th>Nama</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Kampus</th>
+                                <th>Bergabung</th>
+                                <th>Status</th>
+                                <th class="table-cell-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (!empty($pengguna)): ?>
                                 <?php foreach($pengguna as $u): ?>
-                                 <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:12px 16px;">
-                                        <div style="display:flex;align-items:center;gap:10px;">
-                                            <div style="width:36px;height:36px;border-radius:50%;background:#ede9fe;color:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
-                                            <span style="font-weight:600;"><?= htmlspecialchars($u['nama']) ?></span>
+                                 <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' class="data-table-row">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
+                                            <span class="user-cell-name"><?= htmlspecialchars($u['nama']) ?></span>
                                         </div>
                                     </td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= htmlspecialchars($u['email']) ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
-                                    <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
-                                     <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
+                                    <td class="table-cell-muted"><?= htmlspecialchars($u['email']) ?></td>
+                                    <td><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
+                                    <td class="table-cell-medium"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
+                                    <td class="table-cell-muted"><?= $u['created_at'] ?? '-' ?></td>
+                                    <td><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
+                                     <td class="table-cell-actions">
                                          <button type="button" class="btn-edit" onclick="openEditPengguna(this.closest('tr'))">
                                              Edit
                                          </button>
@@ -82,7 +80,7 @@ $pengguna = $pengguna ?? [];
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
+                                <tr><td colspan="7" class="table-empty-wide">Belum ada pengguna terdaftar.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -176,17 +174,17 @@ $pengguna = $pengguna ?? [];
         <form id="createForm" method="POST" action="<?= BASE_URL ?>/user/store">
             <div class="modal-grid-fields">
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Nama Lengkap <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Nama Lengkap <span class="required-marker">*</span></label>
                     <input type="text" name="nama" required class="modal-field-input" placeholder="Masukkan nama lengkap">
                 </div>
 
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Email <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Email <span class="required-marker">*</span></label>
                     <input type="email" name="email" required class="modal-field-input" placeholder="contoh@email.com">
                 </div>
 
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Password <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Password <span class="required-marker">*</span></label>
                     <input type="password" name="password" required class="modal-field-input" placeholder="Minimal 6 karakter" minlength="6">
                 </div>
 

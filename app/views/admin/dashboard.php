@@ -109,7 +109,7 @@
                             <div class="activity-bullet"></div>
                             <div class="activity-content">
                                 <div class="activity-text"><strong><?= htmlspecialchars($u['nama']) ?></strong> &middot; <?= ucfirst($u['role']) ?></div>
-                                <div style="font-size:12px;color:var(--text-muted);"><?= htmlspecialchars($u['email']) ?></div>
+                                <div class="activity-email"><?= htmlspecialchars($u['email']) ?></div>
                             </div>
                             <span class="badge <?= $u['status'] === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status']) ?></span>
                         </div>
