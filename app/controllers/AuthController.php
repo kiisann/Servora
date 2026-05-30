@@ -49,6 +49,7 @@ class AuthController extends Controller {
             $_SESSION['role']    = $user['role'];
             $_SESSION['nama']    = $user['nama'];
             $_SESSION['email']   = $user['email'];
+            $_SESSION['last_activity'] = time();
 
             header('Location: ' . BASE_URL . '/dashboard');
             exit;
