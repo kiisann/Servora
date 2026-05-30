@@ -80,6 +80,30 @@ class Jasa {
         return mysqli_stmt_execute($stmt);
     }
 
+    public function update($id, $data) {
+        $query = "UPDATE jasa
+                  SET id_kategori = ?,
+                      nama_jasa = ?,
+                      deskripsi = ?,
+                      harga = ?,
+                      gambar = ?,
+                      status = ?
+                  WHERE id_jasa = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "issdssi",
+            $data['id_kategori'],
+            $data['nama_jasa'],
+            $data['deskripsi'],
+            $data['harga'],
+            $data['gambar'],
+            $data['status'],
+            $id
+        );
+        return mysqli_stmt_execute($stmt);
+    }
+
     public function getByUser($userId) {
         $query = "SELECT j.*, k.nama_kategori 
                 FROM jasa j
