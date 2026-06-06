@@ -29,11 +29,7 @@ $selectedId  = $selected_id ?? null;
         </header>
 
         <div class="page-content">
-
-            <!-- LOG CONTAINER -->
             <div class="card-container">
-
-                <!-- Tab Filter -->
                 <div class="filter-tabs">
                     <a href="#" class="filter-tab active" onclick="setTab(this,'semua');return false;">SEMUA</a>
                     <a href="#" class="filter-tab" onclick="setTab(this,'pending');return false;">MENUNGGU</a>
