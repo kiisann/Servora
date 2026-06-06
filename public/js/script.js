@@ -282,4 +282,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const detailModal = document.getElementById('detailModal');
+    if (detailModal) {
+        detailModal.addEventListener('click', e => { 
+            if (e.target === e.currentTarget) closeDetail(); 
+        });
+    }
 });
+
+// Kelola Pesanan
+let activeTab = 'semua';
+
+function setTab(btn, tab) {
+    activeTab = tab;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#ordersBody tr[data-status]').forEach(row => {
+        const show = activeTab === 'semua' || row.dataset.status === activeTab;
+        row.style.display = show ? '' : 'none';
+    });
+}
+
+function openDetail(row) {
+    const data = JSON.parse(row.dataset.pesanan);
+    document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
+    const statusMap = {pending:'Menunggu',diproses:'Berlangsung',selesai:'Selesai',dibatalkan:'Dibatalkan'};
+    document.getElementById('modalContent').innerHTML = `
+        <table style="width:100%;font-size:14px;border-collapse:collapse;">
+            <tr><td style="padding:8px 0;color:#64748b;width:40%;">Jasa</td><td style="padding:8px 0;font-weight:600;">${data.nama_jasa}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Client</td><td style="padding:8px 0;">${data.nama_client||'-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Freelancer</td><td style="padding:8px 0;">${data.nama_freelancer||'-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Tanggal</td><td style="padding:8px 0;">${data.created_at||'-'}</td></tr>
+            <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status]||data.status}</td></tr>
+        </table>`;
+    document.getElementById('detailModal').style.display = 'flex';
+}
+
+function closeDetail() { 
+    const modal = document.getElementById('detailModal');
+    if (modal) modal.style.display = 'none'; 
+}

@@ -77,99 +77,77 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
             <!-- LOG CONTAINER -->
             <div class="card-container" style="margin-top:24px;">
 
-                <!-- FILTER TAB (STYLE PESANAN) -->
-                <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+                <!-- FILTER TAB -->
+                <div class="filter-tabs">
 
                     <a href="<?= BASE_URL ?>/monitoring"
-                       style="padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;
-                       border:1px solid #e2e8f0;
-                       background:<?= $filter_tipe === '' ? '#6366f1' : '#fff' ?>;
-                       color:<?= $filter_tipe === '' ? '#fff' : '#475569' ?>;">
-                        Semua
+                       class="filter-tab <?= $filter_tipe === '' ? 'active' : '' ?>">
+                        SEMUA
                     </a>
 
                     <a href="<?= BASE_URL ?>/monitoring?tipe=info"
-                       style="padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;
-                       border:1px solid #e2e8f0;
-                       background:<?= $filter_tipe === 'info' ? '#6366f1' : '#fff' ?>;
-                       color:<?= $filter_tipe === 'info' ? '#fff' : '#475569' ?>;">
+                       class="filter-tab <?= $filter_tipe === 'info' ? 'active' : '' ?>">
                         INFO
                     </a>
 
                     <a href="<?= BASE_URL ?>/monitoring?tipe=warning"
-                       style="padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;
-                       border:1px solid #e2e8f0;
-                       background:<?= $filter_tipe === 'warning' ? '#6366f1' : '#fff' ?>;
-                       color:<?= $filter_tipe === 'warning' ? '#fff' : '#475569' ?>;">
+                       class="filter-tab <?= $filter_tipe === 'warning' ? 'active' : '' ?>">
                         WARNING
                     </a>
 
                     <a href="<?= BASE_URL ?>/monitoring?tipe=error"
-                       style="padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;
-                       border:1px solid #e2e8f0;
-                       background:<?= $filter_tipe === 'error' ? '#6366f1' : '#fff' ?>;
-                       color:<?= $filter_tipe === 'error' ? '#fff' : '#475569' ?>;">
+                       class="filter-tab <?= $filter_tipe === 'error' ? 'active' : '' ?>">
                         ERROR
                     </a>
 
                 </div>
 
                 <!-- LOG LIST -->
-                <div class="activity-list">
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width:20%;">Waktu</th>
+                                <th style="width:20%;">Pengguna</th>
+                                <th style="width:<?= $filter_tipe === '' ? '50%' : '60%' ?>;">Aktivitas</th>
+                                <?php if ($filter_tipe === ''): ?>
+                                    <th class="text-right" style="width:10%;">Tipe</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($logs)): ?>
+                                <?php foreach ($logs as $log): ?>
+                                    <?php
+                                    $tipe = $log['tipe'] ?? 'info';
 
-                    <?php if (!empty($logs)): ?>
-                        <?php foreach ($logs as $log): ?>
-
-                            <?php
-                            $tipe = $log['tipe'] ?? 'info';
-
-                            $badgeClass = match($tipe) {
-                                'warning' => 'warning',
-                                'error'   => 'danger',
-                                default   => 'info',
-                            };
-
-                            $bulletClass = match($tipe) {
-                                'warning' => 'bullet-warning',
-                                'error'   => 'bullet-danger',
-                                default   => 'bullet-info',
-                            };
-                            ?>
-
-                            <div class="activity-item">
-                                <div class="activity-bullet <?= $bulletClass ?>"></div>
-
-                                <div class="activity-content">
-                                    <div class="activity-text">
-                                        <strong><?= htmlspecialchars($log['pengguna'] ?? '-') ?></strong>
-                                        <?= htmlspecialchars($log['deskripsi'] ?? '-') ?>
-                                        &mdash;
-
-                                        <span class="badge <?= $badgeClass ?>">
-                                            <?= strtoupper($tipe) ?>
-                                        </span>
-                                    </div>
-
-                                    <div style="font-size:12px;color:#94a3b8;margin-top:2px;">
-                                        <?= htmlspecialchars($log['created_at'] ?? '-') ?>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <?php endforeach; ?>
-                    <?php else: ?>
-
-                        <div class="activity-item">
-                            <div class="activity-content">
-                                <div class="activity-text" style="color:#94a3b8;">
-                                    Tidak ada aktivitas
-                                    <?= $filter_tipe ? " dengan tipe <strong>" . strtoupper($filter_tipe) . "</strong>" : '' ?>
-                                </div>
-                            </div>
-                        </div>
-
-                    <?php endif; ?>
-
+                                    $badgeClass = match($tipe) {
+                                        'warning' => 'warning',
+                                        'error'   => 'danger',
+                                        default   => 'info',
+                                    };
+                                    ?>
+                                    <tr>
+                                        <td class="text-muted" style="white-space:nowrap;"><?= htmlspecialchars($log['created_at'] ?? '-') ?></td>
+                                        <td class="fw-medium"><?= htmlspecialchars($log['pengguna'] ?? '-') ?></td>
+                                        <td><?= htmlspecialchars($log['deskripsi'] ?? '-') ?></td>
+                                        <?php if ($filter_tipe === ''): ?>
+                                            <td class="text-right">
+                                                <span class="badge <?= $badgeClass ?>"><?= strtoupper($tipe) ?></span>
+                                            </td>
+                                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="<?= $filter_tipe === '' ? '4' : '3' ?>" class="text-muted" style="padding:40px;text-align:center;">
+                                        Tidak ada aktivitas
+                                        <?= $filter_tipe ? " dengan tipe <strong>" . strtoupper($filter_tipe) . "</strong>" : '' ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

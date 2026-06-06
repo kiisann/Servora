@@ -30,20 +30,22 @@ $selectedId  = $selected_id ?? null;
 
         <div class="page-content">
 
-            <!-- Tab Filter -->
-            <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-                <button class="tab-btn active" onclick="setTab(this,'semua')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#6366f1;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">Semua</button>
-                <button class="tab-btn" onclick="setTab(this,'pending')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Menunggu</button>
-                <button class="tab-btn" onclick="setTab(this,'diproses')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Berlangsung</button>
-                <button class="tab-btn" onclick="setTab(this,'selesai')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Selesai</button>
-                <button class="tab-btn" onclick="setTab(this,'dibatalkan')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;">Dibatalkan</button>
-            </div>
-
+            <!-- LOG CONTAINER -->
             <div class="card-container">
+
+                <!-- Tab Filter -->
+                <div class="filter-tabs">
+                    <a href="#" class="filter-tab active" onclick="setTab(this,'semua');return false;">SEMUA</a>
+                    <a href="#" class="filter-tab" onclick="setTab(this,'pending');return false;">MENUNGGU</a>
+                    <a href="#" class="filter-tab" onclick="setTab(this,'diproses');return false;">BERLANGSUNG</a>
+                    <a href="#" class="filter-tab" onclick="setTab(this,'selesai');return false;">SELESAI</a>
+                    <a href="#" class="filter-tab" onclick="setTab(this,'dibatalkan');return false;">DIBATALKAN</a>
+                </div>
+
                 <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                    <table class="data-table">
                         <thead>
-                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
+                            <tr>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">ID</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Jasa</th>
                                 <th style="padding:12px 16px;color:#64748b;font-weight:600;">Client</th>
@@ -110,43 +112,7 @@ $selectedId  = $selected_id ?? null;
     </div>
 </div>
 
-<script>
-let activeTab = 'semua';
-
-function setTab(btn, tab) {
-    activeTab = tab;
-    document.querySelectorAll('.tab-btn').forEach(t => {
-        t.style.background = '#fff';
-        t.style.color = '#475569';
-        t.style.borderColor = '#e2e8f0';
-    });
-    btn.style.background = '#6366f1';
-    btn.style.color = '#fff';
-    btn.style.borderColor = '#6366f1';
-    document.querySelectorAll('#ordersBody tr[data-status]').forEach(row => {
-        const show = activeTab === 'semua' || row.dataset.status === activeTab;
-        row.style.display = show ? '' : 'none';
-    });
-}
-
-function openDetail(row) {
-    const data = JSON.parse(row.dataset.pesanan);
-    document.getElementById('modalTitle').textContent = 'Detail Pesanan #' + data.id_pesanan;
-    const statusMap = {pending:'Menunggu',diproses:'Berlangsung',selesai:'Selesai',dibatalkan:'Dibatalkan'};
-    document.getElementById('modalContent').innerHTML = `
-        <table style="width:100%;font-size:14px;border-collapse:collapse;">
-            <tr><td style="padding:8px 0;color:#64748b;width:40%;">Jasa</td><td style="padding:8px 0;font-weight:600;">${data.nama_jasa}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Client</td><td style="padding:8px 0;">${data.nama_client||'-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Freelancer</td><td style="padding:8px 0;">${data.nama_freelancer||'-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Tanggal</td><td style="padding:8px 0;">${data.created_at||'-'}</td></tr>
-            <tr><td style="padding:8px 0;color:#64748b;">Status</td><td style="padding:8px 0;font-weight:600;">${statusMap[data.status]||data.status}</td></tr>
-        </table>`;
-    document.getElementById('detailModal').style.display = 'flex';
-}
-
-function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
-document.getElementById('detailModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeDetail(); });
-</script>
+<script src="<?= BASE_URL ?>/js/script.js?v=<?= time() ?>"></script>
 
 </body>
 </html>
