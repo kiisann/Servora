@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class WorkerController extends Controller {
     private function uploadGambarJasa(string $redirectUrl, ?string $currentImage = null): ?string {
         if (empty($_FILES['gambar']) || $_FILES['gambar']['error'] === UPLOAD_ERR_NO_FILE) {

@@ -10,9 +10,9 @@
 
 <div class="dashboard-container">
     <?php require_once __DIR__ . '/../../../components/layout/sidebar.php'; ?>
-    <?php require_once __DIR__ . '/../../../public/assets/icons/icons.php'; ?>
-
-
+    <?php require_once __DIR__ . '/../../../public/assets/icons/icons.php'; ?> 
+    
+    
     <main class="main-content">
         <header class="top-header">
             <div class="header-left">

@@ -11,7 +11,7 @@ $jasaList = $jasa ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Jasa – Servora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -44,7 +44,10 @@ $jasaList = $jasa ?? [];
             <div class="card-container">
                 <div class="card-header">
                     <h4>Daftar Jasa</h4>
-                    <input type="text" id="searchJasa" placeholder="Cari jasa...">
+                    <div class="table-search">
+                        <?= $icons['search'] ?>
+                        <input type="text" id="searchJasa" placeholder="Cari jasa...">
+                    </div>
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
@@ -68,6 +71,8 @@ $jasaList = $jasa ?? [];
                                     data-status="<?= $j['status'] ?>"
                                     data-deskripsi="<?= htmlspecialchars($j['deskripsi'] ?? '') ?>"
                                     data-gambar="<?= htmlspecialchars($j['gambar'] ?? '') ?>"
+                                    data-freelancer="<?= htmlspecialchars($j['nama_freelancer'] ?? '-') ?>"
+                                    data-nama-kategori="<?= htmlspecialchars($j['nama_kategori'] ?? '-') ?>"
                                     style="border-bottom:1px solid #f1f5f9;">
                                     <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($j['nama_jasa']) ?></td>
                                     <td style="padding:12px 16px;"><span class="badge secondary"><?= htmlspecialchars($j['nama_kategori'] ?? '-') ?></span></td>
@@ -198,7 +203,7 @@ $jasaList = $jasa ?? [];
     </div>
 </div>
 
-<script src="<?= BASE_URL ?>/js/script.js"></script>
+<script src="<?= BASE_URL ?>/js/script.js?v=<?= time() ?>"></script>
 
 </body>
 </html>

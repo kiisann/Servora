@@ -28,7 +28,7 @@ $hargaFormat = 'Rp' . number_format($jasaItem['harga'], 0, ',', '.');
     <title><?= htmlspecialchars($jasaItem['nama_jasa']) ?> – Servora</title>
     <meta name="description" content="<?= htmlspecialchars(mb_substr($jasaItem['deskripsi'] ?? '', 0, 150)) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>

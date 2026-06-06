@@ -11,7 +11,7 @@ $pengguna = $pengguna ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Pengguna – Servora Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
 </head>
 <body>
@@ -44,7 +44,10 @@ $pengguna = $pengguna ?? [];
             <div class= "card-container">
                 <div class="card-header">
                     <h4>Daftar Pengguna</h4>
-                    <input type="text" id="searchPengguna" placeholder="Cari pengguna...">
+                    <div class="table-search">
+                        <?= $icons['search'] ?>
+                        <input type="text" id="searchPengguna" placeholder="Cari pengguna...">
+                    </div>
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:14px;">
@@ -58,7 +61,7 @@ $pengguna = $pengguna ?? [];
                                     <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
                                     <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
                                 </tr>
-                            </thead>
+                        </thead>
                             <tbody>
                                 <?php if (!empty($pengguna)): ?>
                                     <?php foreach($pengguna as $u): ?>
@@ -242,7 +245,7 @@ $pengguna = $pengguna ?? [];
     </div>
 </div>
 
-<script src="<?= BASE_URL ?>/js/script.js"></script>
+<script src="<?= BASE_URL ?>/js/script.js?v=<?= time() ?>"></script>
 
 </body>
 </html>

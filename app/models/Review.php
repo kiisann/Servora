@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../core/Database.php';
 
-class Review{
-
+class Review {
     private $conn;
-    public function __construct(){
+
+    public function __construct() {
         global $conn;
         $this->conn = $conn;
     }
@@ -14,10 +14,8 @@ class Review{
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_jasa);
         mysqli_stmt_execute($stmt);
-
         $result = mysqli_stmt_get_result($stmt);
         $data = [];
-
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $data[] = $row;
@@ -41,7 +39,7 @@ class Review{
     public function create($data) {
         $query = "INSERT INTO review (id_pesanan, id_client, rating, komentar) VALUES (?, ?, ?, ?)";
         $stmt = mysqli_prepare($this->conn, $query);
-
+        
         mysqli_stmt_bind_param(
             $stmt,
             "iiis",

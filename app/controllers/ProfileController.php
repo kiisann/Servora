@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class ProfileController extends Controller {
 
     public function index() {

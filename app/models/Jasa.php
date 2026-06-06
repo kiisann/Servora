@@ -190,7 +190,7 @@ class Jasa {
             'success' => false,
             'type' => 'error',
             'message' => 'Gagal menghapus jasa.'
-];
+        ];
     }
 
     // Jika jasa belum pernah dipesan
