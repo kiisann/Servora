@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
             </div>
         </header>
 
-        <div class="review-grid" style="margin-top: 24px;">
+        <div class="review-grid">
             <?php if (!empty($reviews)): ?>
                 <?php foreach($reviews as $r): ?>
                     <div class="review-card">

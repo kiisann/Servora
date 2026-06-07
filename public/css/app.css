@@ -928,6 +928,7 @@ body {
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
+  text-align: center;
 }
 
 .badge.info {
@@ -1156,6 +1157,10 @@ body {
 
 .text-right {
   text-align: right;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-muted {
@@ -3913,7 +3918,7 @@ table {
 thead th {
   background: var(--gray-50);
   padding: 12px 16px;
-  text-align: left;
+  text-align: center;
   font-size: 12px;
   font-weight: 600;
   color: var(--gray-500);
@@ -3921,6 +3926,8 @@ thead th {
   letter-spacing: 0.04em;
   border-bottom: 1px solid var(--gray-200);
 }
+
+
 
 tbody td {
   padding: 14px 16px;
@@ -5291,6 +5298,215 @@ textarea { resize: vertical; min-height: 90px; }
   padding: 32px 20px;
   color: #94a3b8;
   text-align: center;
+}
+
+.monitoring-card {
+    margin-top: 24px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.col-time {
+    width: 20%;
+}
+
+.col-user {
+    width: 20%;
+}
+
+.col-activity {
+    width: 50%;
+}
+
+.col-activity-full {
+    width: 60%;
+}
+
+.log-time {
+    white-space: nowrap;
+}
+
+.empty-log {
+    padding: 40px;
+    text-align: center;
+}
+
+.table-row {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.table-jasa {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.th-col {
+    padding: 12px 16px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.td-name {
+    padding: 12px 16px;
+    font-weight: 600;
+}
+
+.td-category,
+.td-freelancer,
+.td-price,
+.td-status,
+.td-action {
+    padding: 12px 16px;
+}
+
+.td-price {
+    font-weight: 600;
+}
+
+.td-action {
+    text-align: center;
+}
+
+.table-pengguna {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: #6366f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.user-name {
+    font-weight: 600;
+}
+
+.fw-medium {
+    font-weight: 500;
+}
+
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+.required {
+    color: #ef4444;
+}
+
+.order-id {
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.order-service {
+    padding: 12px 16px;
+    font-weight: 600;
+}
+
+.order-cell {
+    padding: 12px 16px;
+}
+
+.order-date {
+    padding: 12px 16px;
+    color: #64748b;
+}
+
+.detail-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-modal-container {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+
+.detail-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.detail-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.detail-modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.detail-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.detail-modal-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.image-preview-wrapper {
+    margin-bottom: 12px;
+}
+
+.image-preview {
+    width: 180px;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
 }
 
 @media (max-width: 900px) {

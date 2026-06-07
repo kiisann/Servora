@@ -74,12 +74,9 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
 
             </section>
 
-            <!-- LOG CONTAINER -->
-            <div class="card-container" style="margin-top:24px;">
+            <div class="card-container monitoring-card">
 
-                <!-- FILTER TAB -->
                 <div class="filter-tabs">
-
                     <a href="<?= BASE_URL ?>/monitoring"
                        class="filter-tab <?= $filter_tipe === '' ? 'active' : '' ?>">
                         SEMUA
@@ -103,15 +100,15 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                 </div>
 
                 <!-- LOG LIST -->
-                <div style="overflow-x:auto;">
+                <div class="table-wrapper">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th style="width:20%;">Waktu</th>
-                                <th style="width:20%;">Pengguna</th>
-                                <th style="width:<?= $filter_tipe === '' ? '50%' : '60%' ?>;">Aktivitas</th>
+                                <th class="col-time">Waktu</th>
+                                <th class="col-user">Pengguna</th>
+                                <th class="<?= $filter_tipe === '' ? 'col-activity' : 'col-activity-full' ?>;">Aktivitas</th>
                                 <?php if ($filter_tipe === ''): ?>
-                                    <th class="text-right" style="width:10%;">Tipe</th>
+                                    <th class="text-right">Tipe</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>
@@ -128,7 +125,7 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                                     };
                                     ?>
                                     <tr>
-                                        <td class="text-muted" style="white-space:nowrap;"><?= htmlspecialchars($log['created_at'] ?? '-') ?></td>
+                                        <td class="log-time"><?= htmlspecialchars($log['created_at'] ?? '-') ?></td>
                                         <td class="fw-medium"><?= htmlspecialchars($log['pengguna'] ?? '-') ?></td>
                                         <td><?= htmlspecialchars($log['deskripsi'] ?? '-') ?></td>
                                         <?php if ($filter_tipe === ''): ?>
@@ -140,7 +137,7 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="<?= $filter_tipe === '' ? '4' : '3' ?>" class="text-muted" style="padding:40px;text-align:center;">
+                                    <td colspan="<?= $filter_tipe === '' ? '4' : '3' ?>" class="empty-log">
                                         Tidak ada aktivitas
                                         <?= $filter_tipe ? " dengan tipe <strong>" . strtoupper($filter_tipe) . "</strong>" : '' ?>
                                     </td>

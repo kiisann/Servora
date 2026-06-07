@@ -87,12 +87,12 @@ function openEditJasa(row) {
     if (statusField) statusField.value = status;
     if (deskripsiField) deskripsiField.value = deskripsi;
     if (gambarField) gambarField.value = gambarLama;
-    
-    // 4. Tampilkan modal
+
     const editModal = document.getElementById('editModal');
     if (editModal) {
         editModal.style.display = 'flex';
     }
+    
 }
 
 function closeEditJasa() {

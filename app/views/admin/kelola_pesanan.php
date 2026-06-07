@@ -38,17 +38,17 @@ $selectedId  = $selected_id ?? null;
                     <a href="#" class="filter-tab" onclick="setTab(this,'dibatalkan');return false;">DIBATALKAN</a>
                 </div>
 
-                <div style="overflow-x:auto;">
+                <div class="table-wrapper">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">ID</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Jasa</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Client</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Freelancer</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Tanggal</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Aksi</th>
+                                <th class="td-default">ID</th>
+                                <th class="td-default">Jasa</th>
+                                <th class="td-default">Client</th>
+                                <th class="td-default">Freelancer</th>
+                                <th class="td-default">Status</th>
+                                <th class="td-default">Tanggal</th>
+                                <th class="td-default">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="ordersBody">
@@ -70,21 +70,21 @@ $selectedId  = $selected_id ?? null;
                                         default      => ucfirst($p['status'])
                                     };
                                 ?>
-                                <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;"
+                                <tr data-status="<?= $p['status'] ?>" class="table-row"
                                     data-pesanan='<?= json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
-                                    <td style="padding:12px 16px;font-weight:600;color:#475569;">#<?= $p['id_pesanan'] ?></td>
-                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
-                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
-                                    <td style="padding:12px 16px;">
+                                    <td class="order-id">#<?= $p['id_pesanan'] ?></td>
+                                    <td class="order-service"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td class="order-cell"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
+                                    <td class="order-cell"><?= htmlspecialchars($p['nama_freelancer'] ?? '-') ?></td>
+                                    <td class="order-cell"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                    <td class="order-date"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td class="order-cell">
                                         <button class="btn-edit" onclick="openDetail(this.closest('tr'))">Detail</button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pesanan.</td></tr>
+                                <tr><td colspan="7" class="empty-state">Belum ada pesanan.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -95,15 +95,15 @@ $selectedId  = $selected_id ?? null;
 </div>
 
 <!-- Detail Modal -->
-<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;padding:28px 32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-            <h3 style="font-size:16px;font-weight:700;color:#1e293b;" id="modalTitle">Detail Pesanan</h3>
-            <button onclick="closeDetail()" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;">✕</button>
+<div id="detailModal" class="detail-modal">
+    <div class="detail-modal-container">
+        <div class="detail-modal-header">
+            <h3 class="detail-modal-title" id="modalTitle">Detail Pesanan</h3>
+            <button onclick="closeDetail()" class="detail-modal-close">✕</button>
         </div>
         <div id="modalContent"></div>
-        <div style="display:flex;justify-content:flex-end;margin-top:24px;">
-            <button onclick="closeDetail()" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;">Tutup</button>
+        <div class="detail-modal-footer">
+            <button onclick="closeDetail()" class="detail-modal-btn">Tutup</button>
         </div>
     </div>
 </div>

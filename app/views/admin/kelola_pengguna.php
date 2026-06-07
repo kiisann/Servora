@@ -49,35 +49,35 @@ $pengguna = $pengguna ?? [];
                         <input type="text" id="searchPengguna" placeholder="Cari pengguna...">
                     </div>
                 </div>
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <div class="table-wrapper">
+                    <table class="table-pengguna">
                         <thead>
-                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Email</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Role</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kampus</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Bergabung</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
-                                    <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
+                            <tr>
+                                <th class="th-col">Nama</th>
+                                <th class="th-col">Email</th>
+                                <th class="th-col">Role</th>
+                                <th class="th-col">Kampus</th>
+                                <th class="th-col">Bergabung</th>
+                                <th class="th-col">Status</th>
+                                <th class="th-col">Aksi</th>
                                 </tr>
                         </thead>
                             <tbody>
                                 <?php if (!empty($pengguna)): ?>
                                     <?php foreach($pengguna as $u): ?>
-                                    <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' style="border-bottom:1px solid #f1f5f9;">
-                                        <td style="padding:12px 16px;">
-                                            <div style="display:flex;align-items:center;gap:10px;">
-                                                <div style="width:36px;height:36px;border-radius:50%;background:#ede9fe;color:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
-                                                <span style="font-weight:600;"><?= htmlspecialchars($u['nama']) ?></span>
+                                    <tr data-user='<?= json_encode($u, JSON_HEX_APOS | JSON_HEX_QUOT) ?>' class="table-row">
+                                        <td class="td-user">
+                                            <div class = "user-info">
+                                                <div class="user-avatar"><?= strtoupper(mb_substr($u['nama'],0,1)) ?></div>
+                                                <span class="user-name"><?= htmlspecialchars($u['nama']) ?></span>
                                             </div>
                                         </td>
-                                        <td style="padding:12px 16px;color:#64748b;"><?= htmlspecialchars($u['email']) ?></td>
-                                        <td style="padding:12px 16px;"><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
-                                        <td style="padding:12px 16px;font-weight:500;"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
-                                        <td style="padding:12px 16px;color:#64748b;"><?= $u['created_at'] ?? '-' ?></td>
-                                        <td style="padding:12px 16px;"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
-                                        <td style="padding:12px 16px;text-align:center;white-space:nowrap;">
+                                        <td class="td-default text-muted"><?= htmlspecialchars($u['email']) ?></td>
+                                        <td class="td-default"><span class="badge secondary"><?= ucfirst($u['role']) ?></span></td>
+                                        <td class="td-default fw-medium"><?= htmlspecialchars($u['kampus'] ?? '-') ?></td>
+                                        <td class="td-default text-muted"><?= $u['created_at'] ?? '-' ?></td>
+                                        <td class="td-default"><span class="badge <?= ($u['status'] ?? 'aktif') === 'aktif' ? 'success' : 'danger' ?>"><?= ucfirst($u['status'] ?? 'aktif') ?></span></td>
+                                        <td class="td-action">
                                             <button type="button" class="btn-edit" onclick="openEditPengguna(this.closest('tr'))">
                                                 Edit
                                             </button>
@@ -90,7 +90,7 @@ $pengguna = $pengguna ?? [];
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <tr><td colspan="7" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada pengguna terdaftar.</td></tr>
+                                    <tr><td colspan="7" class="empty-state">Belum ada pengguna terdaftar.</td></tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -185,17 +185,17 @@ $pengguna = $pengguna ?? [];
         <form id="createForm" method="POST" action="<?= BASE_URL ?>/user/store">
             <div class="modal-grid-fields">
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Nama Lengkap <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Nama Lengkap <span class="required">*</span></label>
                     <input type="text" name="nama" required class="modal-field-input" placeholder="Masukkan nama lengkap">
                 </div>
 
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Email <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Email <span class="required">*</span></label>
                     <input type="email" name="email" required class="modal-field-input" placeholder="contoh@email.com">
                 </div>
 
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Password <span style="color:#ef4444">*</span></label>
+                    <label class="modal-field-label">Password <span class="required">*</span></label>
                     <input type="password" name="password" required class="modal-field-input" placeholder="Minimal 6 karakter" minlength="6">
                 </div>
 
