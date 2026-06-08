@@ -1,5 +1,7 @@
 <?php
+require_once '../app/core/Logger.php';
 class AuthController extends Controller {
+
 
     public function index() {
         // Jika sudah login, langsung ke dashboard
@@ -40,6 +42,7 @@ class AuthController extends Controller {
 
         if ($user) {
             if ($user['status'] !== 'aktif') {
+                Logger::write($user['id_user'],$user['nama'],'Login ditolak karena akun ditangguhkan','warning');
                 $_SESSION['error'] = 'Akun Anda sedang ditangguhkan.';
                 header('Location: ' . BASE_URL . '/auth/login');
                 exit;
@@ -51,9 +54,12 @@ class AuthController extends Controller {
             $_SESSION['email']   = $user['email'];
             $_SESSION['last_activity'] = time();
 
+            Logger::write($_SESSION['user_id'], $_SESSION['nama'], 'Login berhasil');
+
             header('Location: ' . BASE_URL . '/dashboard');
             exit;
         } else {
+            Logger::write($email,$_SESSION['nama'], 'Percobaan login gagal','warning');
             $_SESSION['error'] = 'Email atau password salah!';
             header('Location: ' . BASE_URL . '/auth/login');
             exit;
@@ -91,6 +97,7 @@ class AuthController extends Controller {
         }
 
         if ($authModel->register($_POST)) {
+            Logger::write($id_user,$_POST['nama'], 'melakukan registrasi akun');
             $_SESSION['success'] = 'Registrasi berhasil! Silakan login.';
             header('Location: ' . BASE_URL . '/auth/login');
             exit;
@@ -102,6 +109,7 @@ class AuthController extends Controller {
     }
 
     public function logout() {
+        Logger::write($_SESSION['user_id'], $_SESSION['nama'], 'Logout dari sistem');
         session_unset();
         session_destroy();
         header('Location: ' . BASE_URL . '/');

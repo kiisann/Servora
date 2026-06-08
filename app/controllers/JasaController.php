@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class JasaController extends Controller {
     private function uploadGambarJasa($redirectUrl, $currentImage = null) {
         if (empty($_FILES['gambar']['name'])) {
@@ -23,6 +24,7 @@ class JasaController extends Controller {
         $targetPath = $uploadDir . '/' . $namaFile;
 
         if (!move_uploaded_file($_FILES['gambar']['tmp_name'], $targetPath)) {
+            Logger::write($_SESSION['user_id'] ?? null,$_SESSION['nama'] ?? 'SYSTEM','Gagal upload gambar jasa','error');
             $_SESSION['error'] = 'Gagal mengupload gambar jasa.';
             header('Location: ' . $redirectUrl);
             exit;
@@ -127,6 +129,7 @@ class JasaController extends Controller {
                 exit;
             }
             if ($jasaModel->create($jasaData)) {
+                Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menambahkan jasa: ' . $jasaData['nama_jasa'],'info');
                 $_SESSION['success'] =
                     'Jasa berhasil ditambahkan';
             } else {
@@ -165,6 +168,13 @@ public function update($id){
         // update database
         $jasaModel->updateByAdmin($id, $data);
 
+        if ($jasaModel->updateByAdmin($id, $data)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Mengubah jasa ID ' . $id . ' (' . $data['nama_jasa'] . ')','info');
+            $_SESSION['success'] = 'Data jasa berhasil diperbarui!';
+        } else {
+            $_SESSION['error'] = 'Gagal memperbarui data jasa.';
+        }
+
         // redirect
         header('Location: ' . BASE_URL . '/jasa');
         exit;
@@ -182,6 +192,7 @@ public function update($id){
 
         $jasaModel = $this->model('Jasa');
         if($jasaModel->delete($id)){
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menghapus jasa ID ' . $id,'warning');
             header('Location: ' . BASE_URL . '/jasa');
             exit;
         }

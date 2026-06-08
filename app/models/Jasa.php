@@ -129,6 +129,7 @@ class Jasa {
                   FROM jasa j
                   JOIN users u ON j.id_user = u.id_user
                   JOIN kategori_jasa k ON j.id_kategori = k.id_kategori
+                  WHERE j.status != 'dihapus'
                   ORDER BY j.id_jasa DESC";
         $result = mysqli_query($this->conn, $query);
         $data = [];
@@ -151,7 +152,7 @@ class Jasa {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM jasa WHERE id_jasa = ?";
+        $query = "UPDATE jasa SET status = 'dihapus', deleted_at = NOW() WHERE id_jasa = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id);
         return mysqli_stmt_execute($stmt);

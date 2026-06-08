@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class UserController extends Controller {
 
     public function index() {
@@ -39,6 +40,7 @@ class UserController extends Controller {
             ];
 
             if ($userModel->update($id, $userData)) {
+                Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Memperbarui profil akun');
                 header('Location: ' . BASE_URL . '/user');
                 exit;
             }
@@ -55,6 +57,7 @@ class UserController extends Controller {
         }
         $userModel = $this->model('User');
         if ($userModel->delete($id)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menghapus pengguna ID ' . $id,'warning');
             header('Location: ' . BASE_URL . '/user');
             exit;
         }
@@ -80,6 +83,7 @@ class UserController extends Controller {
             'saldo'  => (double)($_POST['saldo'] ?? 0.00)
         ];
         if ($userModel->updateByAdmin($id, $userData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Mengubah data pengguna ID ' . $id . ' (' . $userData['nama'] . ')');
             $_SESSION['success'] = 'Data pengguna berhasil diperbarui!';
         } else {
             $_SESSION['error'] = 'Gagal memperbarui data pengguna.';
@@ -141,6 +145,7 @@ class UserController extends Controller {
         ];
 
         if ($userModel->create($userData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menambahkan pengguna baru: ' . $nama);
             $_SESSION['success'] = 'Pengguna baru berhasil ditambahkan!';
         } else {
             $_SESSION['error'] = 'Gagal menambahkan pengguna, coba lagi.';

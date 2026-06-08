@@ -1,4 +1,5 @@
 <?php
+require_once '../app/core/Logger.php';
 class PesananController extends Controller {
     private function requireFreelancerOrder($id) {
         if (!isset($_SESSION['user_id'])) {
@@ -117,6 +118,7 @@ class PesananController extends Controller {
         ];
 
         if ($pesananModel->create($pesananData)) {
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Membuat pesanan jasa: ' . $jasa['nama_jasa']);
             $_SESSION['success'] = 'Pesanan berhasil dibuat!';
             header('Location: ' . BASE_URL . '/pesanan');
             exit;
@@ -147,6 +149,7 @@ class PesananController extends Controller {
           foreach ($pesananList as $pesanan) {
               if ((int)$pesanan['id_pesanan'] === (int)$id && $pesanan['status'] === 'pending') {
                  $pesananModel->updateStatus($id, 'dibatalkan');
+                 Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Membatalkan pesanan #' . $id,'warning');
                  $_SESSION['success'] = 'Pesanan berhasil dibatalkan.';
                  header('Location: ' . BASE_URL . '/pesanan');
                  exit;
@@ -205,6 +208,7 @@ class PesananController extends Controller {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'pending') {
             $pesananModel->updateStatus($id, 'diskusi');
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Memulai diskusi pesanan #' . $id);
             $_SESSION['success'] = 'Pesanan masuk ke tahap diskusi.';
         }
 
@@ -248,6 +252,7 @@ class PesananController extends Controller {
             'id_metode'    => 1,
             'status_bayar' => 'belum lunas'
         ]);
+        Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Mengirim detail final pesanan #' . $id);
 
         $_SESSION['success'] = 'Detail final pesanan berhasil dikirim ke client.';
         header('Location: ' . BASE_URL . '/pesanan/detail/' . $id);
@@ -266,6 +271,7 @@ class PesananController extends Controller {
             }
 
             $pesananModel->cancelByWorker($id, $reason);
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Membatalkan pesanan #' . $id . ' | Alasan: ' . $reason,'warning');
             $_SESSION['success'] = 'Pesanan berhasil dibatalkan.';
         }
 
@@ -347,6 +353,7 @@ class PesananController extends Controller {
          $transaksiModel->uploadBuktiPembayaran($id, $buktiPath, $idMetode);
 
          $pesananModel->updateStatus($id, 'menunggu_verifikasi');
+         Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Mengunggah bukti pembayaran untuk pesanan #' . $id);
 
          $_SESSION['success'] = 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi freelancer.';
          
@@ -365,6 +372,7 @@ class PesananController extends Controller {
             $transaksiModel = $this->model('Transaksi');
             $transaksiModel->updatePaymentAcceptedByPesanan($id);
             $pesananModel->updateStatus($id, 'diproses');
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menerima pembayaran pesanan #' . $id);
             $_SESSION['success'] = 'Pembayaran diterima. Pesanan masuk tahap diproses.';
         }
 
@@ -386,6 +394,7 @@ class PesananController extends Controller {
             $transaksiModel = $this->model('Transaksi');
             $transaksiModel->updatePaymentRejectedByPesanan($id, $note);
             $pesananModel->updateStatus($id, 'menunggu_pembayaran');
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menolak pembayaran pesanan #' . $id,'warning');
             $_SESSION['success'] = 'Pembayaran ditolak dan dikembalikan ke tahap menunggu pembayaran.';
         }
 
@@ -398,6 +407,7 @@ class PesananController extends Controller {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pesanan['status'] === 'diproses') {
             $pesananModel->markFinished($id);
+            Logger::write($_SESSION['user_id'],$_SESSION['nama'],'Menyelesaikan pesanan #' . $id);
             $_SESSION['success'] = 'Pesanan berhasil ditandai selesai.';
         }
 

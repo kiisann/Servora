@@ -44,18 +44,21 @@ $jasaList = $jasa ?? [];
             <div class="card-container">
                 <div class="card-header">
                     <h4>Daftar Jasa</h4>
-                    <input type="text" id="searchJasa" placeholder="Cari jasa...">
+                    <div class="table-search">
+                        <?= $icons['search'] ?>
+                        <input type="text" id="searchJasa" placeholder="Cari jasa...">
+                    </div>
                 </div>
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <div class="table-wrapper">
+                    <table class="table-jasa">
                         <thead>
-                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Nama Jasa</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Kategori</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Freelancer</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Harga</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600;">Status</th>
-                                <th style="padding:12px 16px;color:#64748b;font-weight:600; text-align: center;">Aksi</th>
+                            <tr>
+                                <th class="th-col">Nama Jasa</th>
+                                <th class="th-col">Kategori</th>
+                                <th class="th-col">Freelancer</th>
+                                <th class="th-col">Harga</th>
+                                <th class="th-col">Status</th>
+                                <th class="th-col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,13 +71,15 @@ $jasaList = $jasa ?? [];
                                     data-status="<?= $j['status'] ?>"
                                     data-deskripsi="<?= htmlspecialchars($j['deskripsi'] ?? '') ?>"
                                     data-gambar="<?= htmlspecialchars($j['gambar'] ?? '') ?>"
-                                    style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($j['nama_jasa']) ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge secondary"><?= htmlspecialchars($j['nama_kategori'] ?? '-') ?></span></td>
-                                    <td style="padding:12px 16px;"><?= htmlspecialchars($j['nama_freelancer'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;font-weight:600;">Rp<?= number_format($j['harga'],0,',','.') ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= $j['status'] === 'aktif' ? 'success' : 'warning' ?>"><?= ucfirst($j['status']) ?></span></td>
-                                    <td style="padding:12px 16px; text-align: center;">
+                                    data-freelancer="<?= htmlspecialchars($j['nama_freelancer'] ?? '-') ?>"
+                                    data-nama-kategori="<?= htmlspecialchars($j['nama_kategori'] ?? '-') ?>"
+                                    class="table-row">
+                                    <td class = "td-name"><?= htmlspecialchars($j['nama_jasa']) ?></td>
+                                    <td class = "td-category"><span class="badge secondary"><?= htmlspecialchars($j['nama_kategori'] ?? '-') ?></span></td>
+                                    <td class = "td-freelancer"><?= htmlspecialchars($j['nama_freelancer'] ?? '-') ?></td>
+                                    <td class = "td-price">Rp<?= number_format($j['harga'],0,',','.') ?></td>
+                                    <td class = "td-status"><span class="badge <?= $j['status'] === 'aktif' ? 'success' : 'warning' ?>"><?= ucfirst($j['status']) ?></span></td>
+                                    <td class = "td-action">
                                         <button class="btn-edit" onclick="openEditJasa(this.closest('tr'))">Edit</button>
 
                                         <a href="<?= BASE_URL ?>/jasa/delete/<?= $j['id_jasa'] ?>" class="btn-delete">Hapus</a>
@@ -82,7 +87,7 @@ $jasaList = $jasa ?? [];
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <tr><td colspan="6" style="padding:40px;text-align:center;color:#94a3b8;">Belum ada jasa terdaftar.</td></tr>
+                                <tr><td colspan="6" class="empty-state">Belum ada jasa terdaftar.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -134,7 +139,7 @@ $jasaList = $jasa ?? [];
                 </div>
 
                 <div class="modal-field-full">
-                    <label class="modal-field-label">Gambar</label>
+                    <label class="modal-field-label">Gambar </label>
                     <input type="file" name="gambar" accept="image/jpeg,image/png,image/webp" class="modal-field-input"></div>
             </div>
             <div class="modal-actions-container">
@@ -198,7 +203,7 @@ $jasaList = $jasa ?? [];
     </div>
 </div>
 
-<script src="<?= BASE_URL ?>/js/script.js"></script>
+<script src="<?= BASE_URL ?>/js/script.js?v=<?= time() ?>"></script>
 
 </body>
 </html>
