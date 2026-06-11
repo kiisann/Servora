@@ -13,8 +13,7 @@ $riwayatList = $riwayat ?? [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Pekerjaan – Servora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/app.css?v=<?= time() ?>">
 </head>
 <body>
 
@@ -34,17 +33,16 @@ $riwayatList = $riwayat ?? [];
         <div class="page-content">
 
             <!-- Filter -->
-            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-                <div style="position:relative;max-width:280px;flex:1;">
+            <div class="riwayat-filter-bar">
+                <div class="riwayat-search-wrap">
                     <input type="text" id="searchOrder" placeholder="Cari riwayat..." oninput="filterOrders()"
-                           style="width:100%;padding:10px 14px 10px 36px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;">
+                           class="riwayat-search-input">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#94a3b8" width="16" height="16"
-                         style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
+                         class="riwayat-search-icon">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                     </svg>
                 </div>
-                <select id="filterStatus" onchange="filterOrders()"
-                        style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;outline:none;background:#fff;">
+                <select id="filterStatus" onchange="filterOrders()" class="riwayat-filter-select">
                     <option value="">Semua status</option>
                     <option value="selesai">Selesai</option>
                     <option value="dibatalkan">Dibatalkan</option>
@@ -52,14 +50,14 @@ $riwayatList = $riwayat ?? [];
             </div>
 
             <div class="card-container">
-                <div style="overflow-x:auto;">
-                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <div class="riwayat-table-wrap">
+                    <table class="riwayat-table">
                         <thead>
-                            <tr style="border-bottom:1px solid #e2e8f0;text-align:left;">
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Jasa</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Client</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Tanggal</th>
-                                <th style="padding:12px 16px;font-weight:600;color:#64748b;">Status</th>
+                            <tr>
+                                <th>Jasa</th>
+                                <th>Client</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="riwayatBody">
@@ -69,16 +67,16 @@ $riwayatList = $riwayat ?? [];
                                     $badgeClass = $p['status'] === 'selesai' ? 'success' : 'danger';
                                     $badgeText  = $p['status'] === 'selesai' ? 'Selesai' : 'Dibatalkan';
                                 ?>
-                                <tr data-status="<?= $p['status'] ?>" style="border-bottom:1px solid #f1f5f9;">
-                                    <td style="padding:12px 16px;font-weight:600;"><?= htmlspecialchars($p['nama_jasa']) ?></td>
-                                    <td style="padding:12px 16px;"><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
-                                    <td style="padding:12px 16px;color:#64748b;"><?= $p['created_at'] ?? '-' ?></td>
-                                    <td style="padding:12px 16px;"><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
+                                <tr data-status="<?= $p['status'] ?>">
+                                    <td class="riwayat-td-jasa"><?= htmlspecialchars($p['nama_jasa']) ?></td>
+                                    <td><?= htmlspecialchars($p['nama_client'] ?? '-') ?></td>
+                                    <td class="riwayat-td-date"><?= $p['created_at'] ?? '-' ?></td>
+                                    <td><span class="badge <?= $badgeClass ?>"><?= $badgeText ?></span></td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" style="padding:40px 16px;text-align:center;color:#94a3b8;">
+                                    <td colspan="5" class="riwayat-empty-cell">
                                         Belum ada riwayat pekerjaan.
                                     </td>
                                 </tr>

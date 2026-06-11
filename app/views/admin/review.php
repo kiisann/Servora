@@ -23,11 +23,6 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
                 <h1 class="page-title">Monitoring Rating & Review</h1>
                 <p class="page-subtitle">Pantau dan moderasi ulasan pengguna.</p>
             </div>
-            <div class="header-right">
-                <div class="header-actions">
-                    <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profile" class="profile-avatar">
-                </div>
-            </div>
         </header>
 
         <div class="review-grid">

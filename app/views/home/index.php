@@ -1,8 +1,5 @@
 <?php
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . '/auth/login');
-    exit;
-}
+// Halaman beranda (landing page) dapat diakses publik.
 ?>
 <!DOCTYPE html>
 <html lang="id">

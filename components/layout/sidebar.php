@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Load icons
+
 include __DIR__ . '/../../public/assets/icons/icons.php';
 
 // Ambil data user dari session (diset saat login)
@@ -10,7 +10,14 @@ $currentUser = [
     'name'   => $_SESSION['nama'] ?? 'Guest',
     'role'   => $_SESSION['role'] ?? 'client',
     'avatar' => strtoupper(mb_substr($_SESSION['nama'] ?? 'G', 0, 1)),
+    'foto'   => $_SESSION['foto']  ?? null,
 ];
+
+// jika ada foto di DB gunakan path upload, selain itu null (tampilkan inisial)
+$baseUrlSidebar = defined('BASE_URL') ? BASE_URL : '';
+$fotoSidebarUrl = !empty($currentUser['foto'])
+    ? $baseUrlSidebar . '/assets/images/foto_profil/' . htmlspecialchars($currentUser['foto'])
+    : null;
 $currentRole = $currentUser['role'];
 
 // Deteksi halaman aktif dari URL
@@ -61,15 +68,34 @@ $baseUrl = defined('BASE_URL') ? BASE_URL : '';
         </nav>
 
         <div class="sidebar-footer">
-            <a href="<?= $baseUrl ?>/profile" class="user-profile-small" style="text-decoration:none;">
-                <div class="sidebar-avatar"><?= htmlspecialchars($currentUser['avatar']) ?></div>
-                <div class="user-info">
-                    <div class="name"><?= htmlspecialchars($currentUser['name']) ?></div>
-                    <div class="role"><?= ucfirst(htmlspecialchars($currentUser['role'])) ?></div>
-                </div>
+
+            <!-- Avatar -->
+            <a href="<?= $baseUrl ?>/profile" class="sidebar-avatar sf-avatar" title="Lihat profil"
+               style="<?= $fotoSidebarUrl ? 'background:none;padding:0;overflow:hidden;' : '' ?>; text-decoration:none;">
+                <?php if ($fotoSidebarUrl): ?>
+                    <img src="<?= $fotoSidebarUrl ?>"
+                         alt="<?= htmlspecialchars($currentUser['name']) ?>"
+                         style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"
+                         onerror="this.style.display='none';this.parentElement.textContent='<?= htmlspecialchars($currentUser['avatar']) ?>';">
+                <?php else: ?>
+                    <?= htmlspecialchars($currentUser['avatar']) ?>
+                <?php endif; ?>
             </a>
-            <a href="<?= $baseUrl ?>/auth/logout" class="sidebar-logout" title="Keluar">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0l-3-3m3 3H9" /></svg>
+
+            <!-- Nama & Role -->
+            <a href="<?= $baseUrl ?>/profile" class="sf-info" title="Lihat profil" style="text-decoration:none; flex:1; min-width:0;">
+                <div class="sf-name"><?= htmlspecialchars($currentUser['name']) ?></div>
+                <div class="sf-role"><?= ucfirst(htmlspecialchars($currentUser['role'])) ?></div>
             </a>
+
+            <!-- Tombol Logout -->
+            <a href="<?= $baseUrl ?>/auth/logout" class="sf-logout" title="Keluar">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.8" stroke="currentColor" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+            </a>
+
         </div>
     </aside>
