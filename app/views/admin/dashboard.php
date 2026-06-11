@@ -19,13 +19,6 @@
                 <h1 class="page-title">Dashboard Admin</h1>
                 <p class="page-subtitle">Ringkasan aktivitas sistem Servora.</p>
             </div>
-            <div class="header-right">
-                <div class="header-actions">
-                    <button class="icon-btn">
-                    </button>
-                    <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profile" class="profile-avatar">
-                </div>
-            </div>
         </header>
 
         <section class="stats-grid">

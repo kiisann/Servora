@@ -52,6 +52,7 @@ class AuthController extends Controller {
             $_SESSION['role']    = $user['role'];
             $_SESSION['nama']    = $user['nama'];
             $_SESSION['email']   = $user['email'];
+            $_SESSION['foto']    = $user['foto'] ?? null; // untuk foto profil di sidebar
             $_SESSION['last_activity'] = time();
 
             Logger::write($_SESSION['user_id'], $_SESSION['nama'], 'Login berhasil');

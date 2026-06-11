@@ -26,11 +26,6 @@ $sessionNama = htmlspecialchars($_SESSION['nama'] ?? 'Freelancer');
                 <h1 class="page-title">Dashboard</h1>
                 <p class="page-subtitle">Halo <?= $sessionNama ?> 👋, berikut performa jasamu di Servora.</p>
             </div>
-            <div class="header-right">
-                <div class="header-actions">
-                    <img src="https://wallpapers.com/images/hd/cool-profile-picture-kpwjvjw5434qfzo3.jpg" alt="Profil" class="profile-avatar">
-                </div>
-            </div>
         </header>
 
         <div class="page-content">

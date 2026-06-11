@@ -73,7 +73,7 @@
                 <a href="<?= BASE_URL ?>/auth/register">Daftar sekarang</a>
             </p>
 
-            <a href="<?= BASE_URL ?>/" class="back-home">← Kembali ke Beranda</a>
+            <a href="<?= BASE_URL ?>/home" class="back-home">← Kembali ke Beranda</a>
         </div>
     </div>
 </div>

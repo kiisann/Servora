@@ -94,7 +94,7 @@
                 <a href="<?= BASE_URL ?>/auth/login">Masuk sekarang</a>
             </p>
 
-            <a href="<?= BASE_URL ?>/" class="back-home">← Kembali ke Beranda</a>
+            <a href="<?= BASE_URL ?>/home" class="back-home">← Kembali ke Beranda</a>
         </div>
     </div>
 </div>
