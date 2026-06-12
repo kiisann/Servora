@@ -8,7 +8,7 @@ class App {
      * :id   → parameter dinamis (integer)
      */
     private $routes = [
-        // ── Home (landing page) ──────────────────────────────────────────────
+        // Home (landing page) 
         ''               => ['controller' => 'HomeController',       'method' => 'index'],
         'auth/login'     => ['controller' => 'AuthController',       'method' => 'login'],
         'auth/loginProcess'  => ['controller' => 'AuthController',   'method' => 'loginProcess'],
@@ -16,17 +16,17 @@ class App {
         'auth/registerProcess' => ['controller' => 'AuthController', 'method' => 'registerProcess'],
         'auth/logout'    => ['controller' => 'AuthController',       'method' => 'logout'],
 
-        // ── Dashboard (shared, role-based view di dalam controller) ──
+        // Dashboard (shared, role-based view di dalam controller) 
         'dashboard'      => ['controller' => 'DashboardController',  'method' => 'index'],
 
-        // ── Jasa (role-based: admin → kelola_jasa, client → cari_jasa) ──
+        // Jasa (role-based: admin → kelola_jasa, client → cari_jasa)
         'jasa'           => ['controller' => 'JasaController',       'method' => 'index'],
         'jasa/detail/:id'=> ['controller' => 'JasaController',       'method' => 'detail'],
         'jasa/create'    => ['controller' => 'JasaController',       'method' => 'create'],
         'jasa/update/:id'=> ['controller' => 'JasaController',       'method' => 'update'],
         'jasa/delete/:id'=> ['controller' => 'JasaController',       'method' => 'delete'],
 
-        // ── Pesanan (role-based: client → pesanan, freelancer → pesanan_masuk) ──
+        // Pesanan (role-based: client → pesanan, freelancer → pesanan_masuk)
         'pesanan'              => ['controller' => 'PesananController', 'method' => 'index'],
         'pesanan/detail/:id'   => ['controller' => 'PesananController', 'method' => 'detail'],
         'pesanan/order'        => ['controller' => 'PesananController', 'method' => 'order'],
@@ -39,20 +39,20 @@ class App {
         'pesanan/tolakPembayaran/:id' => ['controller' => 'PesananController', 'method' => 'tolakPembayaran'],
         'pesanan/tandaiSelesai/:id' => ['controller' => 'PesananController', 'method' => 'tandaiSelesai'],
 
-        // ── Riwayat (role-based: client → riwayat, freelancer → riwayat) ──
+        // Riwayat (role-based: client → riwayat, freelancer → riwayat)
         'riwayat'        => ['controller' => 'RiwayatController',    'method' => 'index'],
 
-        // ── Monitoring (admin only) ──
+        // Monitoring (admin only)
         'monitoring'     => ['controller' => 'MonitoringController', 'method' => 'index'],
 
-        // ── User / Kelola Pengguna (admin only) ──
+        // User / Kelola Pengguna (admin only)
         'user'                  => ['controller' => 'UserController', 'method' => 'index'],
         'user/update/:id'       => ['controller' => 'UserController', 'method' => 'update'],
         'user/updateAdmin/:id'  => ['controller' => 'UserController', 'method' => 'updateAdmin'],
         'user/delete/:id'       => ['controller' => 'UserController', 'method' => 'delete'],
         'user/store'            => ['controller' => 'UserController', 'method' => 'store'],
 
-        // ── Worker / Kelola Jasa Freelancer ──
+        // Worker / Kelola Jasa Freelancer 
         'worker/jasa'         => ['controller' => 'WorkerController', 'method' => 'jasa'],
         'worker/jasa/detail/:id' => ['controller' => 'WorkerController', 'method' => 'detailJasa'],
         'worker/tambah'       => ['controller' => 'WorkerController', 'method' => 'tambah'],
@@ -61,14 +61,14 @@ class App {
         'worker/update/:id'   => ['controller' => 'WorkerController', 'method' => 'update'],
         'worker/hapus/:id'    => ['controller' => 'WorkerController', 'method' => 'hapus'],
 
-        // ── Profile ──
+        // Profile 
         'profile'             => ['controller' => 'ProfileController', 'method' => 'index'],
         'profile/update/:id'  => ['controller' => 'ProfileController', 'method' => 'update'],
 
-        // ── Home (landing page) ──
+        // Home (landing page) 
         'home'           => ['controller' => 'HomeController',       'method' => 'index'],
 
-        // ── Review (admin only) ──
+        // Review (admin only) 
         'review'                => ['controller' => 'ReviewController', 'method' => 'index'],
         'review/delete/:id'     => ['controller' => 'ReviewController', 'method' => 'delete'],
     ];
