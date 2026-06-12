@@ -68,7 +68,16 @@ $hargaFormat = 'Rp' . number_format($jasaItem['harga'], 0, ',', '.');
                 <div>
                     <!-- Banner + Info Jasa -->
                     <div class="detail-card detail-card-mb">
-                        <div class="jasa-banner">🎨</div>
+                        <div class="jasa-banner">
+                            <?php if (!empty($jasaItem['gambar'])): ?>
+                                <img src="<?= BASE_URL . '/' . htmlspecialchars(ltrim($jasaItem['gambar'], '/')) ?>" alt="<?= htmlspecialchars($jasaItem['nama_jasa'] ?? 'Jasa') ?>">
+                            <?php else: ?>
+                                <div class="jasa-banner-placeholder">
+                                    <span class="jasa-banner-icon">📷</span>
+                                    <span class="jasa-banner-text">Tidak ada foto</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                         <div class="detail-body">
                             <div class="jasa-meta">
                                 <span class="badge secondary fs-11">

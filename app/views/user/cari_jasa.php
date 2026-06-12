@@ -62,7 +62,7 @@ $kategoris = $kategori ?? [];
                          style="padding:0;overflow:hidden;cursor:pointer;transition:box-shadow .2s;"
                          onmouseover="this.style.boxShadow='0 8px 30px rgba(0,0,0,0.12)'"
                          onmouseout="this.style.boxShadow=''">
-                        <div style="height:140px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden;">
+                        <div class="jasa-banner">
                             <?php if (!empty($j['gambar'])): ?>
                                 <img src="<?= BASE_URL . '/' . htmlspecialchars(ltrim($j['gambar'], '/')) ?>" alt="<?= htmlspecialchars($j['nama_jasa']) ?>" style="width:100%;height:100%;object-fit:cover;">
                             <?php else: ?>

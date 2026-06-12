@@ -113,7 +113,7 @@ class AuthController extends Controller {
         Logger::write($_SESSION['user_id'], $_SESSION['nama'], 'Logout dari sistem');
         session_unset();
         session_destroy();
-        header('Location: ' . BASE_URL . '/');
+        header('Location: ' . BASE_URL . '/auth/login');
         exit;
     }
 }

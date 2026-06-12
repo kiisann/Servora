@@ -37,7 +37,7 @@
 
         <div class="hero-buttons">
             <a href="#jasa" class="btn-primary">Cari Jasa</a>
-            <a href="/auth/register" class="btn-secondary">Daftar Sekarang</a>
+            <a href="<?= BASE_URL ?>/auth/register" class="btn-secondary">Daftar Sekarang</a>
         </div>
 
         <div class="hero-stats">
