@@ -57,10 +57,6 @@ class PesananController extends Controller {
         }
     }
 
-    /**
-     * Detail pesanan ditampilkan via popup JS di halaman yang sama.
-     * Controller mengirim $selected_id agar view bisa auto-open popup.
-     */
     public function detail($id) {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');

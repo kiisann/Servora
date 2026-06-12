@@ -49,10 +49,6 @@ class WorkerController extends Controller {
         return 'assets/images/upload/' . $fileName;
     }
 
-    /**
-     * Route: /worker/jasa
-     * Sidebar freelancer: "Kelola Jasa" — list semua jasa milik sendiri
-     */
     public function jasa() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
@@ -102,10 +98,6 @@ class WorkerController extends Controller {
         $this->view('worker/detail_jasa', $data);
     }
 
-    /**
-     * Route: /worker/tambah
-     * Form tambah jasa baru
-     */
     public function tambah() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
@@ -124,10 +116,6 @@ class WorkerController extends Controller {
         $this->view('worker/tambah_jasa', $data);
     }
 
-    /**
-     * Route: /worker/simpan (POST)
-     * Simpan jasa baru dari form tambah
-     */
     public function simpan() {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
@@ -173,10 +161,6 @@ class WorkerController extends Controller {
         exit;
     }
 
-    /**
-     * Route: /worker/edit/:id
-     * Form edit jasa — menampilkan form kelola_jasa dengan data jasa yang dipilih
-     */
     public function edit($id) {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
@@ -206,11 +190,6 @@ class WorkerController extends Controller {
 
         $this->view('worker/tambah_jasa', $data);
     }
-
-    /**
-     * Route: /worker/update/:id (POST)
-     * Simpan perubahan jasa yang diedit
-     */
     public function update($id) {
         if (!isset($_SESSION['user_id'])) {
             header('Location: ' . BASE_URL . '/auth/login');
@@ -264,10 +243,6 @@ class WorkerController extends Controller {
         exit;
     }
 
-    /**
-     * Route: /worker/hapus/:id (POST)
-     * Hapus jasa milik freelancer
-     */
     public function hapus($id) {
     if (!isset($_SESSION['user_id'])) {
         header('Location: ' . BASE_URL . '/auth/login');
